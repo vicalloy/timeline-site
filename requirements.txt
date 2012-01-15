@@ -1,0 +1,5 @@
+Django>=1.3
+south
+dj-scaffold
+django-devserver
+django-debug-toolbar

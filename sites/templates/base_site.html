@@ -1,82 +1,85 @@
 {% extends "base.html" %}
 
 {% block extra_header %}
-    <style type="text/css">
-        .topbar {
-            position: static;
-            margin-bottom: 20px;
-        }
-        .container-fluid {
-            margin-left: auto;
-            margin-right: auto;
-            width: 940px;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-        .container-fluid > .sidebar {
-            float: right;
-            left: 20px;
-            position: static;
-            top: 0;
-            width: 220px;
-        }
-        .container-fluid > .content {
-            margin-right: 240px;
-            margin-left: 0px;
-        }
-    </style>
+  <style type="text/css">
+    .topbar {
+      position: static;
+      margin-bottom: 20px;
+    }
+    .container-fluid {
+      margin-left: auto;
+      margin-right: auto;
+      width: 940px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .container-fluid > .sidebar {
+      float: right;
+      left: 20px;
+      position: static;
+      top: 0;
+      width: 220px;
+    }
+    .container-fluid > .content {
+      margin-right: 240px;
+      margin-left: 0px;
+    }
+  </style>
 {% endblock %}
 
 {% block page_body %}
-    {% block topbar %}
+  {% block topbar %}
     <div class="topbar">
       <div class="topbar-inner">
         <div class="container-fluid">
           <a class="brand" href="#">似水流年</a>
+          <form action="" class="pull-left">
+            <input type="text" placeholder="Search">
+          </form>
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">推荐</a></li>
+            <li><a href="#contact">最新</a></li>
+            <li><a href="#contact">热门</a></li>
+            <li><a href="#contact">发现</a></li>
           </ul>
           <p class="pull-right">Logged in as <a href="#">username</a></p>
         </div>
       </div>
     </div>
-    {% endblock %}
+  {% endblock %}
 
-    {% block container %}
+  {% block container %}
     <div class="container-fluid">
       {% block container_top %}
-          <h1>Title</h1>
       {% endblock %}
 
       {% block sidebar %}
-      <div class="sidebar">
-        <div class="well">
-          <h5>Sidebar</h5>
-          <ul>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-          </ul>
+        <div class="sidebar">
+          <div class="well">
+            <h5>Sidebar</h5>
+            <ul>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
       {% endblock %}
 
       {% block content %}
-      <div class="content">
-      </div>
+        <div class="content">
+        </div>
       {% endblock %}
 
     </div>
-    {% endblock %}
+  {% endblock %}
 
-    {% block footer %}
+  {% block footer %}
     <footer>
-        <div class="container-fluid">
-            <p>&copy; Company 2012</p>
-        </div>
+      <div class="container-fluid">
+        <p>&copy; Company 2012</p>
+      </div>
     </footer>
-    {% endblock %}
+  {% endblock %}
 {% endblock %}        

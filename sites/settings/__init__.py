@@ -4,3 +4,8 @@ try:
 except:
     pass
 exec 'from %s import *' % SETTINGS
+
+try:
+    from local import *
+except:
+    pass

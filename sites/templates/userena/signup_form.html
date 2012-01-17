@@ -1,0 +1,32 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Signup" %}{% endblock %}
+
+{% block container_top %}
+  <h1>{% trans "Signup" %}</h1>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="sidebar">
+    <div style="padding-top: 20px;">
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content">
+    <hr/>
+    <form action="" method="post" class="">
+      <fieldset>
+        {% csrf_token %}
+        {{ form.as_div }}
+        <div class="actions">
+          <p>
+            <input type="submit" value="{% trans "Signup" %}" class="btn primary">
+          </p>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

@@ -16,15 +16,10 @@ urlpatterns = patterns('',
 
     # Examples:
     #url('^$', 'demoapp.views.index', name='idx'),
+
+    (r'^accounts/', include('profiles.urls')),
     url(r'^', include('timeline.urls')),
 )
-
-urlpatterns += patterns('',
-    (r'^accounts/', include('userena.urls')),
-    #(r'^messages/', include('userena.contrib.umessages.urls')),
-    #(r'^i18n/', include('django.conf.urls.i18n')),
-)
-
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()

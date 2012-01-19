@@ -1,1 +1,15 @@
 {% extends "base_site.html" %}
+
+{% block extra_header %}
+  {{block.super}}
+  <style type="text/css">
+    .tabs:after, .pills:after {
+      clear: left;
+    }
+  </style>
+{% endblock %}
+
+{% block container_top %}
+  {% block content_title %}
+  {% endblock %}
+{% endblock %}

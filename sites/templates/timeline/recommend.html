@@ -1,0 +1,78 @@
+{% extends "timeline/base.html" %}
+
+{% block sidebar %}
+<div class="sidebar">
+  <div class="well">
+    <h5>Sidebar</h5>
+    <ul>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+    </ul>
+  </div>
+  <div class="well">
+    <h5>Sidebar</h5>
+    <ul>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block container_top %}
+<h1>热门排行</h1>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="timelines">
+    {% for r in recommends %}
+    {% with o=r.timeline %}
+    <div class="timeline">
+      <div class="pic">
+        <img src="http://img3.douban.com/spic/s6985526.jpg" style=""/>
+      </div>
+      <ul class="extinfo">
+        <li>event: {{o.num_events}}</li>
+        <li>view: {{o.num_views}}</li>
+        <li>by: {{o.created_by}}</li>
+      </ul>
+      <div class="info">
+        <h3> <a href="#">{{o.title}}</a> </h3>
+        {{o.intro}}
+      </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+    <div class="timeline">
+      <div class="pic">
+        <img src="http://img3.douban.com/spic/s6985526.jpg" style=""/>
+      </div>
+      <ul class="extinfo">
+        <li>event:200</li>
+        <li>view:200</li>
+        <li>by: vicalloy</li>
+      </ul>
+      <div class="info">
+        <h3>hello...</h3>
+        hello...some..We try to keep all plugins to only 1 argument. That means that a new option would be added to the options object literal. That said, we're 
+      </div>
+    </div>
+  </div>
+  <div class="pagination">
+    <ul>
+      <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">Next &rarr;</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

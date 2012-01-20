@@ -1,0 +1,29 @@
+.timeline {
+  border-bottom: 1px solid #DDDDDD;
+  margin-top: 15px;
+  padding-bottom: 10px;
+  width: 100%;
+  display: inline;
+  float: left;
+}
+.timeline h3 {
+  font-size: 18px;
+  line-height: 24px;
+  margin-bottom: 5px;
+}
+.timeline ul.extinfo {
+  float: right;
+  list-style-type: none;
+  width: 90px;
+  margin: 0;
+}
+.timeline .info {
+  padding-left:100px;
+  padding-right:100px;
+}
+.timeline .pic {
+  float: left;
+}
+.pagination {
+  float: right;
+}

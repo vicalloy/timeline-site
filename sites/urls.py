@@ -8,14 +8,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
-    # Examples:
-    #url('^$', 'demoapp.views.index', name='idx'),
+    url(r'^$', 'timeline.views.index', name='idx'),
 
     (r'^accounts/', include('profiles.urls')),
     url(r'^', include('timeline.urls')),

@@ -6,6 +6,6 @@ from django.views.generic import TemplateView
 from timeline import views
 
 urlpatterns = patterns('',
-    url('^$', TemplateView.as_view(template_name='index.html')),
-    url('^t/$', TemplateView.as_view(template_name='base_site.html')),
+    url(r'^$', views.index, name='timeline_idx'),
+    url(r'^t/$', TemplateView.as_view(template_name='base_site.html')),
 )

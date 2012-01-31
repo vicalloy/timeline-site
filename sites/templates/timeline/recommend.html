@@ -42,7 +42,7 @@
         <li>by: {{o.created_by}}</li>
       </ul>
       <div class="info">
-        <h3> <a href="#">{{o.title}}</a> </h3>
+        <h3> <a href="{% url timeline_detail o.pk %}">{{o.title}}</a> </h3>
         {{o.intro}}
       </div>
     </div>

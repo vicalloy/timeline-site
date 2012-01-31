@@ -30,3 +30,8 @@ def recommend(request, template_name="timeline/recommend.html"):
     #TODO TAG.NEW.recommend, LAST WEEK, LAST MONTH.
     ctx['recommends'] = recommends
     return render(request, template_name, ctx)
+
+def detail(request, pk, template_name="timeline/detail.html"):
+    ctx = {}
+    ctx['tl'] = get_object_or_404(Timeline, pk=pk)
+    return render(request, template_name, ctx)

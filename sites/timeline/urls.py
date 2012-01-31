@@ -7,5 +7,6 @@ from timeline import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='timeline_idx'),
+    url(r'^t/(?P<pk>\d+)/$', views.detail, name='timeline_detail'),
     url(r'^t/$', TemplateView.as_view(template_name='base_site.html')),
 )

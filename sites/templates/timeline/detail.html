@@ -17,20 +17,42 @@
   .sbreadcrumb .active a {
     color: #404040;
   }
+  #sb_tl_creater {
+    overflow: hidden;
+  }
+  #sb_tl_creater .user {
+    float: left;
+  }
+  #sb_tl_creater .info ul {
+    list-style: none;
+    margin: 0 0 0 44px;
+  }
+  #container_top .sw .label {
+    font-size: inherit;
+  }
+  #container_top .sw {
+    float: right;
+  }
+  .content hr {
+    margin: 5px 0;
+  }
 </style>
 {% endblock %}
 
 {% block sidebar %}
 <div class="sidebar">
-  <div class="well">
-    <h5>Sidebar</h5>
-    <ul>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-    </ul>
+  <div class="well" id="sb_tl_creater">
+    <div class="user">
+      <img style="width:36px;height:36px;" src="http://img3.douban.com/icon/u1009137-3.jpg"/>
+    </div>
+    <div class="info">
+      <ul>
+        <li>创建于： 2012.1.31</li>
+        <li>最后更新： 2012.1.31</li>
+      </ul>
+    </div>
   </div>
+
   <div class="well">
     <h5>Sidebar</h5>
     <ul>
@@ -45,6 +67,10 @@
 
 {% block container_top %}
 <div id="container_top" style="padding-bottom: 20px;">
+  <div class="sw">
+    <span class="label">时间轴</span>
+    <a href="#">文字</a>
+  </div>
   <ul class="sbreadcrumb">
     <li><a href="#">Home</a> <span class="divider">/</span></li>
     <li><a href="#">Middle page</a> <span class="divider">/</span></li>
@@ -56,20 +82,20 @@
 {% endblock %}
 
 {% block content %}
+<div>
+  38做过  |  1309收藏  |  9475浏览
+</div>
 <div class="content">
-  <div class="well">
-    <h5>Sidebar</h5>
-    <ul>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-    </ul>
+  <hr/>
+  <div>
+    红遍大中华的天王巨星Michael（古天乐饰）与国内知名女星圆圆（高圆圆 饰）的大婚当日，竟被一名矿工（王宝强 饰）抢婚成功！Michael情伤酗酒，误打误撞登上阿秀（郑秀文 饰）的小货车，被载到海拔3800米的香格里拉旅馆。
+    阿秀是小旅馆的老板娘，好心收留沮丧的Michael，Michael更无意中发现阿秀以往曾经是自己的超级粉丝，更因此成就了她与丈夫小田（李光洁 饰）的一段姻缘，然而小田8年前在旅馆附近的“白茫树海”失踪后一直生死未卜。
+    年复一年，风雪来临之前，搜山队又再前来搜救小田，可惜秀的期盼再度落空。秀崩溃绝望，纵身树海殉情。Michael奋不顾身救回秀，悉心照料她，并劝勉她放下小田。秀不无感动，爱情不知不觉在他们之间发生了。正当秀决定踏上追求幸福之路，此时却传来有关小田的消息…
+  </div>
+  <hr/>
+  <h5>评论</h5>
+  <div>
+    some...
   </div>
 </div>
 {% endblock %}

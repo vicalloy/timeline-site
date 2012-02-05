@@ -30,12 +30,12 @@
 {% block content %}
   <div class="content">
     <hr/>
-    <form action="" method="post" class="">
+    <form action="" method="post" class="" class="form-horizontal">
       <fieldset>
         {% csrf_token %}
         {{ form.as_div }}
         {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
-        <div class="actions">
+        <div class="form-actions">
           <p>
             <input type="submit" value="{% trans "Signin" %}" class="btn primary">
           </p>

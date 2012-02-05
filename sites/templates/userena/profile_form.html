@@ -29,7 +29,7 @@
       <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a></li>
     </ul>
 
-    <form action="" enctype="multipart/form-data" method="post">
+    <form action="" enctype="multipart/form-data" method="post" class="form-horizontal">
       {% if user.username == account.user.username %}
         <ul id="box-nav">
           <li class="first"><a href="{% url userena_detail user.username %}"><span>{% trans 'View profile' %}</span></a></li>
@@ -41,7 +41,7 @@
       {% csrf_token %}
       <fieldset>
         {{ form.as_div }}
-        <div class="actions">
+        <div class="form-actions">
           <p>
             <input type="submit" value="{% trans "Save changes" %}" class="btn primary">
           </p>

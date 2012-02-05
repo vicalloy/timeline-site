@@ -26,7 +26,7 @@
       margin-right: 240px;
       margin-left: 0px;
     }
-    .actions {
+    .form-actions {
       background: none;
       border-top: none;
     }
@@ -43,9 +43,9 @@
             <input type="text" placeholder="Search">
           </form>
           <ul class="nav">
-            <li><a href="#about">推荐</a></li>
-            <li><a href="#contact">热门</a></li>
-            <li><a href="#contact">最新</a></li>
+            <li><a href="{% url timeline_recommend %}">推荐</a></li>
+            <li><a href="{% url timeline_hot %}">热门</a></li>
+            <li><a href="{% url timeline_last %}">最新</a></li>
             <li><a href="#contact">发现</a></li>
           </ul>
           <ul class="nav pull-right">

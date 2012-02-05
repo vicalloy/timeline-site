@@ -8,27 +8,24 @@ from django.utils.translation import ugettext
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from models import Timeline, Recommend
+from models import Timeline
 
 def index(request):
   return recommend(request)
 
-def __timeline(request, template_name="lbforum/recent.html"):
+def hot(request, template_name="timeline/timelines.html"):
     ctx = {}
-    timelines = Timeline.objects.all()
-    #timelines = timelines.filter(updated_on__lt = '')
-    #timelines = timelines.order_by('num_views')
-    timelines = timelines.order_by('updated_on')
-    #TODO TAG.NEW.recommend, LAST WEEK, LAST MONTH.
-    ctx['timelines'] = timelines
+    ctx['timelines'] = Timeline.objects.order_by('-num_views')
     return render(request, template_name, ctx)
 
-def recommend(request, template_name="timeline/recommend.html"):
+def last(request, template_name="timeline/timelines.html"):
     ctx = {}
-    recommends = Recommend.objects.all()
-    recommends = recommends.order_by('-updated_on')
-    #TODO TAG.NEW.recommend, LAST WEEK, LAST MONTH.
-    ctx['recommends'] = recommends
+    ctx['timelines'] = Timeline.objects.order_by('-updated_on')
+    return render(request, template_name, ctx)
+
+def recommend(request, template_name="timeline/timelines.html"):
+    ctx = {}
+    ctx['timelines'] = Timeline.objects.filter(rec=True).order_by('-rec_on')
     return render(request, template_name, ctx)
 
 def detail(request, pk, template_name="timeline/detail.html"):

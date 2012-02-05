@@ -26,7 +26,7 @@
       <li class="active"><a href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a></li>
     </ul>
 
-    <form action="" method="post">
+    <form action="" method="post" class="form-horizontal">
       {% if user.username == account.user.username %}
         <ul id="box-nav">
           <li class="first"><a href="{% url userena_detail user.username %}"><span>{% trans 'View profile' %}</span></a></li>
@@ -44,7 +44,7 @@
           </div>
         </div>
         {{ form.as_div }}
-        <div class="actions">
+        <div class="form-actions">
           <p>
             <input type="submit" value="{% trans "Change email" %}" class="btn primary">
           </p>

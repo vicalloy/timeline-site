@@ -122,6 +122,9 @@ INSTALLED_APPS = (
     'userena',
     'userena.contrib.umessages',
     'bootstrap',
+    'taggit',
+    'taggit_templatetags',
+    'pagination',
 
     'profiles',
     'timeline',
@@ -158,6 +161,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'userena.middleware.UserenaLocaleMiddleware',
+    'pagination.middleware.PaginationMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -165,6 +169,17 @@ AUTHENTICATION_BACKENDS = (
     'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages",
+)
+
 
 # Userena settings
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'

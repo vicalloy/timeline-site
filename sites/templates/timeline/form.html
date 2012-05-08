@@ -1,0 +1,44 @@
+{% extends 'timeline/base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% if tl %}
+    编辑 {{tl}}
+  {% else %}
+    创建时间线
+  {% endif %}
+{% endblock %}
+
+{% block container_top %}
+  <h1>
+    {% if tl %}
+      编辑 {{tl}}
+    {% else %}
+      创建时间线
+    {% endif %}
+  </h1>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="sidebar">
+    <div style="padding-top: 20px;">
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content">
+    <hr/>
+    <form action="" enctype="multipart/form-data" method="post" class="form-horizontal">
+      <fieldset>
+        {% csrf_token %}
+        {{ form.as_div }}
+        <div class="form-actions" class="form-horizontal">
+          <p>
+            <input type="submit" value="提交" class="btn primary">
+          </p>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

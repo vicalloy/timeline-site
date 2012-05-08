@@ -27,3 +27,11 @@
 .pagination {
   float: right;
 }
+.clickable {
+  cursor:pointer;
+  color:#0088CC;
+}
+.clickable:hover {
+    color: #005580;
+    text-decoration: underline;
+}

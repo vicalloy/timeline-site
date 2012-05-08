@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <title>{{ tl.title }}</title>
+
+		<link href="{{STATIC_URL}}js/Timeline/timeline.css" rel="stylesheet"/>
+    <style type="text/css">
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
+		<script type="text/javascript" src="{{STATIC_URL}}js/Timeline/timeline-min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var timeline = new VMM.Timeline();
+				timeline.init("https://docs.google.com/spreadsheet/pub?key=0Am5A0hS-B8okdE5hQmNsUk9ZTjkyQk1LRGhwRlRmM2c");
+			});
+		</script>
+	</head>
+	<body>
+			<div id="timeline"></div>
+	</body>
+  <!-- TODO ADD BACK BUTTON -->
+</html>

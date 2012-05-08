@@ -30,12 +30,18 @@
       background: none;
       border-top: none;
     }
+    .tg-timeline-envelope .titleBar {
+      display: none;
+    }
+    .timeglider-logo {
+      background-image:url("");
+    }
   </style>
 {% endblock %}
 
 {% block page_body %}
   {% block topbar %}
-    <div class="navbar">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="brand" href="/">似水流年</a>
@@ -46,10 +52,11 @@
             <li><a href="{% url timeline_recommend %}">推荐</a></li>
             <li><a href="{% url timeline_hot %}">热门</a></li>
             <li><a href="{% url timeline_last %}">最新</a></li>
-            <li><a href="#contact">发现</a></li>
+            <li><a href="{% url timeline_random %}">发现</a></li>
           </ul>
           <ul class="nav pull-right">
             {% if user.is_authenticated %}
+              <li><a href="{% url timeline_new %}"><span>创建时间线</span></a></li>
               <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account' %} ({{ user.username }})</span></a></li>
               <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
             {% else %}

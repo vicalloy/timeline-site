@@ -16,6 +16,9 @@ class BsAuthenticationForm(AuthenticationForm, BootstrapMixin):
         super(BsAuthenticationForm, self).__init__(*args, **kw)
         self.__bootstrap__()
 
+    class Meta:
+        custom_fields = {'remember_me': 'profiles/field_remember_me.html'}
+
 class BsPasswordChangeForm(PasswordChangeForm, BootstrapMixin):
 
     def __init__(self, *args, **kw):

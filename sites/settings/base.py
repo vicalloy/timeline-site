@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'taggit',
     'taggit_templatetags',
     'pagination',
+    'ajax_validation',
 
     'profiles',
     'timeline',

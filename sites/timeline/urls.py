@@ -12,9 +12,10 @@ urlpatterns = patterns('',
     url(r'^t/(?P<pk>\d+)/fs/$', views.full_screen, name='timeline_full_screen'),
     url(r'^t/(?P<pk>\d+)/$', views.detail, name='timeline_detail'),
     url(r'^t/(?P<pk>\d+)/edit/$', views.edit, name='timeline_edit'),
-    url(r'^t/(?P<pk>\d+)/load/$', views.load, name='timeline_load'),
+    url(r'^t/(?P<pk>\d+)/json_/$', views.json_, name='timeline_json'),
     url(r'^t/$', TemplateView.as_view(template_name='base_site.html')),
     url(r'^t/new/$', views.new, name='timeline_new'),
+    url(r'^t/(?P<pk>\d+)/addevent_/$', views.addevent_, name='timeline_addevent_'),
 )
 
 urlpatterns += patterns('',

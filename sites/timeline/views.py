@@ -10,6 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+from ajax_validation.views import validate_form
+from ajax_validation.utils import render_json_response
+#from ajax_validation.utils import render_string
+
 from models import Timeline
 from forms import TimelineForm, TlEventForm
 
@@ -58,7 +62,9 @@ def new(request):
     if request.method == "POST":
         form = TimelineForm(request.POST, request.FILES)
         if form.is_valid():
-            timeline = form.save()
+            timeline = form.save(commit=False)
+            timeline.created_by = request.user
+            timeline.save()
             return redirect('timeline_detail', timeline.pk)
     ctx['form'] = form
     return render(request, template_name, ctx)
@@ -82,71 +88,55 @@ def edit(request, pk):
 def load_form(request, form_class):
     pass
 
-def load(request, pk):
+def json_(request, pk):
     tl = Timeline.objects.get(pk=pk)
-    t = {
-            "id": 'id-%s' % tl.pk,
-            "title": tl.title,
-            "focus_date": "2001-01-01 12:00:00",
-            "initial_zoom": "43",
-            "timezone": "-07:00"}
-    t['events'] = [
+    t = { "timeline": {
+        "headline":"The Kitchen Sink",
+        "type":"default",
+        "startDate":"2011,9,1",
+        "text":"An example of the different kinds of stuff you can do.",
+        "date": [ {
+            "startDate":"2012,1,26",
+            "headline":"Sh*t Politicians Say",
+            "text":"<p>Sh*t Politicians Say landed just hours before Thursday night’s Republican presidential debate and stars actor Joe Leon. In true political fashion, his character rattles off common jargon heard from people running for office.</p><p>Do these ring a bell? Moral fiber, family values, trust me, three-point plan, earmarks, tough question, children are our future, Washington outsider, jobs, my opponent — all sound familiar.</p>",
+            "asset":
             {
-                "id":"jshist-self",
-                "title": "Self",
-                "description":"Self, one of the inspirations for Javascript's simplicity, is created at Xerox PARC ",
-                "startdate": "1986-01-01 12:00:00",
-                "importance":"40",
-                "date_display":"none",
-                "icon":"flag_green.png"
-                },
-            
+                "media":"http://youtu.be/u4XpeU9erbg",
+                "credit":"",
+                "caption":""
+                }
+            },
             {
-                "id":"jshist-01",
-                "title": "Mocha - Live Script",
-                "description": "<img src='img/eich.jpg' style='float:left;margin-right:8px;margin-bottom:8px'>JavaScript was originally developed by Brendan Eich of Netscape under the name Mocha. LiveScript was the official name for the language when it first shipped in beta releases of Netscape Navigator 2.0 in September 1995",
-                "startdate": "1995-05-01 12:00:00",
-                "date_limit":"ho",
-                "link":"http://en.wikipedia.org/wiki/JavaScript",
-                "importance":"40",
-                "icon":"flag_green.png"
+                "startDate":"2012,1,10",
+                "headline":"Sh*t Nobody Says",
+                "text":"<p>Have you ever heard someone say “can I burn a copy of your Nickelback CD?” or “my Bazooka gum still has flavor!” Nobody says that.</p>",
+                "asset":
+                {
+                    "media":"http://youtu.be/f-x8t0JOnVw",
+                    "credit":"",
+                    "caption":""
+                    }
                 },
+            {
+                "startDate":"2012,1,18",
+                "headline":"Sh*t New Yorkers Say",
+                "text":"",
+                "asset":
+                {
+                    "media":"http://youtu.be/yRvJylbSg7o",
+                    "credit":"",
+                    "caption":"Directed and Edited by Matt Mayer, Produced by Seth Keim, Written by Eliot Glazer. Featuring Eliot and Ilana Glazer, who are siblings, not married."
+                    }
+                } ]
+            } }
+    return render_json_response(t)
 
-            {
-                "id": "jshist-02",
-                "title": "JavaScript is Born",
-                "description": "LiveScript is Renamed JavaScript in a joint announcement with Netscape and Sun Microsystems",
-                "startdate": "1995-12-04 12:00:00",
-                "enddate": "1995-12-04",
-                "date_display": "day",
-                "link": "http: //en.wikipedia.org/wiki/JavaScript",
-                "importance": 50,
-                "icon":"triangle_orange.png"
-                },
-            {
-                "id":"jshist-09",
-                "title": "jQuery",
-                "description": "Released in January 2006 at BarCamp NYC by John Resig",
-                "startdate": "2005-12-01 12:00:00",
-                "enddate": "2005-12-01 12:00:00",
-                "link":"http://jquery.com/",
-                "importance":"40",
-                "image":"img/jquery.jpg",
-                "image_class":"above",
-                "icon":"triangle_green.png"
-                },
-            {
-                "id":"jshist-dry",
-                "title": "The Bad Rap Years",
-                "description": "Of Javascript's initial insinuation into browsers, WWW founder Robert Cailliau said, 'the programming-vacuum filled itself with the most horrible kluge in the history of computing: Javascript.' But now JS is 'hawt' and its clay-like flexibility makes it enjoyable, inspiring more artistry and cleverness than other languages.",
-                "startdate": "1998-01-01 12:00:00",
-                "enddate": "2004-01-01 12:00:00",
-                "date_limit":"mo",
-                "span_color":"#FF0000",
-                "link":"http://en.wikipedia.org/wiki/JavaScript",
-                "importance":"52",
-                "icon":"none"
-                },
-            
-            ]
-    return HttpResponse(simplejson.dumps([t]), mimetype='text/html')#application/json
+def addevent_(request, pk):
+    timeline = get_object_or_404(Timeline, pk=pk)
+    form, validate = validate_form(request, form_class=TlEventForm)
+    if validate['valid']:
+        book = form.save(commit=False)
+        book.timeline = timeline
+        book.save()
+        #validate['html'] = render_string(ROW_TMPL, {'o': book})
+    return render_json_response(validate)

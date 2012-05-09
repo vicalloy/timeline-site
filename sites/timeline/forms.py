@@ -20,4 +20,3 @@ class TlEventForm(BootstrapModelForm):
         model = TlEvent
         exclude = ['timeline']
         #widgets = { 'cover': ImageClearableFileInput(), }
-        

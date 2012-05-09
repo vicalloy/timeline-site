@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
 
-from models import Timeline
+from models import Timeline, TlEvent
 
 admin.site.register(Timeline)
+admin.site.register(TlEvent)

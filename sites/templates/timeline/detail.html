@@ -166,12 +166,12 @@
 {% endblock %}
 
 {% block footer_ext %}
-<link rel="stylesheet" href="{{STATIC_URL}}css/aristo/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-<link rel="stylesheet" href="{{STATIC_URL}}css/timeglider/Timeglider.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>
 <script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
 <script src='{{STATIC_URL}}bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
 <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery-bootstrap-form.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery.djangoajaxform.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bootstrap-datepicker/bootstrap-datepicker.js"></script>
 <script type='text/javascript'>
   var timeline_config = {
     width: "100%",
@@ -196,6 +196,12 @@
           if (data.valid) {
           }
         }
+    });
+    $('#id_startdate,#id_enddate').datepicker({
+        weekStart: 1,
+        format: 'yyyy-mm-dd'
+    }).on('changeDate', function(ev){
+      $(this).datepicker('hide');
     });
   })
 </script>

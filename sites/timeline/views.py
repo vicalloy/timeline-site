@@ -89,46 +89,30 @@ def load_form(request, form_class):
     pass
 
 def json_(request, pk):
+    def fmt_date(d):
+        return "%02d,%02d,%02d" % (d.year,d.month,d.day) if d else ''
+    def _event_to_dict(e):
+        return {'startDate': fmt_date(e.startdate),
+                'endDate': fmt_date(e.enddate),
+                'headline': e.title,
+                'text': e.text,
+                "asset": {
+                    "media": e.media,
+                    "media": e.media_credit,
+                    "media": e.media_caption }
+                };
     tl = Timeline.objects.get(pk=pk)
-    t = { "timeline": {
-        "headline":"The Kitchen Sink",
-        "type":"default",
-        "startDate":"2011,9,1",
-        "text":"An example of the different kinds of stuff you can do.",
-        "date": [ {
-            "startDate":"2012,1,26",
-            "headline":"Sh*t Politicians Say",
-            "text":"<p>Sh*t Politicians Say landed just hours before Thursday night’s Republican presidential debate and stars actor Joe Leon. In true political fashion, his character rattles off common jargon heard from people running for office.</p><p>Do these ring a bell? Moral fiber, family values, trust me, three-point plan, earmarks, tough question, children are our future, Washington outsider, jobs, my opponent — all sound familiar.</p>",
-            "asset":
-            {
-                "media":"http://youtu.be/u4XpeU9erbg",
-                "credit":"",
-                "caption":""
-                }
-            },
-            {
-                "startDate":"2012,1,10",
-                "headline":"Sh*t Nobody Says",
-                "text":"<p>Have you ever heard someone say “can I burn a copy of your Nickelback CD?” or “my Bazooka gum still has flavor!” Nobody says that.</p>",
-                "asset":
-                {
-                    "media":"http://youtu.be/f-x8t0JOnVw",
-                    "credit":"",
-                    "caption":""
-                    }
-                },
-            {
-                "startDate":"2012,1,18",
-                "headline":"Sh*t New Yorkers Say",
-                "text":"",
-                "asset":
-                {
-                    "media":"http://youtu.be/yRvJylbSg7o",
-                    "credit":"",
-                    "caption":"Directed and Edited by Matt Mayer, Produced by Seth Keim, Written by Eliot Glazer. Featuring Eliot and Ilana Glazer, who are siblings, not married."
-                    }
-                } ]
-            } }
+    t = {}
+    timeline = { "type":"default" }
+    #TODO
+    #cover = TlEvent.objects.get
+    #timeline.update(_event_to_dict(cover))
+    t['timeline'] = timeline
+    date = []
+    timeline['date'] = date
+    events = tl.tlevent_set.all()
+    for e in events:
+        date.append(_event_to_dict(e))
     return render_json_response(t)
 
 def addevent_(request, pk):

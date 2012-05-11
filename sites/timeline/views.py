@@ -55,6 +55,13 @@ def detail(request, pk, template_name="timeline/detail.html"):
     ctx['form'] = TlEventForm()
     return render(request, template_name, ctx)
 
+def delete(request, pk):
+    ctx = {}
+    tl = get_object_or_404(Timeline, pk=pk)
+    tl.delete()
+    #TODO message
+    return redirect('timeline_idx')
+
 def new(request):
     ctx = {}
     template_name = 'timeline/form.html'
@@ -104,13 +111,15 @@ def json_(request, pk):
     tl = Timeline.objects.get(pk=pk)
     t = {}
     timeline = { "type":"default" }
-    #TODO
-    #cover = TlEvent.objects.get
-    #timeline.update(_event_to_dict(cover))
     t['timeline'] = timeline
     date = []
     timeline['date'] = date
-    events = tl.tlevent_set.all()
+    # cover
+    events = tl.tlevent_set.filter(cover=True).order_by('startdate')
+    if events.count():
+        timeline.update(_event_to_dict(events[0]))
+    # date
+    events = tl.tlevent_set.filter(cover=False)
     for e in events:
         date.append(_event_to_dict(e))
     return render_json_response(t)
@@ -124,3 +133,11 @@ def addevent_(request, pk):
         book.save()
         #validate['html'] = render_string(ROW_TMPL, {'o': book})
     return render_json_response(validate)
+
+def events(request, pk):
+    ctx = {}
+    tl = get_object_or_404(Timeline, pk=pk)
+    ctx['tl'] = tl
+    ctx['events'] = tl.tlevent_set.order_by('startdate')
+    ctx['form'] = TlEventForm()
+    return render(request, 'timeline/events.html', ctx)

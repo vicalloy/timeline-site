@@ -1,0 +1,173 @@
+{% extends "timeline/base.html" %}
+
+{% block extra_header %}
+{{block.super}}
+<style type="text/css">
+  .sbreadcrumb {
+    margin: 0 0 10px 0;
+  }
+  .sbreadcrumb li {
+    display: inline;
+    text-shadow: 0 1px 0 #ffffff;
+  }
+  .sbreadcrumb .divider {
+    padding: 0 5px;
+    color: #bfbfbf;
+  }
+  .sbreadcrumb .active a {
+    color: #404040;
+  }
+  #sb_tl_creater {
+    overflow: hidden;
+  }
+  #sb_tl_creater .user {
+    float: left;
+  }
+  #sb_tl_creater .info ul {
+    list-style: none;
+    margin: 0 0 0 44px;
+  }
+  #container_top .sw .label {
+    font-size: inherit;
+  }
+  #container_top .sw {
+    float: right;
+  }
+  .content hr {
+    margin: 5px 0;
+  }
+</style>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block container_top %}
+<div id="container_top">
+  <ul class="sbreadcrumb">
+    <li><a href="#">Home</a> <span class="divider">/</span></li>
+    <li><a href="#">Middle page</a> <span class="divider">/</span></li>
+    <li><a href="#">Another one</a> <span class="divider">/</span></li>
+    <li class="active">You are here</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div class="">
+    <div class="">
+      <div id="tl_list">
+        <table class="table table-striped tlist" style="width=100%">
+          <thead>
+            <tr>
+              <th></th>
+              <th>some icons</th>
+              <th>日期</th>
+              <th>标题</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in events %}
+              <tr class="tl" id="t_{{ o.pk }}">
+                <td>编辑、删除</td>
+                <td></td>
+                <td>
+                  {{ o.startdate|date:"Y-m-d" }} {% if o.enddate %} ~ {{ o.startdate|date:"Y-m-d" }} {% endif %}
+                </td>
+                <td>{{ o.title }}</td>
+                <td>{{ o.text }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a href="###" class="btn" onclick="$('#tl_form_div').show();$(this).hide()">添加</a>
+      </div>
+    </div>
+
+    <div class="">
+      <div style="width: 640px;float:left;">
+        <div style="" id="tl_form_div">
+          <form action="" id="tl_form" enctype="multipart/form-data" method="post" class="form-horizontal">
+            <fieldset>
+              {% csrf_token %}
+              {{form.as_div}}
+              <div class="form-actions" class="form-horizontal">
+                <p>
+                  <button type="submit" class="btn">提交</button>
+                  <button type="button" class="btn">取消</button>
+                </p>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div style="">
+        .........................................................................
+        .........................................................................
+        .........................................................................
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer_ext %}
+<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>
+<script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
+<script src='{{STATIC_URL}}js/simple-tpl.js' type='text/javascript'></script>
+<script src='{{STATIC_URL}}bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
+<script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery-bootstrap-form.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery.djangoajaxform.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script type='text/javascript'>
+  $(function () {
+    var tl_tb_body = $('#tl_list table.tllist body');
+    $('#tl_form').djangoajaxform("{% url timeline_addevent_ tl.pk %}", {
+        callback: bootstrapCallback,
+        removeErrorHints: bootstrapRemoveErrorHints,
+        onValidateSucc: function(data, form){
+          if (data.valid) {
+            tl_tb_body.append(data.html);
+            //TODO 
+          }
+        }
+    });
+
+    $('#id_startdate,#id_enddate').datepicker({
+        weekStart: 1,
+        format: 'yyyy-mm-dd'
+    }).on('changeDate', function(ev){
+      $(this).datepicker('hide');
+    });
+
+    function initActBtn() {
+      var del_btns = $("tl .del", tl_tb_body);
+      var edit_btns = $("tl .edit", tl_tb_body);
+      del_btns.unbind('click')
+      edit_btns.unbind('click')
+      del_btns.click(function(){
+        if (not confirm('确定删除？')) return false;
+        var p = $(this).parent().parent();
+        var pk = p[0].id.split('_')[1]
+        $.getJSON("url...", {'pk', pk}, function(data) {
+          if (data.valid) p.fadeOut('slow', function(){p.remove()});
+        });
+      });
+      edit_btns.click(function(){
+        //TODO...
+      });
+    }
+    $("#book_list table .btn_del").unbind('click')
+    $("#book_list table .btn_del").click -> 
+      if !confirm('确定删除？') 
+        return false
+      p = $(this).parent().parent()
+      pk = p[0].id.split('_')[1]
+      $.getJSON(url_book_delete_, {'pk', pk}, (data)->
+        if data.valid
+          p.fadeOut('slow', -> p.remove())
+      )
+
+  })
+</script>
+{% endblock %}

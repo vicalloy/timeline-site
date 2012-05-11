@@ -46,11 +46,11 @@ class TlEvent(models.Model):
     enddate = models.DateTimeField(u'结束日期', blank=True, null=True, help_text=u"日期格式")
     text = models.TextField(u'详细说明', blank=True, null=True, help_text=u'详细说明')
 
-    cover = models.BooleanField(u'封面', help_text=u"日期格式", default=False)
-
     media = models.TextField(u'媒体', max_length=255, blank=True, null=True, help_text=u'媒体文件，可以是图片地址。')
     media_credit = models.CharField(u'媒体版权', max_length=255, blank=True, null=True, help_text=u'')
     media_caption = models.CharField(u'媒体标题', max_length=255, blank=True, null=True, help_text=u'')
+
+    cover = models.BooleanField(u'封面', help_text=u"", default=False)
 
     def __unicode__(self):
         return "%s-%s" % (self.timeline.title, self.title)

@@ -94,8 +94,6 @@ def edit(request, pk):
 
 def load_form(request, form_class):
     pass
-s=''
-
 
 def json_(request, pk):
     def fmt_date(d):

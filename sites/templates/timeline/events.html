@@ -146,10 +146,10 @@
       del_btns.unbind('click')
       edit_btns.unbind('click')
       del_btns.click(function(){
-        if (not confirm('确定删除？')) return false;
+        if (!confirm('确定删除？')) return false;
         var p = $(this).parent().parent();
         var pk = p[0].id.split('_')[1]
-        $.getJSON("url...", {'pk', pk}, function(data) {
+        $.getJSON("url...", {'pk': pk}, function(data) {
           if (data.valid) p.fadeOut('slow', function(){p.remove()});
         });
       });
@@ -157,17 +157,6 @@
         //TODO...
       });
     }
-    $("#book_list table .btn_del").unbind('click')
-    $("#book_list table .btn_del").click -> 
-      if !confirm('确定删除？') 
-        return false
-      p = $(this).parent().parent()
-      pk = p[0].id.split('_')[1]
-      $.getJSON(url_book_delete_, {'pk', pk}, (data)->
-        if data.valid
-          p.fadeOut('slow', -> p.remove())
-      )
-
-  })
+  });
 </script>
 {% endblock %}

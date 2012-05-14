@@ -1,4 +1,8 @@
 # -*- coding: UTF-8 -*-
+import re
+
+from django.core.exceptions import ValidationError
+
 from bootstrap.forms import BootstrapModelForm
 
 #from easy_thumbnails.widgets import ImageClearableFileInput
@@ -12,16 +16,25 @@ class TimelineForm(BootstrapModelForm):
         fields = ['title', 'cover', 'tags', 'intro']
         #widgets = { 'cover': ImageClearableFileInput(), }
         
+def valid_date(s):
+    if not s:
+        return
+    fmts = ['^-{0,1}\d{4}-\d{1,2}-\d{1,2}$', '^-{0,1}\d{4}-\d{1,2}$', '^-{0,1}\d{4}$']
+    for fmt in fmts:
+        if re.search(fmt, s):
+            return
+    raise ValidationError(u'无法识别该日期格式')
+
 class TlEventForm(BootstrapModelForm):
 
     def clean_startdate(self):
         v = self.cleaned_data['startdate']
-        #TODO valid_date
+        valid_date(v)
         return v
 
     def clean_enddate(self):
         v = self.cleaned_data['enddate']
-        #TODO valid_date
+        valid_date(v)
         return v
 
     def save(self, *args, **kwargs):

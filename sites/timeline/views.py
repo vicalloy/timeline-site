@@ -94,10 +94,13 @@ def edit(request, pk):
 
 def load_form(request, form_class):
     pass
+s=''
+
 
 def json_(request, pk):
     def fmt_date(d):
-        return "%02d,%02d,%02d" % (d.year,d.month,d.day) if d else ''
+        #return "%02d,%02d,%02d" % (d.year,d.month,d.day) if d else ''
+        return d.replace('-', ',') if d else ''
     def _event_to_dict(e):
         return {'startDate': fmt_date(e.startdate),
                 'endDate': fmt_date(e.enddate),

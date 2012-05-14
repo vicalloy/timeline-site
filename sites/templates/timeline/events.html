@@ -57,7 +57,7 @@
   <div class="">
     <div class="">
       <div id="tl_list">
-        <table class="table table-striped tlist" style="width=100%">
+        <table class="table table-striped tllist" style="width=100%">
           <thead>
             <tr>
               <th></th>
@@ -68,19 +68,9 @@
             </tr>
           </thead>
           <tbody>
-            {% for o in events %}
-              <tr class="tl" id="t_{{ o.pk }}">
-                <td>编辑、删除</td>
-                <td></td>
-                <td>
-                  {{ o.startdate|date:"Y-m-d" }} {% if o.enddate %} ~ {{ o.startdate|date:"Y-m-d" }} {% endif %}
-                </td>
-                <td>{{ o.title }}</td>
-                <td>{{ o.text }}</td>
-              </tr>
-            {% endfor %}
           </tbody>
         </table>
+        <!-- loadding -->
         <a href="###" class="btn" onclick="$('#tl_form_div').show();$(this).hide()">添加</a>
       </div>
     </div>
@@ -112,51 +102,75 @@
 {% endblock %}
 
 {% block footer_ext %}
-<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>
-<script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
-<script src='{{STATIC_URL}}js/simple-tpl.js' type='text/javascript'></script>
-<script src='{{STATIC_URL}}bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
-<script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery-bootstrap-form.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery.djangoajaxform.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script type='text/javascript'>
-  $(function () {
-    var tl_tb_body = $('#tl_list table.tllist body');
-    $('#tl_form').djangoajaxform("{% url timeline_addevent_ tl.pk %}", {
-        callback: bootstrapCallback,
-        removeErrorHints: bootstrapRemoveErrorHints,
-        onValidateSucc: function(data, form){
-          if (data.valid) {
-            tl_tb_body.append(data.html);
-            //TODO 
+  <script type="text/html" id="events_row_tmpl">
+    <tr class="tl" id="t_<%=pk%>">
+      <td>编辑、删除</td>
+      <td></td>
+      <td>
+        <%=startDate%> 
+        <% if (endDate != '') { %> ~ <%=startDate%> <% } %>
+      </td>
+      <td>
+        <%=headline%>
+        <i class="icon-map-marker"></i>
+        <i class="icon-picture"></i>
+        <i class="icon-film"></i>
+        <i class="icon-music"></i>
+      </td>
+      <td><%=text%></td>
+    </tr>
+  </script>
+  <link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>
+  <script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
+  <script src='{{STATIC_URL}}js/simple-tpl.js' type='text/javascript'></script>
+  <script src='{{STATIC_URL}}bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery-bootstrap-form.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery.djangoajaxform.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}bootstrap-datepicker/bootstrap-datepicker.js"></script>
+  <script type='text/javascript'>
+    $(function () {
+      var tl_tb_body = $('#tl_list table.tllist tbody');
+      $('#tl_form').djangoajaxform("{% url timeline_addevent_ tl.pk %}", {
+          callback: bootstrapCallback,
+          removeErrorHints: bootstrapRemoveErrorHints,
+          onValidateSucc: function(data, form){
+            if (data.valid) {
+              tl_tb_body.append(tmpl("events_row_tmpl", data.data));
+            }
           }
-        }
-    });
+      });
 
-    $('#id_startdate,#id_enddate').datepicker({
-        weekStart: 1,
-        format: 'yyyy-mm-dd'
-    }).on('changeDate', function(ev){
+      $('#id_startdate,#id_enddate').datepicker({
+          weekStart: 1,
+          format: 'yyyy-mm-dd'
+      }).on('changeDate', function(ev){
       $(this).datepicker('hide');
-    });
+      });
 
-    function initActBtn() {
-      var del_btns = $("tl .del", tl_tb_body);
-      var edit_btns = $("tl .edit", tl_tb_body);
-      del_btns.unbind('click')
-      edit_btns.unbind('click')
-      del_btns.click(function(){
-        if (!confirm('确定删除？')) return false;
-        var p = $(this).parent().parent();
-        var pk = p[0].id.split('_')[1]
-        $.getJSON("url...", {'pk': pk}, function(data) {
-          if (data.valid) p.fadeOut('slow', function(){p.remove()});
+      function initActBtn() {
+        var del_btns = $("tl .del", tl_tb_body);
+        var edit_btns = $("tl .edit", tl_tb_body);
+        del_btns.unbind('click')
+        edit_btns.unbind('click')
+        del_btns.click(function(){
+          if (!confirm('确定删除？')) return false;
+          var p = $(this).parent().parent();
+          var pk = p[0].id.split('_')[1]
+          $.getJSON("url...", {'pk': pk}, function(data) {
+            if (data.valid) p.fadeOut('slow', function(){p.remove()});
+          });
+        });
+        edit_btns.click(function(){
+          //TODO...
+        });
+      }
+      //TODO load date
+      $.getJSON("{% url timeline_sjson_ tl.pk %}", {}, function(data) {
+        $.each(data, function(i, d){
+          tl_tb_body.append(tmpl("events_row_tmpl", d));
         });
       });
-      edit_btns.click(function(){
-        //TODO...
-      });
-    }
-  });
-</script>
+
+    });
+  </script>
 {% endblock %}

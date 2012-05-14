@@ -95,20 +95,23 @@ def edit(request, pk):
 def load_form(request, form_class):
     pass
 
+def _fmt_date(d):
+    #return "%02d,%02d,%02d" % (d.year,d.month,d.day) if d else ''
+    return d.replace('-', ',') if d else ''
+
+def _event_to_dict(e):
+    return {'startDate': _fmt_date(e.startdate),
+            'endDate': _fmt_date(e.enddate),
+            'headline': e.title,
+            'text': e.text,
+            'pk': e.pk,
+            "asset": {
+                "media": e.media,
+                "media": e.media_credit,
+                "media": e.media_caption }
+            };
+
 def json_(request, pk):
-    def fmt_date(d):
-        #return "%02d,%02d,%02d" % (d.year,d.month,d.day) if d else ''
-        return d.replace('-', ',') if d else ''
-    def _event_to_dict(e):
-        return {'startDate': fmt_date(e.startdate),
-                'endDate': fmt_date(e.enddate),
-                'headline': e.title,
-                'text': e.text,
-                "asset": {
-                    "media": e.media,
-                    "media": e.media_credit,
-                    "media": e.media_caption }
-                };
     tl = Timeline.objects.get(pk=pk)
     t = {}
     timeline = { "type":"default" }
@@ -120,19 +123,27 @@ def json_(request, pk):
     if events.count():
         timeline.update(_event_to_dict(events[0]))
     # date
-    events = tl.tlevent_set.filter(cover=False)
+    events = tl.tlevent_set.filter(cover=False).order_by('startdate')
     for e in events:
         date.append(_event_to_dict(e))
     return render_json_response(t)
+
+def sjson_(request, pk):
+    tl = Timeline.objects.get(pk=pk)
+    events = tl.tlevent_set.order_by('startdate')
+    date = []
+    for e in events:
+        date.append(_event_to_dict(e))
+    return render_json_response(date)
 
 def addevent_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
     form, validate = validate_form(request, form_class=TlEventForm)
     if validate['valid']:
-        book = form.save(commit=False)
-        book.timeline = timeline
-        book.save()
-        #validate['html'] = render_string(ROW_TMPL, {'o': book})
+        event = form.save(commit=False)
+        event.timeline = timeline
+        event.save()
+        validate['data'] = _event_to_dict(event)
     return render_json_response(validate)
 
 def events(request, pk):

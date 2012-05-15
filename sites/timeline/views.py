@@ -52,7 +52,10 @@ def full_screen(request, pk, template_name="timeline/t.html"):
 
 def detail(request, pk, template_name="timeline/detail.html"):
     ctx = {}
-    ctx['tl'] = get_object_or_404(Timeline, pk=pk)
+    timeline = get_object_or_404(Timeline, pk=pk)
+    timeline.num_views += 1
+    timeline.save()
+    ctx['tl'] = timeline
     ctx['form'] = TlEventForm()
     return render(request, template_name, ctx)
 
@@ -128,6 +131,7 @@ def addevent_(request, pk):
         event = form.save(commit=False)
         event.timeline = timeline
         event.save()
+        timeline.update_num_events()
         validate['data'] = event_to_sdict(event)
     return render_json_response(validate)
 

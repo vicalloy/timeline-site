@@ -37,7 +37,6 @@
     margin: 5px 0;
   }
   textarea {
-    width: 450px;
     height: 120px;
   }
   #id_media {
@@ -220,7 +219,6 @@
           $('#tl_form_div').fadeOut('slow');
           $.getJSON("{% url event_json_ %}", {'pk': pk}, function(data) {
             if (data.valid) {
-              $('#tl_form')[0].reset();
               formLoadData($('#tl_form'), data.data);
               $('#tl_form_div').fadeIn('slow');
               $('#id_title')[0].focus();
@@ -228,6 +226,7 @@
               alert('数据加载失败');
             }
           });
+
         });
       }
       $('#btn_add_event').click(function(){

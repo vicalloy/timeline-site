@@ -10,9 +10,9 @@ from helper import event_to_sdict
 def delete_(request):
     #TODO auth
     pk = request.GET.get('pk', '')
-    tl = get_object_or_404(TlEvent, pk=pk)
-    tl.delete()
-    #TODO message
+    event = get_object_or_404(TlEvent, pk=pk)
+    event.delete()
+    event.timeline.update_num_events()
     return render_json_response({'valid': True})
 
 def json_(request):

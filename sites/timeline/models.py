@@ -39,6 +39,11 @@ class Timeline(models.Model):
     def __unicode__(self):
         return self.title
 
+    def update_num_events(self, commit=True):
+        self.num_events = self.tlevent_set.count()
+        if commit:
+            self.save()
+
 class TlEvent(models.Model):
     timeline = models.ForeignKey(Timeline)
     title = models.CharField(u'标题', max_length=30)

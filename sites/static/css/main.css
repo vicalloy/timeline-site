@@ -1,3 +1,7 @@
+textarea {
+  width: 450px;
+  height: 120px;
+}
 footer {
   margin-top: 15px;
 }

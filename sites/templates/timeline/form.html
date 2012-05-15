@@ -42,3 +42,13 @@
     </form>
   </div>
 {% endblock %}
+
+{% block footer_ext %}
+  {{ block.super }}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autosize-min.js"></script>
+  <script type='text/javascript'>
+    $(function () {
+      $('textarea').autosize();
+    });
+  </script>
+{% endblock %}

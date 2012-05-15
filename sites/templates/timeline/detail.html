@@ -69,7 +69,7 @@
   <div class="well">
     <h5>管理</h5>
     <ul>
-      <li><a href="{% url timeline_edit tl.pk %}">编辑</a></li>
+      <li><a href="{% url timeline_edit tl.pk %}">编辑基础信息</a></li>
       <li><a href="{% url timeline_events tl.pk %}">编辑事件</a></li>
     </ul>
   </div>
@@ -79,15 +79,15 @@
 {% block container_top %}
 <div id="container_top" style="padding-bottom: 20px;">
   <div class="sw">
-    <a href="###">编辑基础信息</a>
+    <a href="{% url timeline_edit tl.pk %}">编辑基础信息</a>
     <span style="color: #BFBFBF;">|</span>
-    <a href="###">编辑事件</a>
+    <a href="{% url timeline_events tl.pk %}">编辑事件</a>
+    <span style="color: #BFBFBF;">|</span>
+    <a href="{% url timeline_full_screen tl.pk %}">精简模式</a>
   </div>
   <ul class="sbreadcrumb">
-    <li><a href="#">Home</a> <span class="divider">/</span></li>
-    <li><a href="#">Middle page</a> <span class="divider">/</span></li>
-    <li><a href="#">Another one</a> <span class="divider">/</span></li>
-    <li class="active">You are here</li>
+    <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
+    <li class="active">{{ tl.title }}</li>
   </ul>
   <div>
     <div id='timeline-embed'></div>

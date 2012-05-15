@@ -6,7 +6,7 @@ footer {
   margin-top: 15px;
 }
 .timeline {
-  border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px dashed #DDDDDD;
   margin-top: 15px;
   padding-bottom: 10px;
   width: 100%;

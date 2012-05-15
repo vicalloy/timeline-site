@@ -30,6 +30,8 @@
 {% block content %}
 <div class="content">
   <div class="timelines">
+    {% load pagination_tags %}
+    {% autopaginate timelines %}
     {% for o in timelines %}
     <div class="timeline">
       <div class="pic">
@@ -42,21 +44,11 @@
       </ul>
       <div class="info">
         <h3> <a href="{% url timeline_detail o.pk %}">{{o.title}}</a> </h3>
-        {{o.intro}}
+        {{ o.intro|slice:"160"|linebreaksbr }}{% if o.intro|length > 340 %}...{% endif %} 
       </div>
     </div>
     {% endfor %}
   </div>
-  <div class="pagination">
-    <ul>
-      <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-      <li class="active"><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li class="next"><a href="#">Next &rarr;</a></li>
-    </ul>
-  </div>
+  {% paginate %}
 </div>
 {% endblock %}

@@ -57,10 +57,8 @@
 {% block container_top %}
 <div id="container_top">
   <ul class="sbreadcrumb">
-    <li><a href="#">Home</a> <span class="divider">/</span></li>
-    <li><a href="#">Middle page</a> <span class="divider">/</span></li>
-    <li><a href="#">Another one</a> <span class="divider">/</span></li>
-    <li class="active">You are here</li>
+    <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
+    <li class="active">{{ tl.title }}</li>
   </ul>
 </div>
 {% endblock %}

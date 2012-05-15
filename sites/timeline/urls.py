@@ -2,6 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.generic import TemplateView
 
 from timeline import views
+from timeline import eventviews as eviews
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='timeline_idx'),
@@ -22,4 +23,5 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('',
+    url(r'^event/delete_/$', eviews.delete_, name='event_delete_'),
 )

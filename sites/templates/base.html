@@ -27,7 +27,21 @@
   </head>
 
   <body>
+    <div id="global_waiting" style=" position:fixed; top:0; left:0; background-color: red; width: 200px;display:none "> 
+      <span style="padding: 5px;">数据加载中...</span>
+    </div> 
     {% block page_body %} {% endblock %}
-    {% block footer_ext %} {% endblock %}
+    {% block footer_ext %}
+      <script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
+      <script type="text/javascript">
+        $('#global_waiting')
+        .ajaxStart(function() {
+          $(this).show();
+        })
+        .ajaxStop(function() {
+          $(this).hide();
+        });
+      </script> 
+    {% endblock %}
   </body>
 </html>

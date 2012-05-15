@@ -60,10 +60,9 @@
         <table class="table table-striped tllist" style="width=100%">
           <thead>
             <tr>
-              <th></th>
-              <th>some icons</th>
-              <th>日期</th>
-              <th>标题</th>
+              <th style="width: 40px"></th>
+              <th style="width: 160px">日期</th>
+              <th style="width: 260px">标题</th>
               <th>说明</th>
             </tr>
           </thead>
@@ -102,26 +101,29 @@
 {% endblock %}
 
 {% block footer_ext %}
+  {{ block.super }}
   <script type="text/html" id="events_row_tmpl">
     <tr class="tl" id="t_<%=pk%>">
-      <td>编辑、删除</td>
-      <td></td>
+      <td>
+        <a href="###" class="del">
+          <i class="icon-remove"></i>
+        </a>
+        <a href="###" class="edit">
+          <i class="icon-pencil"></i>
+        </a>
+      </td>
       <td>
         <%=startDate%> 
         <% if (endDate != '') { %> ~ <%=startDate%> <% } %>
       </td>
       <td>
         <%=headline%>
-        <i class="icon-map-marker"></i>
-        <i class="icon-picture"></i>
-        <i class="icon-film"></i>
-        <i class="icon-music"></i>
+        <i class="icon-<%=mediaType%>"></i>
       </td>
       <td><%=text%></td>
     </tr>
   </script>
   <link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>
-  <script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
   <script src='{{STATIC_URL}}js/simple-tpl.js' type='text/javascript'></script>
   <script src='{{STATIC_URL}}bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
   <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery-bootstrap-form.js"></script>
@@ -130,47 +132,86 @@
   <script type='text/javascript'>
     $(function () {
       var tl_tb_body = $('#tl_list table.tllist tbody');
+      function getMediaType(d) {
+        if (d.match("div class='twitter'")) {
+          //return "twitter-ready";
+          return 'twitter'
+        } else if (d.match('(www.)?youtube|youtu\.be')) {
+          //return "youtube";
+          return "film";
+        } else if (d.match('(player.)?vimeo\.com')) {
+          //return "vimeo";
+          return "film";
+        } else if (d.match('(player.)?soundcloud\.com')) {
+          //return "soundcloud";
+          return "music";
+        } else if (d.match('(www.)?twitter\.com')) {
+          return "twitter";
+        } else if (d.match("maps.google") && !d.match("staticmap")) {
+          //return "google-map";
+          return "map-marker";
+        } else if (d.match("flickr.com/photos")) {
+          //return "flickr";
+          return "picture";
+        } else if (d.match(/jpg|jpeg|png|gif/i) || d.match("staticmap")) {
+          //return "image";
+          return "picture";
+        } else if (d.indexOf('http://') == 0) {
+          //return "website";
+          return "globe";
+        } else {
+          return "unknown";
+        }
+      }
+      function addEvent2Row(d) {
+        d.mediaType = getMediaType(d.asset.media);
+        tl_tb_body.append(tmpl("events_row_tmpl", d));
+      }
       $('#tl_form').djangoajaxform("{% url timeline_addevent_ tl.pk %}", {
           callback: bootstrapCallback,
           removeErrorHints: bootstrapRemoveErrorHints,
           onValidateSucc: function(data, form){
             if (data.valid) {
-              tl_tb_body.append(tmpl("events_row_tmpl", data.data));
+              addEvent2Row(data.data);
             }
           }
       });
 
+      /*
       $('#id_startdate,#id_enddate').datepicker({
-          weekStart: 1,
-          format: 'yyyy-mm-dd'
+        weekStart: 1,
+        format: 'yyyy-mm-dd'
       }).on('changeDate', function(ev){
-      $(this).datepicker('hide');
-      });
+        $(this).datepicker('hide');
+      });*/
 
       function initActBtn() {
-        var del_btns = $("tl .del", tl_tb_body);
-        var edit_btns = $("tl .edit", tl_tb_body);
+        var del_btns = $(".tl .del", tl_tb_body);
+        var edit_btns = $(".tl .edit", tl_tb_body);
         del_btns.unbind('click')
         edit_btns.unbind('click')
         del_btns.click(function(){
           if (!confirm('确定删除？')) return false;
           var p = $(this).parent().parent();
           var pk = p[0].id.split('_')[1]
-          $.getJSON("url...", {'pk': pk}, function(data) {
-            if (data.valid) p.fadeOut('slow', function(){p.remove()});
+          $.getJSON("{% url event_delete_ %}", {'pk': pk}, function(data) {
+            if (data.valid) {
+              p.fadeOut('slow', function(){p.remove()});
+            } else {
+              alert('删除失败');
+            }
           });
         });
         edit_btns.click(function(){
           //TODO...
         });
       }
-      //TODO load date
       $.getJSON("{% url timeline_sjson_ tl.pk %}", {}, function(data) {
         $.each(data, function(i, d){
-          tl_tb_body.append(tmpl("events_row_tmpl", d));
+          addEvent2Row(d);
         });
+        initActBtn();
       });
-
     });
   </script>
 {% endblock %}

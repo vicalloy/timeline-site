@@ -116,6 +116,7 @@
 {% endblock %}
 
 {% block footer_ext %}
+{{ block.super }}
 <link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>
 <link rel="stylesheet" href="{{STATIC_URL}}js/Timeline/timeline.css" type="text/css"/>
 <script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>

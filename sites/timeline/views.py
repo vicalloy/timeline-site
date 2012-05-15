@@ -107,8 +107,8 @@ def _event_to_dict(e):
             'pk': e.pk,
             "asset": {
                 "media": e.media,
-                "media": e.media_credit,
-                "media": e.media_caption }
+                "credit": e.media_credit,
+                "caption": e.media_caption }
             };
 
 def json_(request, pk):

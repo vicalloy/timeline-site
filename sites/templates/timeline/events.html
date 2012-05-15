@@ -36,6 +36,9 @@
   .content hr {
     margin: 5px 0;
   }
+  textarea {
+    width: 450px;
+  }
 </style>
 {% endblock %}
 
@@ -70,26 +73,24 @@
           </tbody>
         </table>
         <!-- loadding -->
-        <a href="###" class="btn" onclick="$('#tl_form_div').show();$(this).hide()">添加</a>
+        <a href="###" class="btn" id="btn_add_event">添加</a>
       </div>
     </div>
 
-    <div class="">
+    <div class="" id="tl_form_div">
       <div style="width: 640px;float:left;">
-        <div style="" id="tl_form_div">
-          <form action="" id="tl_form" enctype="multipart/form-data" method="post" class="form-horizontal">
-            <fieldset>
-              {% csrf_token %}
-              {{form.as_div}}
-              <div class="form-actions" class="form-horizontal">
-                <p>
-                  <button type="submit" class="btn">提交</button>
-                  <button type="button" class="btn">取消</button>
-                </p>
-              </div>
-            </fieldset>
-          </form>
-        </div>
+        <form action="" id="tl_form" enctype="multipart/form-data" method="post" class="form-horizontal">
+          <fieldset>
+            {% csrf_token %}
+            {{form.as_div}}
+            <div class="form-actions" class="form-horizontal">
+              <p>
+                <button type="submit" class="btn">提交</button>
+                <button type="button" id="btn_tlf_cancel" class="btn cancel">取消</button>
+              </p>
+            </div>
+          </fieldset>
+        </form>
       </div>
       <div style="">
         .........................................................................
@@ -206,6 +207,15 @@
           //TODO...
         });
       }
+      $('#btn_add_event').click(function(){
+        $('#tl_form')[0].reset();
+        $('#tl_form_div').show();
+        $(this).hide();
+      });
+      $('#btn_tlf_cancel').click(function(){
+        $('#tl_form_div').hide();
+        $('#btn_add_event').show();
+      });
       $.getJSON("{% url timeline_sjson_ tl.pk %}", {}, function(data) {
         $.each(data, function(i, d){
           addEvent2Row(d);

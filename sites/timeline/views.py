@@ -16,6 +16,7 @@ from ajax_validation.utils import render_json_response
 
 from models import Timeline
 from forms import TimelineForm, TlEventForm
+from helper import event_to_dict, event_to_sdict
 
 def index(request):
   return recommend(request)
@@ -95,23 +96,7 @@ def edit(request, pk):
 def load_form(request, form_class):
     pass
 
-def _fmt_date(d):
-    #return "%02d,%02d,%02d" % (d.year,d.month,d.day) if d else ''
-    return d.replace('-', ',') if d else ''
-
-def _event_to_dict(e):
-    return {'startDate': _fmt_date(e.startdate),
-            'endDate': _fmt_date(e.enddate),
-            'headline': e.title,
-            'text': e.text,
-            'pk': e.pk,
-            "asset": {
-                "media": e.media,
-                "credit": e.media_credit,
-                "caption": e.media_caption }
-            };
-
-def json_(request, pk):
+def events_json_(request, pk):
     tl = Timeline.objects.get(pk=pk)
     t = {}
     timeline = { "type":"default" }
@@ -121,19 +106,19 @@ def json_(request, pk):
     # cover
     events = tl.tlevent_set.filter(cover=True).order_by('startdate')
     if events.count():
-        timeline.update(_event_to_dict(events[0]))
+        timeline.update(event_to_dict(events[0]))
     # date
     events = tl.tlevent_set.filter(cover=False).order_by('startdate')
     for e in events:
-        date.append(_event_to_dict(e))
+        date.append(event_to_dict(e))
     return render_json_response(t)
 
-def sjson_(request, pk):
+def events_sjson_(request, pk):
     tl = Timeline.objects.get(pk=pk)
     events = tl.tlevent_set.order_by('startdate')
     date = []
     for e in events:
-        date.append(_event_to_dict(e))
+        date.append(event_to_sdict(e))
     return render_json_response(date)
 
 def addevent_(request, pk):
@@ -143,7 +128,7 @@ def addevent_(request, pk):
         event = form.save(commit=False)
         event.timeline = timeline
         event.save()
-        validate['data'] = _event_to_dict(event)
+        validate['data'] = event_to_sdict(event)
     return render_json_response(validate)
 
 def events(request, pk):

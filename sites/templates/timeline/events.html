@@ -114,11 +114,11 @@
         </a>
       </td>
       <td>
-        <%=startDate%> 
-        <% if (endDate != '') { %> ~ <%=startDate%> <% } %>
+        <%=startdate%> 
+        <% if (enddate != '') { %> ~ <%=startdate%> <% } %>
       </td>
       <td>
-        <%=headline%>
+        <%=title%>
         <i class="icon-<%=mediaType%>"></i>
       </td>
       <td><%=text%></td>
@@ -165,7 +165,7 @@
         }
       }
       function addEvent2Row(d) {
-        d.mediaType = getMediaType(d.asset.media);
+        d.mediaType = getMediaType(d.media);
         tl_tb_body.append(tmpl("events_row_tmpl", d));
       }
       $('#tl_form').djangoajaxform("{% url timeline_addevent_ tl.pk %}", {
@@ -204,19 +204,50 @@
           });
         });
         edit_btns.click(function(){
-          //TODO...
+          var p = $(this).parent().parent();
+          var pk = p[0].id.split('_')[1]
+          $('#tl_form_div').fadeOut('slow');
+          $.getJSON("{% url event_json_ %}", {'pk': pk}, function(data) {
+            if (data.valid) {
+              $('#tl_form')[0].reset();
+              formLoadData($('#tl_form'), data.data);
+              $('#tl_form_div').fadeIn('slow');
+              $('#id_title')[0].focus();
+            } else {
+              alert('数据加载失败');
+            }
+          });
         });
       }
       $('#btn_add_event').click(function(){
         $('#tl_form')[0].reset();
-        $('#tl_form_div').show();
-        $(this).hide();
+        $('#tl_form_div').fadeIn('slow');
+        $(this).fadeOut('slow');
+        $('#id_title')[0].focus();
       });
       $('#btn_tlf_cancel').click(function(){
-        $('#tl_form_div').hide();
+        $('#tl_form_div').fadeOut('slow');
         $('#btn_add_event').show();
       });
-      $.getJSON("{% url timeline_sjson_ tl.pk %}", {}, function(data) {
+      function formLoadData(form, data, field_map, pre) {
+        if (pre == undefined) pre = '';
+        $.each(data, function(k, v){
+          if (v instanceof Object) {
+            formLoadData(form, data, field_map, pre + k + '_');
+          } else {
+            var fid = pre + k;
+            if (field_map != undefined)
+              var tfid = field_map[fid];
+            if (tfid!=undefined) {
+              fid = tfid;
+            } else {
+              fid = 'id_' + fid;
+            }
+            $('#' + fid, form).val(v);
+          }
+        });
+      }
+      $.getJSON("{% url timeline_events_sjson_ tl.pk %}", {}, function(data) {
         $.each(data, function(i, d){
           addEvent2Row(d);
         });

@@ -25,4 +25,5 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     url(r'^event/delete_/$', eviews.delete_, name='event_delete_'),
     url(r'^event/json_/$', eviews.json_, name='event_json_'),
+    url(r'^event/edit_/$', eviews.edit_, name='event_edit_'),
 )

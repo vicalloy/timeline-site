@@ -38,6 +38,16 @@
   }
   textarea {
     width: 450px;
+    height: 120px;
+  }
+  #id_media {
+    height: 20px;
+  }
+  #tl_form_div {
+    display: none;
+  }
+  #btn_add_event {
+    float: right;
   }
 </style>
 {% endblock %}
@@ -130,6 +140,7 @@
   <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery-bootstrap-form.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery.djangoajaxform.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}bootstrap-datepicker/bootstrap-datepicker.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autosize-min.js"></script>
   <script type='text/javascript'>
     $(function () {
       var tl_tb_body = $('#tl_list table.tllist tbody');
@@ -247,6 +258,7 @@
           }
         });
       }
+      $('textarea').autosize();
       $.getJSON("{% url timeline_events_sjson_ tl.pk %}", {}, function(data) {
         $.each(data, function(i, d){
           addEvent2Row(d);

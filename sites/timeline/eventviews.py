@@ -21,3 +21,13 @@ def json_(request):
     data = {'valid': True};
     data['data'] = event_to_sdict(event)
     return render_json_response(data)
+
+def edit_(request, pk):
+    pk = request.GET.get('pk', '')
+    event = TlEvent.objects.get(pk=pk)
+    form, validate = validate_form(request, form_class=TlEventForm, instance=event)
+    if validate['valid']:
+        event = form.save(commit=False)
+        event.save()
+        validate['data'] = event_to_sdict(event)
+    return render_json_response(validate)

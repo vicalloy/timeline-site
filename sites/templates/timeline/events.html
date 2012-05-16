@@ -39,7 +39,7 @@
   textarea {
     height: 120px;
   }
-  #id_media {
+  #id_media, #id_media_caption {
     height: 20px;
   }
   #tl_form_div {
@@ -172,8 +172,15 @@
           return "unknown";
         }
       }
+      function safeHtml(s) {
+        return $('<div/>').text(s).html().replace(/\n/g, "<br />");
+      }
       function addEvent2Row(d) {
         d.mediaType = getMediaType(d.media);
+        d.title = safeHtml(d.title);
+        d.text = safeHtml(d.text);
+        d.media = safeHtml(d.media);
+        d.media_caption = safeHtml(d.media_caption);
         tl_tb_body.append(tmpl("events_row_tmpl", d));
       }
       $('#tl_form').djangoajaxform("{% url timeline_addevent_ tl.pk %}", {

@@ -86,7 +86,7 @@
 
     <div class="" id="tl_form_div">
       <div style="width: 640px;float:left;">
-        <form action="" id="tl_form" enctype="multipart/form-data" method="post" class="form-horizontal">
+        <form action="{% url timeline_addevent_ tl.pk %}" id="tl_form" enctype="multipart/form-data" method="post" class="form-horizontal">
           <fieldset>
             {% csrf_token %}
             {{form.as_div}}
@@ -183,12 +183,21 @@
         d.media_caption = safeHtml(d.media_caption);
         tl_tb_body.append(tmpl("events_row_tmpl", d));
       }
-      $('#tl_form').djangoajaxform("{% url timeline_addevent_ tl.pk %}", {
+      function showForm() {
+        $('#tl_form_div').fadeIn('slow');
+        $('#btn_add_event').fadeOut('slow');
+      }
+      function hideForm() {
+        $('#tl_form_div').fadeOut('slow');
+        $('#btn_add_event').fadeIn('slow');
+      }
+      $('#tl_form').djangoajaxform({
           callback: bootstrapCallback,
           removeErrorHints: bootstrapRemoveErrorHints,
           onValidateSucc: function(data, form){
             if (data.valid) {
               addEvent2Row(data.data);
+              hideForm();
             }
           }
       });
@@ -221,11 +230,12 @@
         edit_btns.click(function(){
           var p = $(this).parent().parent();
           var pk = p[0].id.split('_')[1]
+          $('#tl_form').attr('action', "{% url event_edit_ %}?pk=" + pk);
           $('#tl_form_div').fadeOut('slow');
           $.getJSON("{% url event_json_ %}", {'pk': pk}, function(data) {
             if (data.valid) {
               formLoadData($('#tl_form'), data.data);
-              $('#tl_form_div').fadeIn('slow');
+              showForm();
               $('#id_title')[0].focus();
             } else {
               alert('数据加载失败');
@@ -235,14 +245,13 @@
         });
       }
       $('#btn_add_event').click(function(){
+        $('#tl_form').attr('action', "{% url timeline_addevent_ tl.pk %}");
         $('#tl_form')[0].reset();
-        $('#tl_form_div').fadeIn('slow');
-        $(this).fadeOut('slow');
         $('#id_title')[0].focus();
+        showForm();
       });
       $('#btn_tlf_cancel').click(function(){
-        $('#tl_form_div').fadeOut('slow');
-        $('#btn_add_event').show();
+        hideForm();
       });
       function formLoadData(form, data, field_map, pre) {
         if (pre == undefined) pre = '';

@@ -157,7 +157,7 @@
       </div>
     <h3>发表评论</h5>
     <div>
-      <form action="" method="post" id="comment_from">
+      <form action="{% url timeline_postcomment_ tl.pk %}" method="post" id="comment_from">
         {% csrf_token %}
         <p>
           {{ form.content }}
@@ -187,7 +187,7 @@
 </script>
 <script src="{{STATIC_URL}}js/Timeline/timeline-embed.js"></script>
 <script type="text/javascript">
-  $('#comment_from').djangoajaxform("{% url timeline_postcomment_ tl.pk %}", {
+  $('#comment_from').djangoajaxform({
       onValidateSucc: function(data, form){
         if (data.valid) {
           $('#id_comments').append(data.html);

@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
+from ajax_validation.views import validate_form
 from ajax_validation.utils import render_json_response
 
+from forms import TlEventForm
 from models import TlEvent
 from helper import event_to_sdict
 
@@ -22,7 +24,7 @@ def json_(request):
     data['data'] = event_to_sdict(event)
     return render_json_response(data)
 
-def edit_(request, pk):
+def edit_(request):
     pk = request.GET.get('pk', '')
     event = TlEvent.objects.get(pk=pk)
     form, validate = validate_form(request, form_class=TlEventForm, instance=event)

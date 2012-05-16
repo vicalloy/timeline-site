@@ -15,7 +15,7 @@ from ajax_validation.utils import render_json_response
 #from ajax_validation.utils import render_string
 
 from models import Timeline
-from forms import TimelineForm, TlEventForm
+from forms import TimelineForm, TlEventForm, CommentForm
 from helper import event_to_dict, event_to_sdict
 
 def index(request):
@@ -56,7 +56,8 @@ def detail(request, pk, template_name="timeline/detail.html"):
     timeline.num_views += 1
     timeline.save()
     ctx['tl'] = timeline
-    ctx['form'] = TlEventForm()
+    ctx['comments'] = timeline.comment_set.order_by('created_on')
+    ctx['form'] = CommentForm()
     return render(request, template_name, ctx)
 
 def delete(request, pk):
@@ -142,3 +143,13 @@ def events(request, pk):
     ctx['events'] = tl.tlevent_set.order_by('startdate')
     ctx['form'] = TlEventForm()
     return render(request, 'timeline/events.html', ctx)
+
+def postcomment(request, pk):
+    timeline = get_object_or_404(Timeline, pk=pk)
+    form, validate = validate_form(request, form_class=CommentForm)
+    if validate['valid']:
+        c = form.save(comment=False)
+        c.timeline = timeline
+        c.created_by = request.user
+        c.save()
+    return render_json_response(validate)

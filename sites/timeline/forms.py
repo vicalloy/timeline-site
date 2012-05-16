@@ -7,7 +7,7 @@ from bootstrap.forms import BootstrapModelForm
 
 #from easy_thumbnails.widgets import ImageClearableFileInput
 
-from .models import Timeline, TlEvent
+from .models import Timeline, TlEvent, Comment
 
 class TimelineForm(BootstrapModelForm):
 
@@ -50,3 +50,7 @@ class TlEventForm(BootstrapModelForm):
         exclude = ['timeline', 'media_credit']
         #widgets = { 'cover': ImageClearableFileInput(), }
 
+class CommentForm(BootstrapModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content', ]

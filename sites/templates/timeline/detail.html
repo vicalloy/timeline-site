@@ -36,6 +36,11 @@
   .content hr {
     margin: 5px 0;
   }
+  .content > h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    clear: left;
+  }
   #timeline-embed{
     margin:0px !important;
     border:1px solid #CCC !important;
@@ -48,6 +53,32 @@
     box-shadow:0px 0px 0px rgba(0, 0, 0, 0.25) !important;
     width: 940px;
     height: 640px;
+  }
+  #id_content {
+    width: 690px;
+  }
+
+  .comments .gravatar {
+    float: left;
+  }
+  .comments .content {
+    float: right; 
+    width: 620px;
+    padding: 4px 10px 20px 0px;
+  }
+  .comments .content.line {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .comments .t-info, .comments .p-info {
+    font-size:small;
+    color: gray;
+    padding-bottom: 4px;
+  }
+  .comments .p-info span {
+    font-weight: bold;
+  }
+  .comments .t-info span {
+    padding-right: 20px;
   }
 </style>
 {% endblock %}
@@ -92,25 +123,51 @@
   <div>
     <div id='timeline-embed'></div>
   </div>
-  
 </div>
 {% endblock %}
 
 {% block content %}
-<div>
-  {{ tl.num_events }} 事件  |  {{ tl.num_views }} 浏览
-</div>
-<div class="content">
-  <hr/>
   <div>
-    {{ tl.intro|linebreaksbr }}
+    {{ tl.num_events }} 事件  |  {{ tl.num_views }} 浏览
   </div>
-  <hr/>
-  <h5>评论</h5>
-  <div>
-    some...
+  <div class="content">
+    <hr/>
+    <div>
+      {{ tl.intro|linebreaksbr }}
+    </div>
+    <hr/>
+    <h3>评论</h5>
+    <div class="comments">
+      {% for c in comments %}
+        <div style="clear: left">
+          <div class="gravatar thumbnail">
+            <img src="http://img3.douban.com/icon/u1009137-3.jpg"/>
+          </div>
+          <div class="content line">
+            <div class="p-info">
+              by <span>{{ c.created_by }}</span> |
+              on {{ c.created_on|date:"Y-m-d H:i"}}
+            </div>
+            <div>
+              {{ c.content|linebreaksbr }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    <h3>发表评论</h5>
+    <div>
+      <form action="" method="post" id="issue_act_from">
+        {% csrf_token %}
+        <p>
+          {{ form.content }}
+        </p>
+        <p style="clear:left;">
+          <input type="submit" name="post" class="btn btn-primary" id="id_btn_submit" value="提交">
+        </p>
+      </form>
+    </div>
   </div>
-</div>
 {% endblock %}
 
 {% block footer_ext %}

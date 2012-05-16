@@ -59,3 +59,10 @@ class TlEvent(models.Model):
 
     def __unicode__(self):
         return "%s-%s" % (self.timeline.title, self.title)
+
+class Comment(models.Model):
+    timeline = models.ForeignKey(Timeline)
+    content = models.TextField()
+
+    created_by = models.ForeignKey(User)
+    created_on = models.DateTimeField(u'创建日期', auto_now_add=True)

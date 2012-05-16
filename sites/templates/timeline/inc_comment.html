@@ -1,0 +1,14 @@
+<div style="clear: both; padding-top: 8px;" id="c{{ c.pk }}">
+  <div class="gravatar thumbnail">
+    <img src="http://img3.douban.com/icon/u1009137-3.jpg"/>
+  </div>
+  <div class="content line">
+    <div class="p-info">
+      by <span>{{ c.created_by }}</span> |
+      on {{ c.created_on|date:"Y-m-d H:i"}}
+    </div>
+    <div>
+      {{ c.content|linebreaksbr }}
+    </div>
+  </div>
+</div>

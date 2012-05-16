@@ -1,3 +1,6 @@
+.errorlist {
+  color: red;
+}
 textarea {
   width: 450px;
   height: 120px;

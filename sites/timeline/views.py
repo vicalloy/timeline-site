@@ -9,6 +9,7 @@ from django.utils.translation import ugettext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.template.loader import render_to_string
 
 from ajax_validation.views import validate_form
 from ajax_validation.utils import render_json_response
@@ -144,12 +145,13 @@ def events(request, pk):
     ctx['form'] = TlEventForm()
     return render(request, 'timeline/events.html', ctx)
 
-def postcomment(request, pk):
+def postcomment_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
     form, validate = validate_form(request, form_class=CommentForm)
     if validate['valid']:
-        c = form.save(comment=False)
+        c = form.save(commit=False)
         c.timeline = timeline
         c.created_by = request.user
         c.save()
+        validate['html'] = render_to_string('timeline/inc_comment.html', { 'c': c })
     return render_json_response(validate)

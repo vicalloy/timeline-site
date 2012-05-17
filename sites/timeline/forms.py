@@ -48,7 +48,6 @@ class TlEventForm(BootstrapModelForm):
             for e in TlEvent.objects.filter(cover=True).exclude(pk=tlevent.pk):
                 e.cover = False
                 e.save()
-        tlevent.timeline.update_updated_on()
         return tlevent
 
     class Meta:

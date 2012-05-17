@@ -33,5 +33,6 @@ def edit_(request):
     if validate['valid']:
         event = form.save(commit=False)
         event.save()
+        event.timeline.update_updated_on()
         validate['data'] = event_to_sdict(event)
     return render_json_response(validate)

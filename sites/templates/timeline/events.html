@@ -92,7 +92,8 @@
             {{form.as_div}}
             <div class="form-actions" class="form-horizontal">
               <p>
-                <button type="submit" class="btn">提交</button>
+                <button type="submit" class="btn" id="id_btn_save">保存</button>
+                <button type="submit" class="btn" id="id_btn_save_more">保存并继续添加</button>
                 <button type="button" id="btn_tlf_cancel" class="btn cancel">取消</button>
               </p>
             </div>
@@ -183,9 +184,15 @@
         d.media_caption = safeHtml(d.media_caption);
         tl_tb_body.append(tmpl("events_row_tmpl", d));
       }
-      function showForm() {
+      function showForm(act) {
+        $('#id_title')[0].focus();
         $('#tl_form_div').fadeIn('slow');
         $('#btn_add_event').fadeOut('slow');
+        if (act=='add') {
+          $('#id_btn_save_more').show();
+        } else {
+          $('#id_btn_save_more').hide();
+        }
       }
       function hideForm() {
         $('#tl_form_div').fadeOut('slow');
@@ -197,7 +204,11 @@
           onValidateSucc: function(data, form){
             if (data.valid) {
               addEvent2Row(data.data);
-              hideForm();
+              if (save_more) {
+                $('#tl_form')[0].reset();
+              } else {
+                hideForm();
+              }
             }
           }
       });
@@ -236,7 +247,6 @@
             if (data.valid) {
               formLoadData($('#tl_form'), data.data);
               showForm();
-              $('#id_title')[0].focus();
             } else {
               alert('数据加载失败');
             }
@@ -247,11 +257,17 @@
       $('#btn_add_event').click(function(){
         $('#tl_form').attr('action', "{% url timeline_addevent_ tl.pk %}");
         $('#tl_form')[0].reset();
-        $('#id_title')[0].focus();
-        showForm();
+        showForm('add');
       });
       $('#btn_tlf_cancel').click(function(){
         hideForm();
+      });
+      var save_more = false;//
+      $('#id_btn_save_more').click(function(){
+        save_more = true;
+      });
+      $('#id_btn_save').click(function(){
+        save_more = false;
       });
       function formLoadData(form, data, field_map, pre) {
         if (pre == undefined) pre = '';

@@ -134,6 +134,7 @@ def addevent_(request, pk):
         event.timeline = timeline
         event.save()
         timeline.update_num_events()
+        timeline.update_updated_on()
         validate['data'] = event_to_sdict(event)
     return render_json_response(validate)
 

@@ -14,7 +14,9 @@ def delete_(request):
     pk = request.GET.get('pk', '')
     event = get_object_or_404(TlEvent, pk=pk)
     event.delete()
-    event.timeline.update_num_events()
+    timeline = event.timeline
+    timeline.update_num_events()
+    timeline.update_updated_on()
     return render_json_response({'valid': True})
 
 def json_(request):

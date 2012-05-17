@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -34,13 +36,23 @@ class Timeline(models.Model):
 
     created_by = models.ForeignKey(User)
     created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(blank=True, null=True)
+    updated_on = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     def __unicode__(self):
         return self.title
 
+    def update_updated_on(self, commit=True):
+        self.updated_on = datetime.now()
+        if commit:
+            self.save()
+
     def update_num_events(self, commit=True):
         self.num_events = self.tlevent_set.count()
+        if commit:
+            self.save()
+
+    def update_num_replies(self, commit=True):
+        self.num_replies = self.comment_set.count()
         if commit:
             self.save()
 

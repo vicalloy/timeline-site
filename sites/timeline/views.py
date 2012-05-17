@@ -153,5 +153,6 @@ def postcomment_(request, pk):
         c.timeline = timeline
         c.created_by = request.user
         c.save()
+        timeline.update_num_replies()
         validate['html'] = render_to_string('timeline/inc_comment.html', { 'c': c })
     return render_json_response(validate)

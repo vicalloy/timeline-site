@@ -15,6 +15,11 @@ class TimelineForm(BootstrapModelForm):
         model = Timeline
         fields = ['title', 'cover', 'tags', 'intro']
         #widgets = { 'cover': ImageClearableFileInput(), }
+
+    def save(self, *args, **kwargs):
+        timeline = super(TimelineForm, self).save(*args, **kwargs)
+        timeline.update_updated_on()
+        return timeline
         
 def valid_date(s):
     if not s:
@@ -43,6 +48,7 @@ class TlEventForm(BootstrapModelForm):
             for e in TlEvent.objects.filter(cover=True).exclude(pk=tlevent.pk):
                 e.cover = False
                 e.save()
+        tlevent.timeline.update_updated_on()
         return tlevent
 
     class Meta:

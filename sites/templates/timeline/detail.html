@@ -22,10 +22,11 @@
   }
   #sb_tl_creater .user {
     float: left;
+    margin-top: 2px;
   }
   #sb_tl_creater .info ul {
     list-style: none;
-    margin: 0 0 0 44px;
+    margin: 0 0 0 54px;
   }
   #container_top .sw .label {
     font-size: inherit;
@@ -55,7 +56,7 @@
     height: 640px;
   }
   #id_content {
-    width: 690px;
+    width: 650px;
   }
 
   .comments .gravatar {
@@ -63,7 +64,7 @@
   }
   .comments .content {
     float: right; 
-    width: 620px;
+    width: 590px;
     padding: 4px 10px 20px 0px;
   }
   .comments .content.line {
@@ -80,25 +81,30 @@
   .comments .t-info span {
     padding-right: 20px;
   }
+  .avatar.thumbnail img {
+    width: 36px;
+    height: 36px;
+  }
 </style>
 {% endblock %}
 
 {% block sidebar %}
 <div class="sidebar">
   <div class="well" id="sb_tl_creater">
-    <div class="user">
-      <img style="width:36px;height:36px;" src="http://img3.douban.com/icon/u1009137-3.jpg"/>
+    <div class="user avatar thumbnail">
+      <img src="{{ tl.created_by.profile.get_mugshot_url }}"/>
     </div>
     <div class="info">
       <ul>
-        <li>创建于： 2012.1.31</li>
-        <li>最后更新： 2012.1.31</li>
+        </li><a href="###">{{ tl.created_by.profile }}</a></li>
+        <li>创建于： {{ tl.created_on|date:"Y-m-d H:i"}}</li>
+        <li>更新于： {{ tl.updated_on|date:"Y-m-d H:i"}}</li>
       </ul>
     </div>
   </div>
 
   <div class="well">
-    <h5>管理</h5>
+    <h4>管理</h4>
     <ul>
       <li><a href="{% url timeline_edit tl.pk %}">编辑基础信息</a></li>
       <li><a href="{% url timeline_events tl.pk %}">编辑事件</a></li>

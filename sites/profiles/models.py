@@ -41,3 +41,6 @@ class Profile(UserenaBaseProfile):
                 birthday = self.birth_date.replace(year=today.year, day=day)
             if birthday > today: return today.year - self.birth_date.year - 1
             else: return today.year - self.birth_date.year
+
+    def __unicode__(self):
+        return self.user.username

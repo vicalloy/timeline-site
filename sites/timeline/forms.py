@@ -17,8 +17,8 @@ class TimelineForm(BootstrapModelForm):
         #widgets = { 'cover': ImageClearableFileInput(), }
 
     def save(self, *args, **kwargs):
+        self.instance.update_updated_on(commit=False)
         timeline = super(TimelineForm, self).save(*args, **kwargs)
-        timeline.update_updated_on()
         return timeline
         
 def valid_date(s):

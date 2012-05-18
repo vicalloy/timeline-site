@@ -54,6 +54,8 @@ class TlEventForm(BootstrapModelForm):
         model = TlEvent
         exclude = ['timeline', 'media_credit']
         #widgets = { 'cover': ImageClearableFileInput(), }
+        custom_fields = {'media': 'timeline/field_media.html'}
+        
 
 class CommentForm(BootstrapModelForm):
     class Meta:

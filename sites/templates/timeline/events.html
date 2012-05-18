@@ -89,6 +89,7 @@
         <form action="{% url timeline_addevent_ tl.pk %}" id="tl_form" enctype="multipart/form-data" method="post" class="form-horizontal">
           <fieldset>
             {% csrf_token %}
+            <input type="hidden" id="id_pk_" />
             {{form.as_div}}
             <div class="form-actions" class="form-horizontal">
               <p>
@@ -112,7 +113,7 @@
 {% block footer_ext %}
   {{ block.super }}
   <script type="text/html" id="events_row_tmpl">
-    <tr class="tl" id="t_<%=pk%>">
+    <tr class="event" id="e_<%=pk%>">
       <td>
         <a href="###" class="del">
           <i class="icon-remove"></i>
@@ -142,6 +143,7 @@
   <script type='text/javascript'>
     $(function () {
       var tl_tb_body = $('#tl_list table.tllist tbody');
+      var save_more = false;//save and add other
       function getMediaType(d) {
         if (d.match("div class='twitter'")) {
           //return "twitter-ready";
@@ -176,19 +178,20 @@
       function safeHtml(s) {
         return $('<div/>').text(s).html().replace(/\n/g, "<br />");
       }
-      function addEvent2Row(d) {
+      function genRow(d) {
         d.mediaType = getMediaType(d.media);
         d.title = safeHtml(d.title);
         d.text = safeHtml(d.text);
         d.media = safeHtml(d.media);
         d.media_caption = safeHtml(d.media_caption);
-        tl_tb_body.append(tmpl("events_row_tmpl", d));
+        return tmpl("events_row_tmpl", d);
       }
-      function showForm(act) {
+      function showForm() {
         $('#id_title')[0].focus();
         $('#tl_form_div').fadeIn('slow');
         $('#btn_add_event').fadeOut('slow');
-        if (act=='add') {
+        ;
+        if ($('#id_pk_').val() == '') {
           $('#id_btn_save_more').show();
         } else {
           $('#id_btn_save_more').hide();
@@ -203,7 +206,17 @@
           removeErrorHints: bootstrapRemoveErrorHints,
           onValidateSucc: function(data, form){
             if (data.valid) {
-              addEvent2Row(data.data);
+              var pk = $('#id_pk_').val();
+              if (pk == '') {
+                tl_tb_body.append(genRow(data.data));
+                initActBtn();
+              } else {
+                var row = $('#e_' + pk);
+                row.fadeOut('slow', function(){
+                  row.html($(genRow(data.data)).html()).fadeIn('slow');
+                  initActBtn();
+                });
+              }
               if (save_more) {
                 $('#tl_form')[0].reset();
               } else {
@@ -222,8 +235,8 @@
       });*/
 
       function initActBtn() {
-        var del_btns = $(".tl .del", tl_tb_body);
-        var edit_btns = $(".tl .edit", tl_tb_body);
+        var del_btns = $(".event .del", tl_tb_body);
+        var edit_btns = $(".event .edit", tl_tb_body);
         del_btns.unbind('click')
         edit_btns.unbind('click')
         del_btns.click(function(){
@@ -241,6 +254,7 @@
         edit_btns.click(function(){
           var p = $(this).parent().parent();
           var pk = p[0].id.split('_')[1]
+          $('#id_pk_').val(pk);
           $('#tl_form').attr('action', "{% url event_edit_ %}?pk=" + pk);
           $('#tl_form_div').fadeOut('slow');
           $.getJSON("{% url event_json_ %}", {'pk': pk}, function(data) {
@@ -255,14 +269,14 @@
         });
       }
       $('#btn_add_event').click(function(){
+        $('#id_pk_').val('');
         $('#tl_form').attr('action', "{% url timeline_addevent_ tl.pk %}");
         $('#tl_form')[0].reset();
-        showForm('add');
+        showForm();
       });
       $('#btn_tlf_cancel').click(function(){
         hideForm();
       });
-      var save_more = false;//
       $('#id_btn_save_more').click(function(){
         save_more = true;
       });
@@ -290,7 +304,7 @@
       $('textarea').autosize();
       $.getJSON("{% url timeline_events_sjson_ tl.pk %}", {}, function(data) {
         $.each(data, function(i, d){
-          addEvent2Row(d);
+          tl_tb_body.append(genRow(d));
         });
         initActBtn();
       });

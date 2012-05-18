@@ -26,6 +26,7 @@ def event_to_sdict(e):
             'title': e.title,
             'text': e.text,
             'pk': e.pk,
+            'cover': e.cover,
             'media': e.media,
             'media_credit': '',#e.media_credit,
             'media_caption': e.media_caption,

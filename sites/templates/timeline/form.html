@@ -9,7 +9,18 @@
   {% endif %}
 {% endblock %}
 
+
 {% block container_top %}
+  <ul class="sbreadcrumb">
+    <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
+    {% if tl %}
+      <li><a href="{% url timeline_detail tl.pk %}">{{ tl.title }}</a> <span class="divider">/</span></li>
+      <li class="active">编辑</li>
+    {% else %}
+      <li class="active">创建时间线</li>
+    {% endif %}
+    
+  </ul>
   <h1>
     {% if tl %}
       编辑 {{tl}}
@@ -35,7 +46,12 @@
         {{ form.as_div }}
         <div class="form-actions" class="form-horizontal">
           <p>
-            <input type="submit" value="提交" class="btn primary">
+            <button type="submit" class="btn btn-primary">提交</button>
+            {% if tl %}
+              <a class="btn" href="{% url timeline_detail tl.pk %}">取消</a>
+            {% else %}
+              <a class="btn" href="{% url idx %}">取消</a>
+            {% endif %}
           </p>
         </div>
       </fieldset>

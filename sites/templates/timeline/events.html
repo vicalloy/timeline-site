@@ -216,7 +216,12 @@
               } else {
                 var row = $('#e_' + pk);
                 row.fadeOut('slow', function(){
-                  row.html($(genRow(data.data)).html()).fadeIn('slow');
+                  var nrow = $(genRow(data.data));
+                  if (nrow.hasClass('cover')) {
+                    $('tr', tl_tb_body).removeClass('cover');
+                  }
+                  row.html(nrow.html()).fadeIn('slow');
+                  row.attr('class', nrow.attr('class'));
                   initActBtn();
                 });
               }

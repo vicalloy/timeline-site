@@ -48,6 +48,9 @@
   #btn_add_event {
     float: right;
   }
+  .event.cover {
+    font-weight: bold;
+  }
 </style>
 {% endblock %}
 
@@ -113,7 +116,7 @@
 {% block footer_ext %}
   {{ block.super }}
   <script type="text/html" id="events_row_tmpl">
-    <tr class="event" id="e_<%=pk%>">
+    <tr class="event <% if (cover) { %>cover<% } %>" id="e_<%=pk%>">
       <td>
         <a href="###" class="del">
           <i class="icon-remove"></i>
@@ -297,7 +300,12 @@
             } else {
               fid = 'id_' + fid;
             }
-            $('#' + fid, form).val(v);
+            var f = $('#' + fid, form);
+            if (f.attr('type') == 'checkbox') {
+              f.attr('checked', v);
+            } else {
+              $('#' + fid, form).val(v);
+            }
           }
         });
       }

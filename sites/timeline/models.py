@@ -4,6 +4,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
+from attachments.models import Attachment
 from easy_thumbnails.fields import ThumbnailerImageField
 from taggit.managers import TaggableManager
 
@@ -23,6 +24,7 @@ class Timeline(models.Model):
     tags = TaggableManager(blank=True)
     intro = models.TextField(u'简介', max_length=30)
     focus_date = models.CharField(u'初始日期', max_length=30)
+    attachments = models.ManyToManyField(Attachment, blank = True)
 
     num_events = models.IntegerField(u'事件数', default=0)
     num_views = models.IntegerField(u'浏览次数', default=0)

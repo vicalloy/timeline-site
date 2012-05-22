@@ -44,6 +44,50 @@
     font-weight: bold;
   }
 </style>
+<style type="text/css">
+  #insert_tl_img.popover.bottom .arrow {
+    left: 80px;
+    border-bottom-color: #C6C6C6;
+  }
+  #insert_tl_img .popover-tab {
+    padding: 4px 6px 0 6px;
+    background-color:#F0F0F0;
+  }
+  #insert_tl_img .popover-inner {
+    background-color:#C6C6C6;
+    padding: 1px;
+    border-radius: 0;
+  }
+  #insert_tl_img .popover-content {
+    border-radius: 0;
+  }
+  #insert_tl_img .popover-tab p {
+    margin: 0px;
+  }
+  #insert_tl_img .popover-tab p a {
+    display: inline-block;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 -2px;
+    padding: 0 11px;
+    position: relative;
+    z-index: 1;
+  }
+  #insert_tl_img .popover-tab .current {
+    text-decoration: none;
+    cursor: default;
+    background: white;
+    border: 1px solid #E8E8E8;
+    border-bottom: 0;
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-right-radius: 3px 3px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-top-left-radius: 3px 3px;
+  }
+  #fileupload {
+    margin: 0;
+  }
+</style>
 {% endblock %}
 
 {% block sidebar %}
@@ -119,15 +163,24 @@
         <div> 
           <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
             <div class="fileupload-buttonbar">
-              <span class="btn fileinput-button">
-                <i class="icon-upload"></i>
-                <span>上传图片</span>
-                <input type="file" name="file">
-              </span>
-              <button type="reset" class="btn cancel">
-                <i class="icon-ban-circle"></i>
-                <span>取消上传</span>
-              </button>
+              <div>
+                <span class="btn fileinput-button">
+                  <i class="icon-upload"></i>
+                  <span>上传图片</span>
+                  <input type="file" name="file">
+                </span>
+                &nbsp;
+              </div>
+              <div>
+                <p style="padding-bottom: 10px">
+                  <img src="{{STATIC_URL}}img/loading.gif" />
+                  文件上传中
+                </p>
+                <button type="reset" class="btn cancel">
+                  <i class="icon-ban-circle"></i>
+                  <span>取消上传</span>
+                </button>
+              </div>
             </div>
           </form>
         </div>

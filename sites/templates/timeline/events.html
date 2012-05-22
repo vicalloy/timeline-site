@@ -89,7 +89,7 @@
             {{form.as_div}}
             <div class="form-actions" class="form-horizontal">
               <p>
-                <button type="submit" class="btn" id="id_btn_save">保存</button>
+                <button type="submit" class="btn btn-primary" id="id_btn_save">保存</button>
                 <button type="submit" class="btn" id="id_btn_save_more">保存并继续添加</button>
                 <button type="button" id="btn_tlf_cancel" class="btn cancel">取消</button>
               </p>
@@ -101,6 +101,36 @@
         .........................................................................
         .........................................................................
         .........................................................................
+      </div>
+    </div>
+  </div>
+
+  <div id="insert_tl_img" class="popover fade bottom in">
+    <div class="arrow"> </div>
+    <div class="popover-inner">
+      <div class="popover-tab" >
+        <a class="close" href="###" onclick="$('#insert_tl_img').hide()">×</a>
+        <p>
+          <a href="###" class="current">some</a>
+          <a href="###">more</a>
+        </p>
+      </div>
+      <div class="popover-content">
+        <div> 
+          <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
+            <div class="fileupload-buttonbar">
+              <span class="btn fileinput-button">
+                <i class="icon-upload"></i>
+                <span>上传图片</span>
+                <input type="file" name="file">
+              </span>
+              <button type="reset" class="btn cancel">
+                <i class="icon-ban-circle"></i>
+                <span>取消上传</span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -130,12 +160,21 @@
     </tr>
   </script>
   <link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>
+  <link rel="stylesheet" href="{{ STATIC_URL }}jQuery-File-Upload/css/jquery.fileupload-ui.css" type="text/css"/>
   <script src='{{STATIC_URL}}js/simple-tpl.js' type='text/javascript'></script>
   <script src='{{STATIC_URL}}bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
   <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery-bootstrap-form.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}ajax_validation/js/jquery.djangoajaxform.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}bootstrap-datepicker/bootstrap-datepicker.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autosize-min.js"></script>
+
+  <script src="{{ STATIC_URL }}jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+  <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
+  <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.fileupload.js"></script>
+  <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.fileupload-fp.js"></script>
+  <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.fileupload-ui.js"></script>
+  <script src="{{ STATIC_URL }}jQuery-File-Upload/js/locale.js"></script>
+
   <script type='text/javascript'>
     $(function () {
       var tl_tb_body = $('#tl_list table.tllist tbody');
@@ -316,4 +355,42 @@
       });
     });
   </script>
+  <script type="text/javascript">
+    $(function () {
+      var upload = $('#fileupload');
+      // Initialize the jQuery File Upload widget:
+      upload.fileupload();
+
+      // Demo settings:
+      upload.fileupload('option', {
+          url: "{% url attachments_ajax_upload %}",
+          autoUpload: true,
+          limitMultiFileUploads: 1,
+          maxFileSize: 500000,
+          acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+          process: [ {
+              action: 'load',
+              fileTypes: /^image\/(gif|jpeg|png)$/,
+              maxFileSize: 500000
+          },
+          {
+            action: 'save'
+          } ]
+      });
+      upload
+      .bind('fileuploadadded', function (e, data) {
+        $.each(data.files, function (index, file) {
+          if (file.error) {
+            alert(window.locale.fileupload.errors[file.error]);
+          }
+        });
+      })//show error
+      .bind('fileuploadstarted', function (e, data) {/* ... */})
+      .bind('fileuploadsent', function (e, data) {alert('send')})// show waiting...
+      .bind('fileuploadcompleted', function (e, data) {/* ... */})
+      .bind('fileuploadfailed', function (e, data) {/* ... */})
+      .bind('fileuploadstopped', function (e) {/* ... */})
+      .bind('fileuploaddestroyed', function (e) {/* ... */});
+    });
+    </script>
 {% endblock %}

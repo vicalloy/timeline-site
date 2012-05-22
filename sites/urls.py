@@ -10,10 +10,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-
     url(r'^$', 'timeline.views.index', name='idx'),
-
-    (r'^accounts/', include('profiles.urls')),
+    url(r'^accounts/', include('profiles.urls')),
+    url(r'^attachments/', include('attachments.urls')),
     url(r'^', include('timeline.urls')),
 )
 

@@ -15,6 +15,8 @@ from ajax_validation.views import validate_form
 from ajax_validation.utils import render_json_response
 #from ajax_validation.utils import render_string
 
+from attachments.views import ajax_upload, ajax_delete, ajax_change_descn 
+
 from models import Timeline
 from forms import TimelineForm, TlEventForm, CommentForm
 from helper import event_to_dict, event_to_sdict
@@ -159,3 +161,18 @@ def postcomment_(request, pk):
         timeline.update_num_replies()
         validate['html'] = render_to_string('timeline/inc_comment.html', { 'c': c })
     return render_json_response(validate)
+
+@csrf_exempt
+def attach_upload_(request, pk):
+    #TODO auth
+    return ajax_upload(request)
+
+@csrf_exempt
+def attach_delete_(request, pk):
+    #TODO auth
+    return ajax_delete(request)
+
+@csrf_exempt
+def attach_change_descn_(request, pk):
+    #TODO auth
+    return ajax_change_descn(request)

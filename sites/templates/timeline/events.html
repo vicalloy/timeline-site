@@ -43,8 +43,13 @@
   .event.cover {
     font-weight: bold;
   }
+  #fileupload .uimg img {
+  }
 </style>
 <style type="text/css">
+  #insert_tl_img {
+    /*width: 280px;*/
+  }
   #insert_tl_img.popover.bottom .arrow {
     left: 80px;
     border-bottom-color: #C6C6C6;
@@ -158,8 +163,8 @@
       <div class="popover-tab" >
         <a class="close" href="###" onclick="$('#insert_tl_img').hide()">×</a>
         <p>
-          <a href="###" class="current">some</a>
-          <a href="###">more</a>
+          <a href="###" class="current">本地上传</a>
+          <a href="###">已上传图片</a>
         </p>
       </div>
       <div class="popover-content">
@@ -186,7 +191,7 @@
               </div>
               <div class="uimg" style="display: none">
                 <p> </p>
-                <button type="reset" class="btn">
+                <button type="reset" class="btn delete">
                   <i class="icon-remove"></i>
                   <span>删除图片</span>
                 </button>
@@ -243,25 +248,39 @@
     var url_event_json_ = "{% url event_json_ %}";
     var url_timeline_addevent_ = "{% url timeline_addevent_ tl.pk %}";
     var url_timeline_events_sjson_ = "{% url timeline_events_sjson_ tl.pk %}";
+    var url_media = '';
   </script>
   <script src="{{ STATIC_URL }}js/events.js"></script>
   <script type="text/javascript">
     $(function () {
       var upload = $('#fileupload');
-      // Initialize the jQuery File Upload widget:
-      upload.fileupload();
+      function showUploadDiv(d) {
+        $('.upload, .uploadding, .uimg', upload).hide();
+        $(d, upload).show();
+      }
+      $('.uimg .delete', upload).click(function(){
+        var apk = $('.uimg', upload).attr('apk');
+        $.post('{% url timeline_attach_delete_ tl.pk %}', {'id': apk}, function(d) {
+          if (d.valid) {
+            showUploadDiv('.upload');
+            $('#id_media').val('');
+          } else {
+            alert('删除失败');
+          }
+        }, 'json');
+      });
 
-      // Demo settings:
+      upload.fileupload();
       upload.fileupload('option', {
-          url: "{% url attachments_ajax_upload %}",
+          url: "{% url timeline_attach_upload_ tl.pk %}",
           autoUpload: true,
           limitMultiFileUploads: 1,
-          maxFileSize: 500000,
+          maxFileSize: 5000000,
           acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
           process: [ {
               action: 'load',
               fileTypes: /^image\/(gif|jpeg|png)$/,
-              maxFileSize: 500000
+              maxFileSize: 5000000
           },
           {
             action: 'save'
@@ -278,22 +297,18 @@
       })
       .bind('fileuploadsubmit', function (e, data) {/* ... */})
       .bind('fileuploadsend', function (e, data) {
-        $('.upload', upload).hide();
-        $('.uploadding', upload).show();
-        $('.uimg', upload).hide();
+        showUploadDiv('.uploadding');
       })
       .bind('fileuploaddone', function (e, data) {
         var d = data.result;
         if (d.valid) {
-          $('.uimg > p', upload).html('<img src="' + d.attachment.url + '"/>');
-          $('.uimg', upload).attr('aid', d.id);
-          $('.upload', upload).hide();
-          $('.uploadding', upload).hide();
-          $('.uimg', upload).show();
+          var a = d.attachment;
+          $('.uimg > p', upload).html('<img src="' + a.url + '"/>');
+          $('.uimg', upload).attr('apk', a.id);
+          $('#id_media').val(url_media + a.url);
+          showUploadDiv('.uimg');
         } else {
-          $('.upload', upload).show();
-          $('.uploadding', upload).hide();
-          $('.uimg', upload).hide();
+          showUploadDiv('.upload');
           alert('图片上传失败');
         }
       })

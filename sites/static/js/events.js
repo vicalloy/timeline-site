@@ -44,10 +44,11 @@ $(function () {
     return tmpl("events_row_tmpl", d);
   }
   function showForm() {
+    $("#insert_tl_img").hide();
+    $("#show_tl_img").hide();
     $('#id_title')[0].focus();
     $('#tl_form_div').fadeIn('slow');
     $('#btn_add_event').fadeOut('slow');
-    ;
     if ($('#id_pk_').val() == '') {
       $('#id_btn_save_more').show();
     } else {
@@ -175,4 +176,29 @@ $(function () {
     });
     initActBtn();
   });
+  
+  function showSimplePop(btn, pop) {
+    pop.css("display", "block");
+    pos = $(btn).offset();
+    pos["width"] = btn.offsetWidth;
+    pos["height"] = btn.offsetHeight;
+    actualWidth = pop[0].offsetWidth
+    pop.css("top", pos.top + pos.height);
+    pop.css("left", pos.left + pos.width / 2 - 80);
+  }
+  $("#btn_insert_tl_img").click(function(){
+    showSimplePop(this, $("#insert_tl_img"));
+    $("#show_tl_img").hide();
+  });
+  $("#btn_show_tl_media").click(function(){
+    showSimplePop(this, $("#show_tl_img"));
+    $("#insert_tl_img").hide();
+    var media = $('#id_media').val();
+    if (getMediaType(media) == 'picture') {
+      $('#show_tl_img .popover-content').html('<p><img src="' + media + '"/></p>')
+    } else {
+      $('#show_tl_img .popover-content').html('<p>不支持该类型媒体文件的预览</p>')
+    }
+  });
+
 });

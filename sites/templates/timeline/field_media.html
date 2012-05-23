@@ -3,21 +3,11 @@
     <div class="controls">
         {{ bf }}
         <p class="help-block">
-          <a id="btn_insert_tl_img" href="###" onclick='
-              var d = $("#insert_tl_img");
-              d.css("display", "block");
-              pos = $(this).offset();
-              pos["width"] = this.offsetWidth;
-              pos["height"] = this.offsetHeight;
-              actualWidth = d[0].offsetWidth
-              d.css("top", pos.top + pos.height);
-              //d.css("left", pos.left + pos.width / 2 - actualWidth / 2);
-              d.css("left", pos.left + pos.width / 2 - 80);
-              '> 
+          <a id="btn_insert_tl_img" href="###"> 
             <i class="icon-picture"></i>插入站内图片 
           </a>
           |
-          <a href="###"> 显示媒体文件 </a>
+          <a id="btn_show_tl_media" href="###"> 显示媒体文件 </a>
         </p>
         {% if errors %}
         <span class="help-inline">{{ errors }}</span>

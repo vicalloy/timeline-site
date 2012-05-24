@@ -45,6 +45,12 @@
   }
   #fileupload .uimg img {
   }
+  table.tllist .tldate {
+    white-space:nowrap;
+  }
+  table.tllist img {
+    max-width: 244px;
+  }
 </style>
 <style type="text/css">
   .simple.popover .popover-inner {
@@ -124,9 +130,10 @@
           <thead>
             <tr>
               <th style="width: 40px"></th>
-              <th style="width: 160px">日期</th>
-              <th style="width: 260px">标题</th>
-              <th>说明</th>
+              <th style="width: 80px">日期</th>
+              <th style="width: 200px">标题</th>
+              <th style="">说明</th>
+              <th style="width: 260px;">媒体</th>
             </tr>
           </thead>
           <tbody>
@@ -237,7 +244,7 @@
           <i class="icon-pencil"></i>
         </a>
       </td>
-      <td>
+      <td class="tldate">
         <%=startdate%> 
         <% if (enddate != '') { %> ~ <%=startdate%> <% } %>
       </td>
@@ -246,6 +253,7 @@
         <i class="icon-<%=mediaType%>"></i>
       </td>
       <td><%=text%></td>
+      <td><%=media%></td>
     </tr>
   </script>
   <link rel="stylesheet" href="{{STATIC_URL}}bootstrap-datepicker/datepicker.css" type="text/css"/>

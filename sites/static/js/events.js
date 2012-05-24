@@ -40,6 +40,9 @@ $(function () {
     d.title = safeHtml(d.title);
     d.text = safeHtml(d.text);
     d.media = safeHtml(d.media);
+    if (d.mediaType == 'picture') {
+      d.media = '<img src="' + d.media + '"/>';
+    } 
     d.media_caption = safeHtml(d.media_caption);
     return tmpl("events_row_tmpl", d);
   }

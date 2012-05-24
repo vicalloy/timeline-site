@@ -15,7 +15,8 @@ from ajax_validation.views import validate_form
 from ajax_validation.utils import render_json_response
 #from ajax_validation.utils import render_string
 
-from attachments.views import ajax_upload, ajax_delete, ajax_change_descn 
+from attachments.views import _do_ajax_upload, ajax_delete, ajax_change_descn 
+from attachments.models import Attachment
 
 from models import Timeline
 from forms import TimelineForm, TlEventForm, CommentForm
@@ -164,8 +165,12 @@ def postcomment_(request, pk):
 
 @csrf_exempt
 def attach_upload_(request, pk):
-    #TODO auth
-    return ajax_upload(request)
+    timeline = get_object_or_404(Timeline, pk=pk)
+    data = _do_ajax_upload(request)
+    if data['valid']:
+        attach = Attachment.objects.get(pk=data['attachment']['id'])
+        timeline.attachments.add(attach)
+    return render_json_response(data) 
 
 @csrf_exempt
 def attach_delete_(request, pk):

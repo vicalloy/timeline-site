@@ -47,8 +47,13 @@
   }
 </style>
 <style type="text/css">
-  #insert_tl_img {
-    /*width: 280px;*/
+  .simple.popover .popover-inner {
+    min-width: 280px;
+    max-width: 550px;
+    width: auto;
+  }
+  .simple.popover .popover-inner img {
+    max-width: 280px;
   }
   .simple.popover.bottom .arrow {
     left: 80px;
@@ -176,13 +181,13 @@
     <div class="popover-inner">
       <div class="popover-tab" >
         <a class="close" href="###" onclick="$('#insert_tl_img').hide()">×</a>
-        <p>
-          <a href="###" class="current">本地上传</a>
-          <a href="###">已上传图片</a>
+        <p id="insert_tl_img_tab">
+          <a href="#id_upload_img" class="current">本地上传</a>
+          <a href="#id_tl_imgs">已上传图片</a>
         </p>
       </div>
       <div class="popover-content">
-        <div> 
+        <div id="id_upload_img"> 
           <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
             <div class="fileupload-buttonbar">
               <div class="upload">
@@ -212,6 +217,8 @@
               </div>
             </div>
           </form>
+        </div>
+        <div id="id_tl_imgs" style="width: 550px;display: none">
         </div>
       </div>
     </div>
@@ -267,6 +274,13 @@
   <script src="{{ STATIC_URL }}js/events.js"></script>
   <script type="text/javascript">
     $(function () {
+      $('#insert_tl_img_tab > a').click(function(){
+        $('a', $(this).parent()).removeClass('current');
+        $(this).addClass('current');
+        $('#insert_tl_img .popover-content > div').hide();
+        $($(this).attr('href')).show();
+        return false;
+      });
       var upload = $('#fileupload');
       function showUploadDiv(d) {
         $('.upload, .uploadding, .uimg', upload).hide();
@@ -289,12 +303,12 @@
           url: "{% url timeline_attach_upload_ tl.pk %}",
           autoUpload: true,
           limitMultiFileUploads: 1,
-          maxFileSize: 5000000,
+          maxFileSize: 500000,
           acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
           process: [ {
               action: 'load',
               fileTypes: /^image\/(gif|jpeg|png)$/,
-              maxFileSize: 5000000
+              maxFileSize: 500000
           },
           {
             action: 'save'
@@ -326,7 +340,10 @@
           alert('图片上传失败');
         }
       })
-      .bind('fileuploadfail', function (e, data) {})
+      .bind('fileuploadfail', function (e, data) {
+        showUploadDiv('.upload');
+        alert('图片上传失败');
+      })
       .bind('fileuploadalways', function (e, data) {/* ... */})
       .bind('fileuploadprogress', function (e, data) {/* ... */})
       .bind('fileuploadprogressall', function (e, data) {/* ... */})

@@ -57,6 +57,7 @@ $(function () {
     } else {
       $('#id_btn_save_more').hide();
     }
+    scrollTo(0, $("#tl_form_div").offset().top);
   }
   function hideForm() {
     $('#tl_form_div').fadeOut('slow');

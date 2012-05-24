@@ -192,6 +192,7 @@ $(function () {
   $("#btn_insert_tl_img").click(function(){
     showSimplePop(this, $("#insert_tl_img"));
     $("#show_tl_img").hide();
+    $('#insert_tl_img_tab a').first()[0].click();
   });
   $("#btn_show_tl_media").click(function(){
     showSimplePop(this, $("#show_tl_img"));

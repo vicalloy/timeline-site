@@ -51,11 +51,22 @@
   table.tllist img {
     max-width: 244px;
   }
+  #id_tl_imgs .thumbnails {
+    margin-left: 0;
+    margin-right: 18px;
+  }
+  #id_tl_imgs .thumbnails > li {
+    margin-left: 18px;
+  }
+  #id_tl_imgs ul li img {
+    width: 80px;
+    height: 80px;
+  }
 </style>
 <style type="text/css">
   .simple.popover .popover-inner {
     min-width: 280px;
-    max-width: 550px;
+    max-width: 650px;
     width: auto;
   }
   .simple.popover .popover-inner img {
@@ -225,7 +236,13 @@
             </div>
           </form>
         </div>
-        <div id="id_tl_imgs" style="width: 550px;display: none">
+        <div id="id_tl_imgs" style="max-width: 560px; display: none">
+          <ul class="thumbnails">
+            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
+            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
+            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
+            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -282,6 +299,10 @@
   <script src="{{ STATIC_URL }}js/events.js"></script>
   <script type="text/javascript">
     $(function () {
+      $('#id_tl_imgs .thumbnails img').click(function(){
+        $('#id_media').val($(this).attr('src'));
+        $('#insert_tl_img').hide();
+      });
       $('#insert_tl_img_tab > a').click(function(){
         $('a', $(this).parent()).removeClass('current');
         $(this).addClass('current');

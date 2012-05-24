@@ -371,7 +371,6 @@
           }
         });
       })
-      .bind('fileuploadsubmit', function (e, data) {/* ... */})
       .bind('fileuploadsend', function (e, data) {
         showUploadDiv('.uploadding');
       })
@@ -391,16 +390,7 @@
       .bind('fileuploadfail', function (e, data) {
         showUploadDiv('.upload');
         alert('图片上传失败');
-      })
-      .bind('fileuploadalways', function (e, data) {/* ... */})
-      .bind('fileuploadprogress', function (e, data) {/* ... */})
-      .bind('fileuploadprogressall', function (e, data) {/* ... */})
-      .bind('fileuploadstart', function (e) {/* ... */})
-      .bind('fileuploadstop', function (e) {})
-      .bind('fileuploadchange', function (e, data) {/* ... */})
-      .bind('fileuploadpaste', function (e, data) {/* ... */})
-      .bind('fileuploaddrop', function (e, data) {/* ... */})
-      .bind('fileuploaddragover', function (e) {/* ... */});
+      });
     });
     //done stop stopped
     //fail stop stopped

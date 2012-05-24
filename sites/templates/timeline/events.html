@@ -58,9 +58,13 @@
   #id_tl_imgs .thumbnails > li {
     margin-left: 18px;
   }
+  #id_tl_imgs ul li {
+    width: 88px;
+    height: 88px;
+  }
   #id_tl_imgs ul li img {
-    width: 80px;
-    height: 80px;
+    max-width: 80px;
+    max-height: 80px;
   }
 </style>
 <style type="text/css">
@@ -201,7 +205,7 @@
         <a class="close" href="###" onclick="$('#insert_tl_img').hide()">×</a>
         <p id="insert_tl_img_tab">
           <a href="#id_upload_img" class="current">本地上传</a>
-          <a href="#id_tl_imgs">已上传图片</a>
+          <a href="#id_tl_imgs" id="tab_upload_img">已上传图片</a>
         </p>
       </div>
       <div class="popover-content">
@@ -238,12 +242,8 @@
         </div>
         <div id="id_tl_imgs" style="max-width: 560px; display: none">
           <ul class="thumbnails">
-            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
-            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
-            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
-            <li> <a href="###" class="thumbnail"> <img src="http://placehold.it/260x180" alt=""/> </a> </li>
           </ul>
-          <button type="reset" class="btn" style="margin-left: 18px;">
+          <button type="reset" class="btn refresh" style="margin-left: 18px;">
             <i class="icon-refresh"></i>
             <span>刷新</span>
           </button>
@@ -303,10 +303,25 @@
   <script src="{{ STATIC_URL }}js/events.js"></script>
   <script type="text/javascript">
     $(function () {
-      $('#id_tl_imgs .thumbnails img').click(function(){
-        $('#id_media').val($(this).attr('src'));
-        $('#insert_tl_img').hide();
-      });
+      function loadTlImg(refresh) {
+        if (!refresh && $('#id_tl_imgs').attr('loaded') == '1') {
+          return;
+        }
+        $('#id_tl_imgs ul.thumbnails').html('<p> <img src="{{STATIC_URL}}img/loading.gif" /> 数据加载中，请稍后...  </p>');
+        $.get('{% url timeline_attachs_ tl.pk %}', function(data){
+          $('#id_tl_imgs ul.thumbnails').html('');
+          $.each(data, function (idx, attach) {
+            $('#id_tl_imgs ul.thumbnails').append('<li> <a href="###" class="thumbnail"> <img src="' + attach.url + '" alt=""/> </a> </li>');
+          });
+          $('#id_tl_imgs').attr('loaded', '1');
+          $('#id_tl_imgs .thumbnails img').click(function(){
+            $('#id_media').val($(this).attr('src'));
+            $('#insert_tl_img').hide();
+          });
+        }, 'json');
+      }
+      $('#tab_upload_img').click(function(){loadTlImg(false)});
+      $('#id_tl_imgs button.refresh').click(function(){loadTlImg(true)});
       $('#insert_tl_img_tab > a').click(function(){
         $('a', $(this).parent()).removeClass('current');
         $(this).addClass('current');

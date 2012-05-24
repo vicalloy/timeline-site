@@ -181,3 +181,12 @@ def attach_delete_(request, pk):
 def attach_change_descn_(request, pk):
     #TODO auth
     return ajax_change_descn(request)
+
+def attachs_(request, pk):
+    timeline = get_object_or_404(Timeline, pk=pk)
+    attachs = timeline.attachments.order_by('-date_uploaded')
+    data = []
+    for a in attachs:
+        data.append({'id': a.id, 'fn': a.org_filename, 
+            'url': a.file.url, 'descn': a.description})
+    return render_json_response(data) 

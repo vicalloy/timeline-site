@@ -20,7 +20,7 @@
   <ul class="sbreadcrumb">
     <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
     <li><a href="{% url timeline_detail tl.pk %}">{{ tl.title }}</a> <span class="divider">/</span></li>
-    <li><a href="{% url timeline_detail tl.pk %}">图片管理</a> <span class="divider">/</span></li>
+    <li><a href="{% url timeline_attachs tl.pk %}">图片管理</a> <span class="divider">/</span></li>
     <li class="active">上传图片</li>
   </ul>
 </div>

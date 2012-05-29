@@ -174,10 +174,17 @@ def attach_upload(request, pk):
 def attach_upload_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
     data = _do_ajax_upload(request)
+    ret = {}
     if data['valid']:
         attach = Attachment.objects.get(pk=data['attachment']['id'])
         timeline.attachments.add(attach)
-    return render_json_response(data) 
+        ret['name'] = attach.org_filename
+        ret['size'] = attach.file.size
+        ret['url'] = attach.file.url
+        ret['delete_url'] = "%s?id=%s" % (reverse('timeline_attach_delete_', args=[timeline.pk]), attach.pk)
+    else:
+        ret['error'] = u'上传失败'
+    return render_json_response([ret, ]) 
 
 @csrf_exempt
 def attach_delete_(request, pk):

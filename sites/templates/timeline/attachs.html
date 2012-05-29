@@ -37,9 +37,15 @@
         <div class="thumbnail">
           <img src="{{ a.file.url }}"/>
           <div class="caption">
-            <p>
+            <div class="delete" aid="{{ a.id }}">
               <a href="#" class="delete">删除</a>
-            </p>
+              <span style="display:none;color:gray">
+                你确定要删除？
+                <a href="#" class="confirm">确定</a>
+                |
+                <a href="#" class="cancel">取消</a>
+              </span>
+            </div>
           </div>
         </div>
       </li>
@@ -49,4 +55,26 @@
 
 {% block footer_ext %}
   {{ block.super }}
+  <script type="text/javascript">
+    $('.thumbnail .delete > a').click(function(){
+      $(this).next().show();
+      $(this).hide();
+    });
+    $('.thumbnail .delete .confirm').click(function(){
+      var p = $(this).parent().parent();
+      var id = p.attr('aid');
+      $.post("{% url timeline_attach_delete_ tl.pk %}", {'id': id}, function(data){
+        if (data.valid) {
+          p.parent().parent().parent().fadeOut('slow');
+        } else {
+          alert('删除失败');
+        }
+      }, 'json');
+    });
+    $('.thumbnail .delete .cancel').click(function(){
+      var p = $(this).parent();
+      p.hide();
+      p.prev().show();
+    });
+  </script>
 {% endblock %}

@@ -8,21 +8,17 @@
       position: static;
       margin-bottom: 20px;
     }
-    .container-fluid {
-      margin-left: auto;
-      margin-right: auto;
-      width: 940px;
-      padding-left: 10px;
-      padding-right: 10px;
+    .container {
+      max-width: 960px;
     }
-    .container-fluid > .sidebar {
+    .container > .sidebar {
       float: right;
       left: 20px;
       position: static;
       top: 0;
       width: 260px;
     }
-    .container-fluid > .content {
+    .container > .content {
       float: left;
       width: 660px;
     }
@@ -57,7 +53,7 @@
   {% block topbar %}
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
-        <div class="container-fluid">
+        <div class="container">
           <a class="brand" href="/">似水流年</a>
           <form action="" class="navbar-search pull-left">
             <input type="text" placeholder="Search">
@@ -84,7 +80,7 @@
   {% endblock %}
 
   {% block container %}
-    <div class="container-fluid">
+    <div class="container">
       {% block container_top %}
       {% endblock %}
 
@@ -112,7 +108,7 @@
 
   {% block footer %}
     <footer>
-      <div class="container-fluid">
+      <div class="container">
         <p>&copy; Company 2012</p>
       </div>
     </footer>

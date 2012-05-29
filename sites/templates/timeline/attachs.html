@@ -1,0 +1,52 @@
+{% extends "timeline/base.html" %}
+
+{% block title %}
+  {% if tl %}
+    编辑事件 {{tl}}
+  {% endif %}
+{% endblock %}
+
+{% block extra_header %}
+{{block.super}}
+<style type="text/css">
+</style>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block container_top %}
+<div id="container_top">
+  <div class="sw">
+    <a href="{% url timeline_edit tl.pk %}">编辑时间点</a>
+    <span>|</span>
+    <a href="{% url timeline_full_screen tl.pk %}">上传图片</a>
+  </div>
+  <ul class="sbreadcrumb">
+    <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
+    <li><a href="{% url timeline_detail tl.pk %}">{{ tl.title }}</a> <span class="divider">/</span></li>
+    <li class="active">图片管理</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+  <ul id="attach_list" class="thumbnails">
+    {% for a in attachs %}
+      <li class="span3">
+        <div class="thumbnail">
+          <img src="{{ a.file.url }}"/>
+          <div class="caption">
+            <p>
+              <a href="#" class="delete">删除</a>
+            </p>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block footer_ext %}
+  {{ block.super }}
+{% endblock %}

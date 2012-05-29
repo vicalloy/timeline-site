@@ -163,6 +163,13 @@ def postcomment_(request, pk):
         validate['html'] = render_to_string('timeline/inc_comment.html', { 'c': c })
     return render_json_response(validate)
 
+def attach_upload(request, pk):
+    template_name = "timeline/attach_upload.html"
+    ctx = {}
+    timeline = get_object_or_404(Timeline, pk=pk)
+    ctx['tl'] = timeline
+    return render(request, template_name, ctx)
+
 @csrf_exempt
 def attach_upload_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
@@ -190,3 +197,12 @@ def attachs_(request, pk):
         data.append({'id': a.id, 'fn': a.org_filename, 
             'url': a.file.url, 'descn': a.description})
     return render_json_response(data) 
+
+def attachs(request, pk):
+    template_name = "timeline/attachs.html"
+    ctx = {}
+    timeline = get_object_or_404(Timeline, pk=pk)
+    ctx['tl'] = timeline
+    attachs = timeline.attachments.order_by('-date_uploaded')
+    ctx['attachs'] = attachs
+    return render(request, template_name, ctx)

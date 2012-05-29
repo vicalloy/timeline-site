@@ -154,7 +154,6 @@
           <tbody>
           </tbody>
         </table>
-        <!-- loadding -->
         <a href="###" class="btn" id="btn_add_event">添加</a>
       </div>
     </div>
@@ -352,15 +351,7 @@
           autoUpload: true,
           limitMultiFileUploads: 1,
           maxFileSize: 500000,
-          acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-          process: [ {
-              action: 'load',
-              fileTypes: /^image\/(gif|jpeg|png)$/,
-              maxFileSize: 500000
-          },
-          {
-            action: 'save'
-          } ]
+          acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
       });
 
       upload

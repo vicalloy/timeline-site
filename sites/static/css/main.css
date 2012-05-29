@@ -45,3 +45,9 @@ footer {
     color: #005580;
     text-decoration: underline;
 }
+#container_top .sw {
+  float: right;
+}
+#container_top .sw span {
+  color: #BFBFBF;
+}

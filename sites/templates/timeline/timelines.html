@@ -24,7 +24,12 @@
 {% endblock %}
 
 {% block container_top %}
-<h1>热门排行</h1>
+<h1>
+  {% if pg == "hot" %} 热门 {% endif %}
+  {% if pg == "last" %} 最新 {% endif %}
+  {% if pg == "recommend" %} 推荐 {% endif %}
+  {% if pg == "random" %} 发现 {% endif %}
+</h1>
 {% endblock %}
 
 {% block content %}

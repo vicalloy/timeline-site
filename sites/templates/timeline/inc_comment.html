@@ -1,10 +1,14 @@
 <div style="clear: both; padding-top: 8px;" id="c{{ c.pk }}">
   <div class="gravatar thumbnail avatar">
-    <img src="{{ c.created_by.profile.get_mugshot_url }}"/>
+    <a href="{% url userena_profile_detail c.created_by.username %}"> 
+      <img src="{{ c.created_by.profile.get_mugshot_url }}"/>
+    </a>
   </div>
   <div class="content line">
     <div class="p-info">
-      by <span>{{ c.created_by }}</span> |
+      by <span>
+        <a href="{% url userena_profile_detail c.created_by.username %}"> {{ c.created_by }} </a>
+      </span> |
       on {{ c.created_on|date:"Y-m-d H:i"}}
     </div>
     <div>

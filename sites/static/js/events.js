@@ -51,7 +51,7 @@ $(function () {
     $("#show_tl_img").hide();
     $('#id_title')[0].focus();
     $('#tl_form_div').fadeIn('slow');
-    $('#btn_add_event').fadeOut('slow');
+    $('.btn_add_event').fadeOut('slow');
     if ($('#id_pk_').val() == '') {
       $('#id_btn_save_more').show();
     } else {
@@ -61,7 +61,7 @@ $(function () {
   }
   function hideForm() {
     $('#tl_form_div').fadeOut('slow');
-    $('#btn_add_event').fadeIn('slow');
+    $('.btn_add_event').fadeIn('slow');
   }
   $('#tl_form').djangoajaxform({
       callback: bootstrapCallback,
@@ -135,7 +135,7 @@ $(function () {
 
     });
   }
-  $('#btn_add_event').click(function(){
+  $('.btn_add_event').click(function(){
     $('#id_pk_').val('');
     $('#tl_form').attr('action', url_timeline_addevent_);
     $('#tl_form')[0].reset();

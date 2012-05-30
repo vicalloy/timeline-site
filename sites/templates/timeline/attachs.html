@@ -18,7 +18,9 @@
 {% block container_top %}
 <div id="container_top">
   <div class="sw">
-    <a href="{% url timeline_events tl.pk %}">编辑时间点</a>
+    <a href="{% url timeline_edit tl.pk %}">编辑基础信息</a>
+    <span>|</span>
+    <a href="{% url timeline_events tl.pk %}">编辑事件</a>
     <span>|</span>
     <a href="{% url timeline_attach_upload tl.pk %}">上传图片</a>
   </div>

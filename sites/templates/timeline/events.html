@@ -21,7 +21,7 @@
   #tl_form_div {
     display: none;
   }
-  #btn_add_event {
+  #tl_list .btn_add_event {
     float: right;
   }
   .event.cover {
@@ -64,6 +64,13 @@
 
 {% block container_top %}
 <div id="container_top">
+  <div class="sw">
+    <a href="{% url timeline_edit tl.pk %}">编辑基础信息</a>
+    <span>|</span>
+    <a href="{% url timeline_attachs tl.pk %}">图片管理</a>
+    <span>|</span>
+    <a href="###" class="btn_add_event">添加事件</a>
+  </div>
   <ul class="sbreadcrumb">
     <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
     <li><a href="{% url timeline_detail tl.pk %}">{{ tl.title }}</a> <span class="divider">/</span></li>
@@ -89,7 +96,7 @@
           <tbody>
           </tbody>
         </table>
-        <a href="###" class="btn" id="btn_add_event">添加</a>
+        <a href="###" class="btn btn-primary btn_add_event">添加</a>
       </div>
     </div>
 

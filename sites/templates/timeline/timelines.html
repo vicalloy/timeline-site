@@ -1,5 +1,14 @@
 {% extends "timeline/base.html" %}
 
+{% block title %} 
+  {% if pg == "hot" %} 热门 {% endif %}
+  {% if pg == "last" %} 最新 {% endif %}
+  {% if pg == "recommend" %} 推荐 {% endif %}
+  {% if pg == "random" %} 发现 {% endif %}
+  -
+  似水流年，岁月留痕 - 用时间线来展现历史 
+{% endblock %}
+
 {% block sidebar %}
 <div class="sidebar">
   <div class="well">

@@ -11,15 +11,22 @@
 
 
 {% block container_top %}
+<div id="container_top">
+  <div class="sw">
+    {% if tl %}
+      <a href="{% url timeline_events tl.pk %}">编辑事件</a>
+      <span>|</span>
+      <a href="{% url timeline_attachs tl.pk %}">图片管理</a>
+    {% endif %}
+  </div>
   <ul class="sbreadcrumb">
     <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
     {% if tl %}
       <li><a href="{% url timeline_detail tl.pk %}">{{ tl.title }}</a> <span class="divider">/</span></li>
-      <li class="active">编辑</li>
+      <li class="active">编辑 {{tl}}</li>
     {% else %}
       <li class="active">创建时间线</li>
     {% endif %}
-    
   </ul>
   <h1>
     {% if tl %}
@@ -28,6 +35,7 @@
       创建时间线
     {% endif %}
   </h1>
+</div>
 {% endblock %}
 
 {% block sidebar %}

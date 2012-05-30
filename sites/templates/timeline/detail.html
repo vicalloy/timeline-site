@@ -29,28 +29,6 @@
   #id_content {
     width: 650px;
   }
-  .comments .gravatar {
-    float: left;
-  }
-  .comments .content {
-    float: right; 
-    width: 590px;
-    padding: 4px 10px 20px 0px;
-  }
-  .comments .content.line {
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  .comments .t-info, .comments .p-info {
-    font-size:small;
-    color: gray;
-    padding-bottom: 4px;
-  }
-  .comments .p-info span {
-    font-weight: bold;
-  }
-  .comments .t-info span {
-    padding-right: 20px;
-  }
   .avatar.thumbnail img {
     width: 36px;
     height: 36px;
@@ -62,11 +40,13 @@
 <div class="sidebar">
   <div class="well" id="sb_tl_creater">
     <div class="user avatar thumbnail">
-      <img src="{{ tl.created_by.profile.get_mugshot_url }}"/>
+      <a href="{% url userena_profile_detail tl.created_by.username %}">
+        <img src="{{ tl.created_by.profile.get_mugshot_url }}"/>
+      </a>
     </div>
     <div class="info">
       <ul>
-        </li><a href="###">{{ tl.created_by.profile }}</a></li>
+        <li><a href="{% url userena_profile_detail tl.created_by.username %}">{{ tl.created_by.profile }}</a></li>
         <li>创建于： {{ tl.created_on|date:"Y-m-d H:i"}}</li>
         <li>更新于： {{ tl.updated_on|date:"Y-m-d H:i"}}</li>
       </ul>
@@ -84,16 +64,6 @@
   .<br/>
   .<br/>
   .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
 </div>
 {% endblock %}
 
@@ -101,9 +71,9 @@
 <div id="container_top" style="padding-bottom: 20px;">
   <div class="sw">
     <a href="{% url timeline_edit tl.pk %}">编辑基础信息</a>
-    <span style="color: #BFBFBF;">|</span>
+    <span>|</span>
     <a href="{% url timeline_events tl.pk %}">编辑事件</a>
-    <span style="color: #BFBFBF;">|</span>
+    <span>|</span>
     <a href="{% url timeline_full_screen tl.pk %}">精简模式</a>
   </div>
   <ul class="sbreadcrumb">

@@ -33,8 +33,10 @@ footer {
 }
 .timeline .pic {
   float: left;
-  max-width: 80;
-  max-height: 100;
+}
+.timeline .pic img {
+  max-width: 88px;
+  max-height: 100px;
 }
 .pagination {
   float: right;

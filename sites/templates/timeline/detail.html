@@ -53,27 +53,29 @@
     </div>
   </div>
 
-  <div class="well">
-    <h4>管理</h4>
-    <ul>
-      <li><a href="{% url timeline_edit tl.pk %}">编辑基础信息</a></li>
-      <li><a href="{% url timeline_events tl.pk %}">编辑事件</a></li>
-    </ul>
-  </div>
-  .<br/>
-  .<br/>
-  .<br/>
-  .<br/>
+  {% if user == tl.created_by %}
+    <div class="well">
+      <h4>管理</h4>
+      <ul>
+        <li><a href="{% url timeline_edit tl.pk %}">编辑基础信息</a></li>
+        <li><a href="{% url timeline_events tl.pk %}">编辑事件</a></li>
+        <li><a href="{% url timeline_delete tl.pk %}" 
+              onclick="return confirm('您确定需要删除该时间线？删除后将无法恢复')">删除事件</a></li>
+      </ul>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}
 
 {% block container_top %}
 <div id="container_top" style="padding-bottom: 20px;">
   <div class="sw">
-    <a href="{% url timeline_edit tl.pk %}">编辑基础信息</a>
-    <span>|</span>
-    <a href="{% url timeline_events tl.pk %}">编辑事件</a>
-    <span>|</span>
+    {% if user == tl.created_by %}
+      <a href="{% url timeline_edit tl.pk %}">编辑基础信息</a>
+      <span>|</span>
+      <a href="{% url timeline_events tl.pk %}">编辑事件</a>
+      <span>|</span>
+    {% endif %}
     <a href="{% url timeline_full_screen tl.pk %}">精简模式</a>
   </div>
   <ul class="sbreadcrumb">
@@ -95,24 +97,31 @@
     <div>
       {{ tl.intro|linebreaksbr }}
     </div>
-    <h3>评论</h5>
+    <h3>评论</h3>
     <div class="comments" id="id_comments">
       {% for c in comments %}
         {% include "timeline/inc_comment.html" %}
       {% endfor %}
-      </div>
-    <h3>发表评论</h5>
-    <div>
-      <form action="{% url timeline_postcomment_ tl.pk %}" method="post" id="comment_from">
-        {% csrf_token %}
-        <p>
-          {{ form.content }}
-        </p>
-        <p style="clear:both;">
-          <input type="submit" name="post" class="btn btn-primary" id="id_btn_submit" value="提交">
-        </p>
-      </form>
     </div>
+    {% if user.is_authenticated %}
+      <h3>发表评论</h3>
+      <div>
+        <form action="{% url timeline_postcomment_ tl.pk %}" method="post" id="comment_from">
+          {% csrf_token %}
+          <p>
+            {{ form.content }}
+          </p>
+          <p style="clear:both;">
+            <input type="submit" name="post" class="btn btn-primary" id="id_btn_submit" value="提交">
+          </p>
+        </form>
+      </div>
+    {% else %}
+      <h3>
+        您还未登录，请在<a href="{% url userena_signin %}">登录</a>后发表评论。
+        如果您还没有帐号，请先<a href="{% url userena_signup %}">注册</a>。
+      </h3>
+    {% endif %}
   </div>
 {% endblock %}
 

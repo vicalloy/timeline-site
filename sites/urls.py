@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'timeline.views.index', name='idx'),
     url(r'^accounts/', include('profiles.urls')),
-    url(r'^attachments/', include('attachments.urls')),
+    #url(r'^attachments/', include('attachments.urls')),
     url(r'^', include('timeline.urls')),
 )
 

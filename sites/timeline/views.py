@@ -64,13 +64,17 @@ def detail(request, pk, template_name="timeline/detail.html"):
     ctx['form'] = CommentForm()
     return render(request, template_name, ctx)
 
+@login_required
 def delete(request, pk):
     ctx = {}
     tl = get_object_or_404(Timeline, pk=pk)
+    if tl.created_by != request.user:
+        return HttpResponse(u'您没有权限执行该操作')
     tl.delete()
     #TODO message
     return redirect('timeline_idx')
 
+@login_required
 def new(request):
     ctx = {}
     template_name = 'timeline/form.html'
@@ -85,10 +89,13 @@ def new(request):
     ctx['form'] = form
     return render(request, template_name, ctx)
 
+@login_required
 def edit(request, pk):
     ctx = {}
     template_name = 'timeline/form.html'
     timeline = get_object_or_404(Timeline, pk=pk)
+    if timeline.created_by != request.user:
+        return HttpResponse(u'您没有权限执行该操作')
     ctx['tl'] = timeline
     form = TimelineForm(instance=timeline)
     if request.method == "POST":
@@ -133,6 +140,8 @@ def events_sjson_(request, pk):
 
 def addevent_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
+    if timeline.created_by != request.user:
+        return render_json_response({'valid': False})
     form, validate = validate_form(request, form_class=TlEventForm)
     if validate['valid']:
         event = form.save(commit=False)
@@ -143,6 +152,7 @@ def addevent_(request, pk):
         validate['data'] = event_to_sdict(event)
     return render_json_response(validate)
 
+@login_required
 def events(request, pk):
     ctx = {}
     tl = get_object_or_404(Timeline, pk=pk)
@@ -154,6 +164,8 @@ def events(request, pk):
 def postcomment_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
     form, validate = validate_form(request, form_class=CommentForm)
+    if not request.user.is_authenticated():
+        return render_json_response({'valid': False})
     if validate['valid']:
         c = form.save(commit=False)
         c.timeline = timeline
@@ -172,6 +184,8 @@ def attach_upload(request, pk):
 
 @csrf_exempt
 def attach_upload_(request, pk):
+    if not request.user.is_authenticated():
+        return render_json_response({'valid': False})
     timeline = get_object_or_404(Timeline, pk=pk)
     data = _do_ajax_upload(request)
     ret = {}
@@ -188,12 +202,16 @@ def attach_upload_(request, pk):
 
 @csrf_exempt
 def attach_delete_(request, pk):
-    #TODO auth
+    attach = Attachment.objects.get(request.POST.get('id', 0) or request.GET.get('id', 0))
+    if attach.created_by != request.user:
+        return render_json_response({'valid': False})
     return ajax_delete(request)
 
 @csrf_exempt
 def attach_change_descn_(request, pk):
-    #TODO auth
+    attach = Attachment.objects.get(request.POST.get('id', 0) or request.GET.get('id', 0))
+    if attach.created_by != request.user:
+        return render_json_response({'valid': False})
     return ajax_change_descn(request)
 
 def attachs_(request, pk):
@@ -205,6 +223,7 @@ def attachs_(request, pk):
             'url': a.file.url, 'descn': a.description})
     return render_json_response(data) 
 
+@login_required
 def attachs(request, pk):
     template_name = "timeline/attachs.html"
     ctx = {}

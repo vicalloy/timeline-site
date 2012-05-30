@@ -7,12 +7,11 @@ from forms import TlEventForm
 from models import TlEvent
 from helper import event_to_sdict
 
-#TODO load new events form
-#TODO load edit events form
 def delete_(request):
-    #TODO auth
     pk = request.GET.get('pk', '')
     event = get_object_or_404(TlEvent, pk=pk)
+    if event.timeline.created_by != request.user:
+        return render_json_response({'valid': False})
     event.delete()
     timeline = event.timeline
     timeline.update_num_events()
@@ -29,6 +28,8 @@ def json_(request):
 def edit_(request):
     pk = request.GET.get('pk', '')
     event = TlEvent.objects.get(pk=pk)
+    if event.timeline.created_by != request.user:
+        return render_json_response({'valid': False})
     form, validate = validate_form(request, form_class=TlEventForm, instance=event)
     if validate['valid']:
         event = form.save(commit=False)

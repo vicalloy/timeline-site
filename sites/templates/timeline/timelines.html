@@ -1,5 +1,7 @@
 {% extends "timeline/base.html" %}
 
+{% load timeline_widget_tags %}
+
 {% block title %} 
   {% if pg == "hot" %} 热门 {% endif %}
   {% if pg == "last" %} 最新 {% endif %}
@@ -7,29 +9,6 @@
   {% if pg == "random" %} 发现 {% endif %}
   -
   似水流年，岁月留痕 - 用时间线来展现历史 
-{% endblock %}
-
-{% block sidebar %}
-<div class="sidebar">
-  <div class="well">
-    <h5>Sidebar</h5>
-    <ul>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-    </ul>
-  </div>
-  <div class="well">
-    <h5>Sidebar</h5>
-    <ul>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-    </ul>
-  </div>
-</div>
 {% endblock %}
 
 {% block container_top %}
@@ -41,6 +20,17 @@
 </h1>
 {% endblock %}
 
+{% block sidebar %}
+  <div class="sidebar">
+    <div class="well">
+      <h4>最新</h4>
+      <ul>
+        {% tl_last %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
+
 {% block content %}
 <div class="content">
   <div class="timelines">
@@ -49,7 +39,7 @@
     {% for o in timelines %}
     <div class="timeline">
       <div class="pic">
-        <img src="http://img3.douban.com/spic/s6985526.jpg" style=""/>
+        <img src="{{ o.get_cover_url }}"/>
       </div>
       <ul class="extinfo">
         <li>event: {{o.num_events}}</li>

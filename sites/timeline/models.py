@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from attachments.models import Attachment
 from easy_thumbnails.fields import ThumbnailerImageField
@@ -30,8 +31,6 @@ class Timeline(models.Model):
     num_views = models.IntegerField(u'浏览次数', default=0)
     num_replies = models.PositiveSmallIntegerField(u'回复数', default=0)#posts...
     #TODO status draft...
-    #TODO TAGS...
-    #rec 推荐
 
     rec = models.BooleanField(u'推荐', default=False)
     rec_on = models.DateTimeField(blank=True, null=True)
@@ -57,6 +56,11 @@ class Timeline(models.Model):
         self.num_replies = self.comment_set.count()
         if commit:
             self.save()
+
+    def get_cover_url(self):
+        if self.cover:
+            return self.cover.url
+        return getattr(settings, 'TL_COVER_URL', None)
 
 class TlEvent(models.Model):
     timeline = models.ForeignKey(Timeline)

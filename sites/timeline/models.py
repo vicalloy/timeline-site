@@ -65,6 +65,9 @@ class Timeline(models.Model):
             return self.cover.url
         return getattr(settings, 'TL_COVER_URL', None)
 
+def get_all_timlines():
+    return Timeline.objects.filter(status='pub')
+
 class TlEvent(models.Model):
     timeline = models.ForeignKey(Timeline)
     title = models.CharField(u'标题', max_length=30)

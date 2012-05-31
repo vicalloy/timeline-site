@@ -19,7 +19,7 @@ from ajax_validation.utils import render_json_response
 from attachments.views import _do_ajax_upload, ajax_delete, ajax_change_descn 
 from attachments.models import Attachment
 
-from models import Timeline
+from models import Timeline, get_all_timlines
 from forms import TimelineForm, TlEventForm, CommentForm
 from helper import event_to_dict, event_to_sdict
 
@@ -29,25 +29,25 @@ def index(request):
 def hot(request, template_name="timeline/timelines.html"):
     ctx = {}
     ctx['pg'] = 'hot'
-    ctx['timelines'] = Timeline.objects.order_by('-num_views')
+    ctx['timelines'] = get_all_timlines().order_by('-num_views')
     return render(request, template_name, ctx)
 
 def last(request, template_name="timeline/timelines.html"):
     ctx = {}
     ctx['pg'] = 'last'
-    ctx['timelines'] = Timeline.objects.order_by('-updated_on')
+    ctx['timelines'] = get_all_timlines().order_by('-updated_on')
     return render(request, template_name, ctx)
 
 def recommend(request, template_name="timeline/timelines.html"):
     ctx = {}
     ctx['pg'] = 'recommend'
-    ctx['timelines'] = Timeline.objects.filter(rec=True).order_by('-rec_on')
+    ctx['timelines'] = get_all_timlines().filter(rec=True).order_by('-rec_on')
     return render(request, template_name, ctx)
 
 def random(request, template_name="timeline/timelines.html"):
     ctx = {}
     ctx['pg'] = 'random'
-    ctx['timelines'] = Timeline.objects.order_by('?')
+    ctx['timelines'] = get_all_timlines().order_by('?')
     return render(request, template_name, ctx)
 
 
@@ -55,7 +55,7 @@ def tag(request, tag_name, template_name="timeline/timelines.html"):
     ctx = {}
     ctx['pg'] = 'tag'
     ctx['tag'] = get_object_or_404(Tag, name=tag_name)
-    timelines = Timeline.objects.filter(tags__name__in=[tag_name]).order_by('-updated_on')
+    timelines = get_all_timlines().filter(tags__name__in=[tag_name]).order_by('-updated_on')
     ctx['timelines'] = timelines
     return render(request, template_name, ctx)
 

@@ -37,10 +37,10 @@
       {% endif %}
       {% csrf_token %}
       <fieldset>
-        <div class="clearfix">
-          <label>Current email</label>
-          <div class="input">
-            <div id="id_cur_email">{{user.email}}</div>
+        <div class="control-group">
+          <label class="control-label">当前邮件地址</label>
+          <div class="controls">
+            <div>{{user.email}}</div>
           </div>
         </div>
         {{ form.as_div }}

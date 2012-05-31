@@ -11,9 +11,13 @@ from .models import Timeline, TlEvent, Comment
 
 class TimelineForm(BootstrapModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(TimelineForm, self).__init__(*args, **kwargs)
+        self.fields['status'].choices = (('draft', u'草稿'), ('pub', u'发布'), )
+
     class Meta:
         model = Timeline
-        fields = ['title', 'cover', 'tags', 'intro']
+        fields = ['title', 'cover', 'tags', 'intro', 'status']
         #widgets = { 'cover': ImageClearableFileInput(), }
 
     def save(self, *args, **kwargs):

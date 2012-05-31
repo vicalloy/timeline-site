@@ -16,6 +16,9 @@ def upload_to_cover(instance, filename):
                                                'extension': extension}
 
 class Timeline(models.Model):
+    STATUS_CHOICES = (('draft', u'草稿'), 
+            ('pub', u'发布'),
+            ('del', u'删除'))
     title = models.CharField(u'标题', max_length=30)
     cover = ThumbnailerImageField(u'封面',
             blank=True,
@@ -26,11 +29,11 @@ class Timeline(models.Model):
     intro = models.TextField(u'简介', max_length=30)
     focus_date = models.CharField(u'初始日期', max_length=30)
     attachments = models.ManyToManyField(Attachment, blank = True)
+    status = models.CharField(u"发布状态", max_length=16, default='draft', choices=STATUS_CHOICES)
 
     num_events = models.IntegerField(u'事件数', default=0)
     num_views = models.IntegerField(u'浏览次数', default=0)
     num_replies = models.PositiveSmallIntegerField(u'回复数', default=0)#posts...
-    #TODO status draft...
 
     rec = models.BooleanField(u'推荐', default=False)
     rec_on = models.DateTimeField(blank=True, null=True)

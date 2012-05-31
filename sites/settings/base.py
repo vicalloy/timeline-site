@@ -190,7 +190,8 @@ LOGOUT_URL = '/accounts/signout/'
 AUTH_PROFILE_MODULE = 'profiles.Profile'
 
 USERENA_DISABLE_PROFILE_LIST = True
-USERENA_MUGSHOT_SIZE = 140
+USERENA_MUGSHOT_SIZE = 80
+USERENA_DEFAULT_PRIVACY = 'open'
 
 # Test settings
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'

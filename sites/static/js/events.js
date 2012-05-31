@@ -272,7 +272,7 @@ $(function () {
   })
   .bind('fileuploaddone', function (e, data) {
     var d = data.result;
-    if (d.valid) {
+    if (true) {//d.valid
       var a = d.attachment;
       $('.uimg > p', upload).html('<img src="' + a.url + '"/>');
       $('.uimg', upload).attr('apk', a.id);

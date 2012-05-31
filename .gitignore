@@ -5,3 +5,4 @@ env/
 ref/
 sites/media/
 sites/taggit_templatetags/
+sites/collectedstatic/

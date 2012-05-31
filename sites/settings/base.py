@@ -1,4 +1,4 @@
-# Django settings for simple_todo_site project.
+# -*- coding: UTF-8 -*-
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 HERE = os.path.join(HERE, '../')

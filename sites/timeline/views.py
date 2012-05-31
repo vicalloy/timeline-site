@@ -216,14 +216,16 @@ def attach_upload_(request, pk):
 
 @csrf_exempt
 def attach_delete_(request, pk):
-    attach = Attachment.objects.get(request.POST.get('id', 0) or request.GET.get('id', 0))
+    attach_id = request.POST.get('id', 0) or request.GET.get('id', 0)
+    attach = Attachment.objects.get(pk=attach_id)
     if attach.created_by != request.user:
         return render_json_response({'valid': False})
     return ajax_delete(request)
 
 @csrf_exempt
 def attach_change_descn_(request, pk):
-    attach = Attachment.objects.get(request.POST.get('id', 0) or request.GET.get('id', 0))
+    attach_id = request.POST.get('id', 0) or request.GET.get('id', 0)
+    attach = Attachment.objects.get(pk=attach_id)
     if attach.created_by != request.user:
         return render_json_response({'valid': False})
     return ajax_change_descn(request)

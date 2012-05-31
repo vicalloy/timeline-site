@@ -23,22 +23,50 @@
     {% endif %}
 
     <div id="details">
-      <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
-      {% if profile.user.get_full_name %}
-        <p><strong>{% trans "Name" %}</strong><br /> {{ profile.user.get_full_name }}</p>
-      {% endif %}
-      {% if profile.age != 0 %}
-        <p><strong>{% trans "Age" %}</strong><br /> {{ profile.age }}</p>
-      {% endif %}
-      {% if profile.website %}
+      <div style="float: left;max-width: 80px;">
+        <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+      </div>
+      <div style="padding-left: 120px;">
+        {% if profile.user.get_full_name %}
+          <p><strong>{% trans "Name" %}</strong><br /> {{ profile.user.get_full_name }}</p>
+        {% endif %}
+        {% if profile.age != 0 %}
+          <p><strong>{% trans "Age" %}</strong><br /> {{ profile.age }}</p>
+        {% endif %}
         <p><strong>{% trans "Website" %}</strong><br /> <a href="{{ profile.website }}">{{ profile.website }}</a></p>
-      {% endif %}
-      {% if profile.location %}
         <p><strong>{% trans "Location" %}</strong><br />{{ profile.location }}</p>
-      {% endif %}
-      {% if profile.about_me %}
-        <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me }}</p>
-      {% endif %}
+        <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me|linebreaksbr }}</p>
+      </div>
     </div>
+
+    <hr />
+
+    <div class="timelines" id="id_tls">
+      <h2>{{profile}} 创建的时间线</h2>
+      {% load pagination_tags %}
+      {% autopaginate timelines %}
+      {% for o in timelines %}
+        <div class="timeline">
+          <div class="pic">
+            <img src="{{ o.get_cover_url }}"/>
+          </div>
+          <ul class="extinfo">
+            <li>event: {{o.num_events}}</li>
+            <li>view: {{o.num_views}}</li>
+            <li>by: 
+              <a href="{% url userena_profile_detail o.created_by.username %}">
+                {{o.created_by}}
+              </a>
+            </li>
+          </ul>
+          <div class="info">
+            <h3> <a href="{% url timeline_detail o.pk %}">{{o.title}}</a> </h3>
+            {{ o.intro|slice:"160"|linebreaksbr }}{% if o.intro|length > 340 %}...{% endif %} 
+          </div>
+        </div>
+      {% endfor %}
+      {% paginate %}
+    </div>
+
   </div>
 {% endblock %}

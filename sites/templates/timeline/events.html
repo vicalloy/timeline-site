@@ -117,10 +117,7 @@
           </fieldset>
         </form>
       </div>
-      <div style="">
-        .........................................................................
-        .........................................................................
-        .........................................................................
+      <div>
       </div>
     </div>
   </div>
@@ -239,93 +236,13 @@
     var url_event_json_ = "{% url event_json_ %}";
     var url_timeline_addevent_ = "{% url timeline_addevent_ tl.pk %}";
     var url_timeline_events_sjson_ = "{% url timeline_events_sjson_ tl.pk %}";
-    var url_media = '';
+    var url_timeline_attachs_ = '{% url timeline_attachs_ tl.pk %}';
+    var url_timeline_attach_delete_ = '{% url timeline_attach_delete_ tl.pk %}';
+    var url_timeline_attach_upload_ = "{% url timeline_attach_upload_ tl.pk %}";
   </script>
   <script src="{{ STATIC_URL }}js/events.js"></script>
   <script type="text/javascript">
     $(function () {
-      function loadTlImg(refresh) {
-        if (!refresh && $('#id_tl_imgs').attr('loaded') == '1') {
-          return;
-        }
-        $('#id_tl_imgs ul.thumbnails').html('<p> <img src="{{STATIC_URL}}img/loading.gif" /> 数据加载中，请稍后...  </p>');
-        $.get('{% url timeline_attachs_ tl.pk %}', function(data){
-          $('#id_tl_imgs ul.thumbnails').html('');
-          $.each(data, function (idx, attach) {
-            $('#id_tl_imgs ul.thumbnails').append('<li> <a href="###" class="thumbnail"> <img src="' + attach.url + '" alt=""/> </a> </li>');
-          });
-          $('#id_tl_imgs').attr('loaded', '1');
-          $('#id_tl_imgs .thumbnails img').click(function(){
-            $('#id_media').val($(this).attr('src'));
-            $('#insert_tl_img').hide();
-          });
-        }, 'json');
-      }
-      $('#tab_upload_img').click(function(){loadTlImg(false)});
-      $('#id_tl_imgs button.refresh').click(function(){loadTlImg(true)});
-      $('#insert_tl_img_tab > a').click(function(){
-        $('a', $(this).parent()).removeClass('current');
-        $(this).addClass('current');
-        $('#insert_tl_img .popover-content > div').hide();
-        $($(this).attr('href')).show();
-        return false;
-      });
-      var upload = $('#fileupload');
-      function showUploadDiv(d) {
-        $('.upload, .uploadding, .uimg', upload).hide();
-        $(d, upload).show();
-      }
-      $('.uimg .delete', upload).click(function(){
-        var apk = $('.uimg', upload).attr('apk');
-        $.post('{% url timeline_attach_delete_ tl.pk %}', {'id': apk}, function(d) {
-          if (d.valid) {
-            showUploadDiv('.upload');
-            $('#id_media').val('');
-          } else {
-            alert('删除失败');
-          }
-        }, 'json');
-      });
-
-      upload.fileupload();
-      upload.fileupload('option', {
-          url: "{% url timeline_attach_upload_ tl.pk %}",
-          autoUpload: true,
-          limitMultiFileUploads: 1,
-          maxFileSize: 500000,
-          acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-      });
-
-      upload
-      .bind('fileuploadadd', function (e, data) {
-        $.each(data.files, function (index, file) {
-          if (file.error) {
-            alert(window.locale.fileupload.errors[file.error]);
-          }
-        });
-      })
-      .bind('fileuploadsend', function (e, data) {
-        showUploadDiv('.uploadding');
-      })
-      .bind('fileuploaddone', function (e, data) {
-        var d = data.result;
-        if (d.valid) {
-          var a = d.attachment;
-          $('.uimg > p', upload).html('<img src="' + a.url + '"/>');
-          $('.uimg', upload).attr('apk', a.id);
-          $('#id_media').val(url_media + a.url);
-          showUploadDiv('.uimg');
-        } else {
-          showUploadDiv('.upload');
-          alert('图片上传失败');
-        }
-      })
-      .bind('fileuploadfail', function (e, data) {
-        showUploadDiv('.upload');
-        alert('图片上传失败');
-      });
     });
-    //done stop stopped
-    //fail stop stopped
     </script>
 {% endblock %}

@@ -75,7 +75,7 @@ class TlEvent(models.Model):
     enddate = models.CharField(u'结束日期', max_length=32, blank=True, null=True, help_text=u"支持的日期格式：, yyyy-mm-dd(2012-12-20)、yyyy(2012)")
     text = models.TextField(u'详细说明', blank=True, null=True, help_text=u'详细说明')
 
-    media = models.TextField(u'媒体', blank=True, null=True, help_text=u'媒体文件，可以是图片地址。')
+    media = models.TextField(u'媒体', blank=True, null=True, help_text=u'可以是文字、图片、视频。')
     media_credit = models.CharField(u'媒体版权', max_length=255, blank=True, null=True, help_text=u'')
     media_caption = models.TextField(u'媒体说明', blank=True, null=True, help_text=u'')
 

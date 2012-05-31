@@ -206,4 +206,85 @@ $(function () {
     }
   });
 
+  //=============
+  function loadTlImg(refresh) {
+    if (!refresh && $('#id_tl_imgs').attr('loaded') == '1') {
+      return;
+    }
+    $('#id_tl_imgs ul.thumbnails').html('<p> <img src="{{STATIC_URL}}img/loading.gif" /> 数据加载中，请稍后...  </p>');
+    $.get(url_timeline_attachs_, function(data){
+      $('#id_tl_imgs ul.thumbnails').html('');
+      $.each(data, function (idx, attach) {
+        $('#id_tl_imgs ul.thumbnails').append('<li> <a href="###" class="thumbnail"> <img src="' + attach.url + '" alt=""/> </a> </li>');
+      });
+      $('#id_tl_imgs').attr('loaded', '1');
+      $('#id_tl_imgs .thumbnails img').click(function(){
+        $('#id_media').val($(this).attr('src'));
+        $('#insert_tl_img').hide();
+      });
+    }, 'json');
+  }
+  $('#tab_upload_img').click(function(){loadTlImg(false)});
+  $('#id_tl_imgs button.refresh').click(function(){loadTlImg(true)});
+  $('#insert_tl_img_tab > a').click(function(){
+    $('a', $(this).parent()).removeClass('current');
+    $(this).addClass('current');
+    $('#insert_tl_img .popover-content > div').hide();
+    $($(this).attr('href')).show();
+    return false;
+  });
+  var upload = $('#fileupload');
+  function showUploadDiv(d) {
+    $('.upload, .uploadding, .uimg', upload).hide();
+    $(d, upload).show();
+  }
+  $('.uimg .delete', upload).click(function(){
+    var apk = $('.uimg', upload).attr('apk');
+    $.post(url_timeline_attach_delete_, {'id': apk}, function(d) {
+      if (d.valid) {
+        showUploadDiv('.upload');
+        $('#id_media').val('');
+      } else {
+        alert('删除失败');
+      }
+    }, 'json');
+  });
+
+  upload.fileupload();
+  upload.fileupload('option', {
+      url: url_timeline_attach_upload_,
+      autoUpload: true,
+      limitMultiFileUploads: 1,
+      maxFileSize: 500000,
+      acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+  });
+
+  upload
+  .bind('fileuploadadd', function (e, data) {
+    $.each(data.files, function (index, file) {
+      if (file.error) {
+        alert(window.locale.fileupload.errors[file.error]);
+      }
+    });
+  })
+  .bind('fileuploadsend', function (e, data) {
+    showUploadDiv('.uploadding');
+  })
+  .bind('fileuploaddone', function (e, data) {
+    var d = data.result;
+    if (d.valid) {
+      var a = d.attachment;
+      $('.uimg > p', upload).html('<img src="' + a.url + '"/>');
+      $('.uimg', upload).attr('apk', a.id);
+      $('#id_media').val(a.url);
+      showUploadDiv('.uimg');
+    } else {
+      showUploadDiv('.upload');
+      alert('图片上传失败');
+    }
+  })
+  .bind('fileuploadfail', function (e, data) {
+    showUploadDiv('.upload');
+    alert('图片上传失败');
+  });
 });

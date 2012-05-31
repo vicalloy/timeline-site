@@ -84,8 +84,8 @@ def delete(request, pk):
     tl = get_object_or_404(Timeline, pk=pk)
     if tl.created_by != request.user:
         return HttpResponse(u'您没有权限执行该操作')
-    tl.delete()
-    #TODO message
+    tl.status = 'del'
+    tl.save()
     return redirect('timeline_idx')
 
 @login_required

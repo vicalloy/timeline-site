@@ -5,14 +5,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 
+from userena.utils import generate_sha1
 from attachments.models import Attachment
 from easy_thumbnails.fields import ThumbnailerImageField
 from taggit.managers import TaggableManager
 
 def upload_to_cover(instance, filename):
+    salt, hash = generate_sha1(instance.id)
     extension = filename.split('.')[-1].lower()
-    return '%(path)s%(pk)s.%(extension)s' % {'path': 'cover/',
-                                               'pk': instance.pk,
+    return '%(path)s%(hash)s.%(extension)s' % {'path': 'cover/',
+                                               'hash': hash[:10],
                                                'extension': extension}
 
 class Timeline(models.Model):

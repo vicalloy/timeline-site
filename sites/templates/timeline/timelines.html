@@ -7,6 +7,7 @@
   {% if pg == "last" %} 最新 {% endif %}
   {% if pg == "recommend" %} 推荐 {% endif %}
   {% if pg == "random" %} 发现 {% endif %}
+  {% if pg == "tag" %} 标签 {{ tag.name }} {% endif %}
   -
   似水流年，岁月留痕 - 用时间线来展现历史 
 {% endblock %}
@@ -17,6 +18,7 @@
   {% if pg == "last" %} 最新 {% endif %}
   {% if pg == "recommend" %} 推荐 {% endif %}
   {% if pg == "random" %} 发现 {% endif %}
+  {% if pg == "tag" %} 标签 {{ tag.name }} {% endif %}
 </h1>
 {% endblock %}
 

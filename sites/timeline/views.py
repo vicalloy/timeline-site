@@ -11,9 +11,10 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.template.loader import render_to_string
 
+from taggit.models import Tag
+
 from ajax_validation.views import validate_form
 from ajax_validation.utils import render_json_response
-#from ajax_validation.utils import render_string
 
 from attachments.views import _do_ajax_upload, ajax_delete, ajax_change_descn 
 from attachments.models import Attachment
@@ -47,6 +48,19 @@ def random(request, template_name="timeline/timelines.html"):
     ctx = {}
     ctx['pg'] = 'random'
     ctx['timelines'] = Timeline.objects.order_by('?')
+    return render(request, template_name, ctx)
+
+
+def tag(request, tag_name, template_name="timeline/timelines.html"):
+    ctx = {}
+    ctx['pg'] = 'tag'
+    ctx['tag'] = get_object_or_404(Tag, name=tag_name)
+    timelines = Timeline.objects.filter(tags__name__in=[tag_name]).order_by('-updated_on')
+    ctx['timelines'] = timelines
+    return render(request, template_name, ctx)
+
+def tags(request, template_name="timeline/tags.html"):
+    ctx = {}
     return render(request, template_name, ctx)
 
 def full_screen(request, pk, template_name="timeline/t.html"):

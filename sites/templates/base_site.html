@@ -19,6 +19,7 @@
             <li><a href="{% url timeline_hot %}">热门</a></li>
             <li><a href="{% url timeline_last %}">最新</a></li>
             <li><a href="{% url timeline_random %}">发现</a></li>
+            <li><a href="{% url timeline_tags %}">标签云</a></li>
           </ul>
           <ul class="nav pull-right">
             {% if user.is_authenticated %}

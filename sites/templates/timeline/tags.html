@@ -1,0 +1,38 @@
+{% extends "timeline/base.html" %}
+
+{% block title %}
+  标签云
+{% endblock %}
+
+{% block extra_header %}
+{{block.super}}
+<style type="text/css">
+  .tags {
+    padding-top: 20px;
+    line-height: normal;
+  }
+</style>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block container_top %}
+<div id="container_top">
+  <h1>
+    标签云
+  </h1>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div class="">
+    {% load taggit_extras %}
+    {% get_tagcloud as tags %}
+    <div class="tags">
+      {% for tag in tags %}
+        <a href="{% url timeline_tag tag.name %}"><font size={{tag.weight|floatformat:0}}>{{tag}}</font></a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

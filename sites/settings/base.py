@@ -201,3 +201,10 @@ SOUTH_TESTS_MIGRATE = False
 ANONYMOUS_USER_ID = -1
 
 TL_COVER_URL = "/static/img/tl-default-small.gif"
+
+# == EMAIL ==
+EMAIL_HOST='smtp.exmail.qq.com'
+EMAIL_PORT='25'
+EMAIL_HOST_USER='admin@jstwind.com' 
+EMAIL_HOST_PASSWORD='123456'
+DEFAULT_FROM_EMAIL=u'似水流年 <admin@jstwind.com>'

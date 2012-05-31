@@ -24,7 +24,7 @@
           <ul class="nav pull-right">
             <li><a href="{% url timeline_new %}"><span>创建时间线</span></a></li>
             {% if user.is_authenticated %}
-              <li><a href="{% url userena_profile_detail user.username %}#id_tls"><span>我创建的时间线</span></a></li>
+              <li><a href="{% url userena_profile_detail user.username %}#id_tls"><span>我的时间线</span></a></li>
               <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account' %} ({{ user.username }})</span></a></li>
               <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
             {% else %}

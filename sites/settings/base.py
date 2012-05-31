@@ -96,7 +96,7 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'tl_urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

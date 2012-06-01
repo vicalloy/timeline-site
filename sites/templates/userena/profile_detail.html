@@ -1,7 +1,9 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
-{% block title %}{{ profile.user.username }}'s {% trans "profile" %}.{% endblock %}
+{% block title %}
+  {{ profile.user.username }}的帐号
+{% endblock %}
 
 {% block content_title %}
   <h1>

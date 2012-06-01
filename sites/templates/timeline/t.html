@@ -20,6 +20,21 @@
     </script>
   </head>
   <body>
+    <div style="margin: 10px 0 0 10px;
+        padding: 10px 10px 10px 10px;
+        background-color: #BBBBBB;
+        z-index:99999;
+        position:fixed;
+        top:20;
+        left:20;
+        opacity: 0.2;
+        filter:alpha(Opacity=40);"> 
+      <span style="padding: 10px;font-weight: bold;"> 
+        <a href="{% url timeline_detail tl.pk %}" style="text-decoration: none;color:#000000">
+          &#60; 完整模式
+        </a>
+      </span>
+    </div> 
     <div id="timeline"></div>
     <!-- TODO ADD BACK BUTTON -->
   </body>

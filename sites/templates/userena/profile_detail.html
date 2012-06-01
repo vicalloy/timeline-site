@@ -61,7 +61,10 @@
               </li>
             </ul>
             <div class="info">
-              <h3> <a href="{% url timeline_detail o.pk %}">{{o.title}}</a> </h3>
+              <h3>
+                <a href="{% url timeline_detail o.pk %}">{{o.title}}</a>
+                {% if o.status == "draft" %} (草稿) {% endif %}
+              </h3>
               {{ o.intro|slice:"160"|linebreaksbr }}{% if o.intro|length > 340 %}...{% endif %} 
             </div>
           </div>

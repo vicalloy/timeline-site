@@ -99,7 +99,7 @@ def new(request):
             timeline = form.save(commit=False)
             timeline.created_by = request.user
             timeline.save()
-            return redirect('timeline_detail', timeline.pk)
+            return redirect('timeline_events', timeline.pk)
     ctx['form'] = form
     return render(request, template_name, ctx)
 

@@ -57,6 +57,7 @@ $(function () {
     } else {
       $('#id_btn_save_more').hide();
     }
+    showUploadDiv('.upload');//reload upload img div
     scrollTo(0, $("#tl_form_div").offset().top);
   }
   function hideForm() {
@@ -132,7 +133,6 @@ $(function () {
           alert('数据加载失败');
         }
       });
-
     });
   }
   $('.btn_add_event').click(function(){

@@ -72,7 +72,7 @@ footer {
 }
 .container > .sidebar ul {
     list-style: none;
-    margin-left: 20px;
+    margin-left: 0px;
 }
 .container > .sidebar .well {
   padding: 12px;

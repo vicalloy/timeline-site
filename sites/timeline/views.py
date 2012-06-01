@@ -209,6 +209,7 @@ def attach_upload_(request, pk):
         ret['name'] = attach.org_filename
         ret['size'] = attach.file.size
         ret['url'] = attach.file.url
+        ret['id'] = attach.pk
         ret['delete_url'] = "%s?id=%s" % (reverse('timeline_attach_delete_', args=[timeline.pk]), attach.pk)
     else:
         ret['error'] = u'上传失败'

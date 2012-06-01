@@ -67,6 +67,7 @@
                     {{o.created_by}}
                   </a>
                 </span>
+                <span>创建: {{ tl.created_on|date:"Y-m-d H:i"}}</span>
               </div>
               {{ o.intro|slice:"160"|linebreaksbr }}{% if o.intro|length > 340 %}...{% endif %} 
             </div>

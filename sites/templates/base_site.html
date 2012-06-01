@@ -18,15 +18,14 @@
             <li><a href="{% url timeline_recommend %}">推荐</a></li>
             <li><a href="{% url timeline_hot %}">热门</a></li>
             <li><a href="{% url timeline_last %}">最新</a></li>
-            <li><a href="{% url timeline_random %}">发现</a></li>
             <li><a href="{% url timeline_tags %}">标签云</a></li>
           </ul>
           <ul class="nav pull-right">
             <li><a href="{% url timeline_new %}"><span>创建时间线</span></a></li>
             {% if user.is_authenticated %}
               <li><a href="{% url userena_profile_detail user.username %}#id_tls"><span>我的时间线</span></a></li>
-              <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account' %} ({{ user.username }})</span></a></li>
-              <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
+              <li><a href="{% url userena_profile_detail user.username %}"><span> {{ user.username }}的帐号 </span></a></li>
+              <li><a href="{% url userena_signout %}"><span>退出</span></a></li>
             {% else %}
               <li><a href="{% url userena_signin %}"><span>{% trans 'Signin' %}</span></a></li>
               <li><a href="{% url userena_signup %}"><span>{% trans 'Signup' %}</span></a></li>

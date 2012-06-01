@@ -21,15 +21,16 @@ footer {
   line-height: 24px;
   margin-bottom: 5px;
 }
-.timeline ul.extinfo {
-  float: right;
-  list-style-type: none;
-  width: 90px;
-  margin: 0;
-}
 .timeline .info {
   padding-left:100px;
-  padding-right:100px;
+}
+.timeline .info .extinfo {
+  font-size:12px;
+  color:gray;
+  padding: 0 0 2px 0;
+}
+.timeline .info .extinfo span {
+  padding-right: 10px;
 }
 .timeline .pic {
   float: left;

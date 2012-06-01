@@ -209,3 +209,8 @@ EMAIL_PORT='25'
 EMAIL_HOST_USER='admin@jstwind.com' 
 EMAIL_HOST_PASSWORD='123456'
 DEFAULT_FROM_EMAIL=u'似水流年 <admin@jstwind.com>'
+
+LANGUAGES = (
+    ('zh-cn', 'Simplified Chinese'),
+    ('zh-tw', 'Traditional Chinese'),
+)

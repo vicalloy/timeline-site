@@ -46,6 +46,7 @@
       <ul class="extinfo">
         <li>事件: {{o.num_events}}</li>
         <li>浏览: {{o.num_views}}</li>
+        <li>回复: {{o.num_replies}}</li>
         <li>by: 
           <a href="{% url userena_profile_detail o.created_by.username %}">
             {{o.created_by}}

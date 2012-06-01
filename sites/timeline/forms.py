@@ -28,7 +28,7 @@ class TimelineForm(BootstrapModelForm):
 def valid_date(s):
     if not s:
         return
-    fmts = ['^-{0,1}\d{4}-\d{1,2}-\d{1,2}$', '^-{0,1}\d{4}-\d{1,2}$', '^-{0,1}\d{4}$']
+    fmts = ['^-{0,1}\d{1,4}-\d{1,2}-\d{1,2}$', '^-{0,1}\d{1,4}-\d{1,2}$', '^-{0,1}\d{1,4}$']
     for fmt in fmts:
         if re.search(fmt, s):
             return

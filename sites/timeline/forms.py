@@ -20,9 +20,12 @@ class TimelineForm(BootstrapModelForm):
         fields = ['title', 'cover', 'tags', 'intro', 'status']
         #widgets = { 'cover': ImageClearableFileInput(), }
 
-    def save(self, *args, **kwargs):
+    def save(self, created_by=None):
+        if not self.instance.pk:#if new
+            self.instance.created_by = created_by
         self.instance.update_updated_on(commit=False)
-        timeline = super(TimelineForm, self).save(*args, **kwargs)
+        #NOTE if commit=False save Tag will fail
+        timeline = super(TimelineForm, self).save()
         return timeline
         
 def valid_date(s):

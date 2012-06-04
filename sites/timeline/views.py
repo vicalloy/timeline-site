@@ -96,9 +96,7 @@ def new(request):
     if request.method == "POST":
         form = TimelineForm(request.POST, request.FILES)
         if form.is_valid():
-            timeline = form.save(commit=False)
-            timeline.created_by = request.user
-            timeline.save()
+            timeline = form.save(created_by=request.user)
             return redirect('timeline_events', timeline.pk)
     ctx['form'] = form
     return render(request, template_name, ctx)

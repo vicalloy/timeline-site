@@ -87,6 +87,7 @@ $(function () {
           }
           if (save_more) {
             $('#tl_form')[0].reset();
+            showUploadDiv('.upload');//reload upload img div
           } else {
             hideForm();
           }

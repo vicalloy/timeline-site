@@ -29,7 +29,7 @@ class Timeline(models.Model):
             help_text=u'封面图片')
     tags = TaggableManager(blank=True)
     intro = models.TextField(u'简介', max_length=30)
-    focus_date = models.CharField(u'初始日期', max_length=30)
+    focus_date = models.CharField(u'初始日期', max_length=30, null=True, blank=True)
     attachments = models.ManyToManyField(Attachment, blank = True)
     status = models.CharField(u"发布状态", max_length=16, default='draft', choices=STATUS_CHOICES)
 

@@ -1,7 +1,9 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
-{% block title %}{{ profile.user.username }}'s {% trans "profile" %}.{% endblock %}
+{% block title %}
+  {{ profile.user.username }}的帐号
+{% endblock %}
 
 {% block content_title %}
   <h1>
@@ -51,21 +53,22 @@
             <div class="pic">
               <img src="{{ o.get_cover_url }}"/>
             </div>
-            <ul class="extinfo">
-              <li>事件: {{o.num_events}}</li>
-              <li>浏览: {{o.num_views}}</li>
-              <li>回复: {{o.num_replies}}</li>
-              <li>by: 
-                <a href="{% url userena_profile_detail o.created_by.username %}">
-                  {{o.created_by}}
-                </a>
-              </li>
-            </ul>
             <div class="info">
               <h3>
                 <a href="{% url timeline_detail o.pk %}">{{o.title}}</a>
                 {% if o.status == "draft" %} (草稿) {% endif %}
               </h3>
+              <div class="extinfo">
+                <span>事件: {{o.num_events}}</span>
+                <span>浏览: {{o.num_views}}</span>
+                <span>回复: {{o.num_replies}}</span>
+                <span>by: 
+                  <a href="{% url userena_profile_detail o.created_by.username %}">
+                    {{o.created_by}}
+                  </a>
+                </span>
+                <span>创建: {{ o.created_on|date:"Y-m-d H:i"}}</span>
+              </div>
               {{ o.intro|slice:"160"|linebreaksbr }}{% if o.intro|length > 340 %}...{% endif %} 
             </div>
           </div>

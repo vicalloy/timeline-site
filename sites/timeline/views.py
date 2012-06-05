@@ -1,13 +1,9 @@
 # -*- coding: UTF-8 -*-
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.utils import simplejson
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.template.loader import render_to_string
 
@@ -19,9 +15,9 @@ from ajax_validation.utils import render_json_response
 from attachments.views import _do_ajax_upload, ajax_delete, ajax_change_descn 
 from attachments.models import Attachment
 
-from models import Timeline, get_all_timlines
-from forms import TimelineForm, TlEventForm, CommentForm
-from helper import event_to_dict, event_to_sdict
+from .models import Timeline, get_all_timlines
+from .forms import TimelineForm, TlEventForm, CommentForm
+from .helper import event_to_dict, event_to_sdict
 
 def index(request):
   return recommend(request)
@@ -80,7 +76,6 @@ def detail(request, pk, template_name="timeline/detail.html"):
 
 @login_required
 def delete(request, pk):
-    ctx = {}
     tl = get_object_or_404(Timeline, pk=pk)
     if tl.created_by != request.user:
         return HttpResponse(u'您没有权限执行该操作')
@@ -119,9 +114,6 @@ def edit(request, pk):
     ctx['form'] = form
     ctx['tl'] = timeline
     return render(request, template_name, ctx)
-
-def load_form(request, form_class):
-    pass
 
 def events_json_(request, pk):
     tl = Timeline.objects.get(pk=pk)

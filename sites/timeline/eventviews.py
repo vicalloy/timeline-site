@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 
 from ajax_validation.views import validate_form
 from ajax_validation.utils import render_json_response
 
-from forms import TlEventForm
-from models import TlEvent
-from helper import event_to_sdict
+from .forms import TlEventForm
+from .models import TlEvent
+from .helper import event_to_sdict
 
 def delete_(request):
     pk = request.GET.get('pk', '')

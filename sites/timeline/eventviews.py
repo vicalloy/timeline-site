@@ -21,7 +21,7 @@ def delete_(request):
 def json_(request):
     pk = request.GET.get('pk', '')
     event = TlEvent.objects.get(pk=pk)
-    data = {'valid': True};
+    data = {'valid': True}
     data['data'] = event_to_sdict(event)
     return render_json_response(data)
 

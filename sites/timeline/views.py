@@ -156,14 +156,22 @@ def addevent_(request, pk):
         validate['data'] = event_to_sdict(event)
     return render_json_response(validate)
 
-@login_required
 def events(request, pk):
     ctx = {}
     tl = get_object_or_404(Timeline, pk=pk)
+    if request.user != tl.created_by:#view only
+        return _tbevents(request, tl)
     ctx['tl'] = tl
     ctx['events'] = tl.tlevent_set.order_by('startdate')
     ctx['form'] = TlEventForm()
     return render(request, 'timeline/events.html', ctx)
+
+def _tbevents(request, timeline):
+    ctx = {}
+    events = timeline.tlevent_set.order_by('startdate')
+    ctx['events'] = events
+    ctx['tl'] = timeline
+    return render(request, 'timeline/tbevents.html', ctx)
 
 def postcomment_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)

@@ -1,0 +1,74 @@
+{% extends "timeline/base.html" %}
+
+{% load timeline_widget_tags %}
+
+{% block title %}
+  {{ tl.title }}
+  - 时间线
+{% endblock %}
+
+{% block extra_header %}
+{{block.super}}
+<style type="text/css">
+  .content hr {
+    margin: 5px 0;
+  }
+  table.tllist .tldate {
+    white-space:nowrap;
+  }
+</style>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block container_top %}
+<div id="container_top">
+  <div class="sw">
+    <a href="{% url timeline_detail tl.pk %}">图表模式</a>
+    <span>|</span>
+    <a href="{% url timeline_full_screen tl.pk %}">精简模式</a>
+  </div>
+  <ul class="sbreadcrumb">
+    <li><a href="{% url idx %}">首页</a> <span class="divider">/</span></li>
+    <li><a href="{% url timeline_detail tl.pk %}">{{ tl.title }}</a> <span class="divider">/</span></li>
+    <li class="active">文字版</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div class="">
+    <div class="">
+      <div id="tl_list">
+        <table class="table table-striped tllist" style="width=100%">
+          <thead>
+            <tr>
+              <th style="width: 80px">日期</th>
+              <th style="width: 180px">标题</th>
+              <th style="">说明</th>
+              <th style="width: 260px;">媒体</th>
+            </tr>
+            {% for o in events %}
+              <tr class="event {% if o.cover %}cover{% endif %}" id="e_{{o.pk}}">
+                <td class="tldate">
+                  {{ o.startdate }}
+                  {% if o.enddate %}
+                    ~ {{ o.enddate }}
+                  {% endif %}
+                </td>
+                <td>
+                  {{ o.title }}
+                </td>
+                <td>{{ o.text|linebreaksbr }}</td>
+                <td>{{ o.media|media2html }}</td>
+              </tr>
+            {% endfor %}
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

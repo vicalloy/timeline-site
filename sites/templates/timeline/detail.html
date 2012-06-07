@@ -78,6 +78,9 @@
       <span>|</span>
       <a href="{% url timeline_events tl.pk %}">编辑事件</a>
       <span>|</span>
+    {% else %}
+      <a href="{% url timeline_events tl.pk %}">文字版</a>
+      <span>|</span>
     {% endif %}
     <a href="{% url timeline_full_screen tl.pk %}">精简模式</a>
   </div>

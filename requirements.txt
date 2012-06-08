@@ -6,6 +6,7 @@ django-debug-toolbar
 django-taggit
 django-taggit-templatetags
 django-pagination
+django_compressor
 git+git://github.com/bread-and-pepper/django-userena.git
 git+git://github.com/earle/django-bootstrap.git#egg=bootstrap
 git+git://github.com/SmileyChris/easy-thumbnails.git

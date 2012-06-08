@@ -1,15 +1,10 @@
 {% extends "timeline/base.html" %}
+{% load compress %}
 
 {% block title %}
   {% if tl %}
     {{tl}} 上传图片
   {% endif %}
-{% endblock %}
-
-{% block extra_header %}
-{{block.super}}
-<style type="text/css">
-</style>
 {% endblock %}
 
 {% block sidebar %}
@@ -154,12 +149,14 @@
   <script src='{{STATIC_URL}}bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
 
   <script src='{{STATIC_URL}}js/tmpl.min.js' type='text/javascript'></script>
+	{% compress js %}
   <script src="{{ STATIC_URL }}jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
   <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
   <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.fileupload.js"></script>
   <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.fileupload-fp.js"></script>
   <script src="{{ STATIC_URL }}jQuery-File-Upload/js/jquery.fileupload-ui.js"></script>
   <script src="{{ STATIC_URL }}jQuery-File-Upload/js/locale.js"></script>
+	{% endcompress %}
   <script type="text/javascript">
     $(function () {
       'use strict';

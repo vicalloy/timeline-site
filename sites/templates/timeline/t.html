@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>{{ tl.title }} - 时间线</title>
-    <link href="{{STATIC_URL}}js/Timeline/timeline.css" rel="stylesheet"/>
+    <link href="{{STATIC_URL}}Timeline/css/timeline.css" rel="stylesheet"/>
     <style type="text/css">
       html, body {
         height: 100%;
@@ -11,7 +11,8 @@
       }
     </style>
     <script src='{{STATIC_URL}}js/jquery-1.7.1.min.js' type='text/javascript'></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/Timeline/timeline-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}Timeline/js/timeline-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}Timeline/js/locale/zh-ch.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
         var timeline = new VMM.Timeline();

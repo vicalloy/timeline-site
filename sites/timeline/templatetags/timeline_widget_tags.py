@@ -25,7 +25,6 @@ def tl_recommend(template='timeline/widgets/recommend.html'):
 
 @register.filter
 def md(_md):
-    print "=============", _md
     return tl_markdown(_md)
 
 @register.filter

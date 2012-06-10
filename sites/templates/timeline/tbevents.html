@@ -63,7 +63,7 @@
                 <td>
                   {{ o.title }}
                 </td>
-                <td>{{ o.text|linebreaksbr }}</td>
+                <td>{{ o.text|md }}</td>
                 <td>{{ o.media|media2html }}</td>
               </tr>
             {% endfor %}

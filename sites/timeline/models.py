@@ -28,7 +28,9 @@ class Timeline(models.Model):
             resize_source={'size': (140,140), 'crop': 'smart'},
             help_text=u'封面图片')
     tags = TaggableManager(blank=True)
-    intro = models.TextField(u'简介', max_length=30)
+    intro = models.TextField(u'简介', max_length=30,
+            help_text=u"""支持Markdown格式。 
+            <a href="http://markdown.tw/" target="_blank">Markdown格式说明</a>""")
     focus_date = models.CharField(u'初始日期', max_length=30, null=True, blank=True)
     attachments = models.ManyToManyField(Attachment, blank = True)
     status = models.CharField(u"发布状态", max_length=16, default='draft', choices=STATUS_CHOICES)
@@ -77,7 +79,9 @@ class TlEvent(models.Model):
             help_text=u"支持的日期格式：, yyyy-mm-dd(2012-12-20)、yyyy(2012)")
     enddate = models.CharField(u'结束日期', max_length=32, blank=True, null=True, 
             help_text=u"支持的日期格式：, yyyy-mm-dd(2012-12-20)、yyyy(2012)")
-    text = models.TextField(u'详细说明', blank=True, null=True, help_text=u'详细说明')
+    text = models.TextField(u'详细说明', blank=True, null=True, 
+            help_text=u"""支持Markdown格式，
+            <a href="http://markdown.tw/" target="_blank">Markdown格式说明</a>""")
 
     media = models.TextField(u'媒体', blank=True, null=True, help_text=u'可以是文字、图片、视频。')
     media_credit = models.CharField(u'媒体版权', max_length=255, blank=True, null=True, help_text=u'')

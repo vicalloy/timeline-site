@@ -1,5 +1,6 @@
 {% extends "timeline/base.html" %}
 {% load compress %}
+{% load timeline_widget_tags %}
 
 {% block title %}
   {{ tl.title }}
@@ -117,7 +118,7 @@
 
     <hr/>
     <div>
-      {{ tl.intro|linebreaksbr }}
+      {{ tl.intro|md }}
     </div>
     <h3>评论</h3>
     <div class="comments" id="id_comments">

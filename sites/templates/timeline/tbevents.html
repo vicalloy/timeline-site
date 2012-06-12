@@ -43,6 +43,10 @@
 {% block content %}
   <div class="">
     <div class="">
+      <h1>{{ tl.title }}</h1>
+      <div>
+        {{ tl.intro|md }}
+      </div>
       <div id="tl_list">
         <table class="table table-striped tllist" style="width=100%">
           <thead>

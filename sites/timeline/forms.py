@@ -49,10 +49,13 @@ class TlEventForm(BootstrapModelForm):
         valid_date(v)
         return v
 
-    def save(self, *args, **kwargs):
-        tlevent = super(TlEventForm, self).save(*args, **kwargs)
+    def save(self, timeline=None):
+        if not self.instance.pk:#if new
+            self.instance.timeline = timeline
+        tlevent = super(TlEventForm, self).save()
         if tlevent.cover:
-            for e in TlEvent.objects.filter(cover=True).exclude(pk=tlevent.pk):
+            for e in tlevent.timeline.tlevent_set.filter(cover=True).\
+                    exclude(pk=tlevent.pk):
                 e.cover = False
                 e.save()
         return tlevent

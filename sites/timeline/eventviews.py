@@ -32,8 +32,7 @@ def edit_(request):
         return render_json_response({'valid': False})
     form, validate = validate_form(request, form_class=TlEventForm, instance=event)
     if validate['valid']:
-        event = form.save(commit=False)
-        event.save()
+        event = form.save()
         event.timeline.update_updated_on()
         validate['data'] = event_to_sdict(event)
     return render_json_response(validate)

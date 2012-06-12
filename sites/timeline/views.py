@@ -148,9 +148,7 @@ def addevent_(request, pk):
         return render_json_response({'valid': False})
     form, validate = validate_form(request, form_class=TlEventForm)
     if validate['valid']:
-        event = form.save(commit=False)
-        event.timeline = timeline
-        event.save()
+        event = form.save(timeline=timeline)
         timeline.update_num_events()
         timeline.update_updated_on()
         validate['data'] = event_to_sdict(event)

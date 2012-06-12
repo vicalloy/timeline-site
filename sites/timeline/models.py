@@ -69,6 +69,10 @@ class Timeline(models.Model):
             return self.cover.url
         return getattr(settings, 'TL_COVER_URL', None)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('timeline_detail', (self.pk, ))
+
 def get_all_timlines():
     return Timeline.objects.filter(status='pub')
 

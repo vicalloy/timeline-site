@@ -245,3 +245,7 @@ def attachs(request, pk):
     attachs = timeline.attachments.order_by('-date_uploaded')
     ctx['attachs'] = attachs
     return render(request, template_name, ctx)
+
+#TODO 申请成为协作者(AJAX)
+#TODO 批准
+#TODO 成员管理

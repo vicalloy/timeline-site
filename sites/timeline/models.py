@@ -37,7 +37,7 @@ class Timeline(models.Model):
 
     num_events = models.IntegerField(u'事件数', default=0)
     num_views = models.IntegerField(u'浏览次数', default=0)
-    num_replies = models.PositiveSmallIntegerField(u'回复数', default=0)#posts...
+    num_replies = models.PositiveSmallIntegerField(u'回复数', default=0)
 
     rec = models.BooleanField(u'推荐', default=False)
     rec_on = models.DateTimeField(blank=True, null=True)
@@ -48,6 +48,12 @@ class Timeline(models.Model):
     
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        permissions = (
+            ('admin', u'管理员'),#暂不使用，时间线的创建者就是管理员
+            ('collaborator', u'协作者'),
+        )
 
     def update_updated_on(self, commit=True):
         self.updated_on = datetime.now()
@@ -105,3 +111,12 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return "%s-%s" % (self.timeline.title, self.content[:20])
+
+class Apply(models.Model):
+    STATUS_CHOICES = (('todo', u'待批复'), 
+            ('rejected', u'驳回'),
+            ('approved', u'批准'))
+    timeline = models.ForeignKey(Timeline)
+    applicant = models.ForeignKey(User)
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(u"状态", max_length=16, default='draft', choices=STATUS_CHOICES)

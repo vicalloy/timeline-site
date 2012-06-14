@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load umessages_tags %}
 
 {% block extra_header %}
 {% endblock %}
@@ -24,7 +25,18 @@
             <li><a href="{% url timeline_new %}"><span>创建时间线</span></a></li>
             {% if user.is_authenticated %}
               <li><a href="{% url userena_profile_detail user.username %}#id_tls"><span>我的时间线</span></a></li>
-              <li><a href="{% url userena_profile_detail user.username %}"><span> {{ user.username }}的帐号 </span></a></li>
+              <li>
+                <a href="{% url userena_profile_detail user.username %}">
+                  <span> {{ user.username }}的帐号 </span>
+                </a>
+              </li>
+              <li><a href="{% url userena_umessages_list %}">
+                  {% get_unread_message_count_for user as unread_message_count %}
+                  <span id="nav_msg" class="{% if unread_message_count %}have-new-msg{% endif %}">
+                    消息({{unread_message_count}})
+                  </span>
+                </a>
+              </li>
               <li><a href="{% url userena_signout %}"><span>退出</span></a></li>
             {% else %}
               <li><a href="{% url userena_signin %}"><span>{% trans 'Signin' %}</span></a></li>
@@ -72,4 +84,20 @@
       </div>
     </footer>
   {% endblock %}
+{% endblock %}        
+
+{% block footer_ext %}
+  {{ block.super }}
+  {% if unread_message_count %}
+    <script type="text/javascript">
+      var nav_msg = $('#nav_msg');
+      setInterval(function(){
+        if (nav_msg.hasClass('have-new-msg')) {
+          nav_msg.removeClass('have-new-msg');
+        } else {
+          nav_msg.addClass('have-new-msg');
+        }
+      }, 600);
+    </script> 
+  {% endif %} 
 {% endblock %}        

@@ -1,0 +1,33 @@
+{% extends 'umessages/base_message.html' %}
+{% load i18n %}
+
+{% block content_title %}
+  <h2>与 {{ recipient }} 的消息记录</h2>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="sidebar">
+    <div style="padding-top: 20px;">
+      <a href="{% url userena_umessages_compose_to recipient.username %}" class="btn">
+        <i class="icon-share-alt"></i>
+        回复
+      </a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content">
+    <ul id="messages">
+      {% for message in message_list %}
+        <li class="{% if message.sender == user %}send{% else %}received{% endif %}">
+          <img src="{{ message.sender.profile.get_mugshot_url }}" class="avatar thumbnail {% if message.sender == user %}send{% else %}received{% endif %}" />
+          <div class="message-content">
+            {{ message }}
+            <p class="date">{{ message.sent_at }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

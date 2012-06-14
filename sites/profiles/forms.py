@@ -1,6 +1,8 @@
-from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
-from userena.utils import get_profile_model
 from django.contrib.auth.forms import PasswordChangeForm
+
+from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
+from userena.contrib.umessages.forms import ComposeForm
+from userena.utils import get_profile_model
 
 from bootstrap.forms import BootstrapMixin, BootstrapModelForm
 
@@ -43,3 +45,9 @@ class BsEditProfileForm(BootstrapModelForm):
         user = profile.user
         user.save()
         return profile
+
+class BsComposeForm(ComposeForm, BootstrapMixin):
+
+    def __init__(self, *args, **kw):
+        super(BsComposeForm, self).__init__(*args, **kw)
+        self.__bootstrap__()

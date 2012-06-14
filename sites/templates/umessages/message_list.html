@@ -1,0 +1,48 @@
+{% extends 'umessages/base_message.html' %}
+{% load i18n umessages_tags %}
+
+{% block content_title %}
+  {% get_unread_message_count_for user as unread_message_count %}
+  <h2>站内消息({{ unread_message_count }} )</h2>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="sidebar">
+    <div style="padding-top: 20px;">
+      <a href="{% url userena_umessages_compose %}" class="btn">
+        <i class="icon-plus"></i>
+        发送站内消息
+      </a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content">
+    <ul id="messages" class="list-view">
+      {% for message in message_list %}
+        <li>
+          {% if message.from_user == user %}
+            <a href="{% url userena_umessages_detail message.to_user.username %}">
+              <img src="{{ message.to_user.profile.get_mugshot_url }}" class="avatar" />
+              <span class="uname">
+                {{ message.to_user }}
+              </span>
+              {% get_unread_message_count_between user and message.to_user as unread_between_count %}
+          {% else %}
+            <a href="{% url userena_umessages_detail message.from_user.username %}">
+              <img src="{{ message.from_user.profile.get_mugshot_url }}" class="avatar" />
+              {{ message.from_user }}
+
+              {% get_unread_message_count_between user and message.from_user as unread_between_count %}
+            {% endif %}
+            <p>
+              {{ message.latest_message|slice:"160"|linebreaksbr }}{% if message.latest_message|length > 340 %}...{% endif %} 
+            </p>
+            <p class="date">({{ unread_between_count }} 新消息 )</p>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

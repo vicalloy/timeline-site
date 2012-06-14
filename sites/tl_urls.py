@@ -3,6 +3,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.conf import settings
 
+from userena.contrib.umessages import views as messages_views
+from profiles.forms import BsComposeForm
+
 from timeline.sitemaps import sitemaps
 
 # Uncomment the next two lines to enable the admin:
@@ -14,6 +17,19 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'timeline.views.index', name='idx'),
     url(r'^accounts/', include('profiles.urls')),
+    url(r'^messages/compose/$',
+        messages_views.message_compose,
+        {'compose_form': BsComposeForm},
+        name='userena_umessages_compose'),
+    url(r'^messages/compose/(?P<recipients>[\+\.\w]+)/$',
+        messages_views.message_compose,
+        {'compose_form': BsComposeForm},
+        name='userena_umessages_compose_to'),
+    url(r'^messages/reply/(?P<parent_id>[\d]+)/$',
+        messages_views.message_compose,
+        {'compose_form': BsComposeForm},
+        name='userena_umessages_reply'),
+    url(r'^messages/', include('userena.contrib.umessages.urls')),
     url(r'^p/(?P<username>[\.\w]+)/$',
        'profiles.views.profile_detail',
        name='userena_profile_detail'),

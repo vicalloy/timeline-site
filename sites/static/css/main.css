@@ -178,3 +178,96 @@ footer {
 .comments .t-info span {
   padding-right: 20px;
 }
+
+/*	messages
+................................... */  
+#messages{
+  padding: 0;
+  margin: 0;
+}
+
+#messages li{
+  padding: 15px 10px;
+  margin: 0;
+  overflow: auto;
+}  
+
+#messages li a{
+  font-weight: bold;
+  display: block;
+  margin: 0 0 5px;
+  text-decoration: none;
+  color: #444444;
+}
+
+#messages li .uname{
+  color: gray;
+}
+
+#messages.list-view a{
+  display: block;
+  overflow: auto;
+  padding: 10px 0 10px 10px;
+  border: 1px solid #ddd;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+#messages.list-view a:hover{
+  background-color: #eee;
+}
+
+#messages p.date {
+  font-size: 70%;
+  margin: 10px 0 0;
+  color: #777;
+}
+
+#messages .avatar {
+  width: 48px;
+  float: right;
+  margin: 0 10px;
+}
+
+#messages .avatar.received {
+  float: left;
+}
+
+#messages .message-content {
+  margin: 0 110px;
+  padding: 15px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  position: relative;
+  min-height: 52px;
+}
+
+#messages .send .message-content {
+  margin: 0 80px;
+  background-color: #e6e6e6;
+}
+
+#messages .received .message-content {
+  margin:0 80px;
+  background-color: #dadada;
+}
+/*	notifications
+................................... */
+ul.messages{
+  position: absolute;
+  font-size: 0.8em;
+  font-weight: bold;
+  width: 540px;
+  left: 50%;
+  top: 4px;
+  margin: 0 0 0 -270px;
+}
+
+ul.messages li{
+  background-color: #fcf5d8;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  padding: 4px 20px;
+  text-align: center;
+}

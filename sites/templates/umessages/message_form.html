@@ -1,0 +1,22 @@
+{% extends 'umessages/base_message.html' %}
+{% load i18n %}
+
+{% block content_title %}<h2>发送站内消息</h2>{% endblock %}
+
+{% block content %}
+  <div class="content">
+    <hr />
+    <form action="" method="post" class="form-horizontal" id="compose_message_form">
+      {% csrf_token %}
+      <fieldset>
+        {{ form.as_div }}
+        <div class="form-actions">
+          <p>
+            <input type="submit" value="发送" class="btn btn-primary">
+            <a href="{% url userena_umessages_list %}" class="btn" style="margin-left: 40px;">取消</a>
+          </p>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

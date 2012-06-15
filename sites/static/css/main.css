@@ -274,3 +274,16 @@ ul.messages li{
   padding: 4px 20px;
   text-align: center;
 }
+/*******************/
+#u_details .mugshot {
+  float: left;
+  max-width: 80px;
+}
+
+#u_details .info {
+  padding-left: 120px;
+  color: gray;
+}
+#u_details .info strong {
+  color: black;
+}

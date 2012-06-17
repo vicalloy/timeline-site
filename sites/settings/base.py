@@ -103,6 +103,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(HERE, 'templates_plus'),
     os.path.join(HERE, 'templates'),
 )
 
@@ -130,6 +131,7 @@ INSTALLED_APPS = (
     'ajax_validation',
     'attachments',
     'compressor',
+    'djangohelper',
 
     'profiles',
     'timeline',
@@ -216,3 +218,4 @@ DEFAULT_FROM_EMAIL = u'似水流年 <admin@jstwind.com>'
 LANGUAGES = (
     ('zh-cn', 'Simplified Chinese'),
 )
+GOOGLE_ANALYTICS_CODE = ''

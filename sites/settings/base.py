@@ -205,6 +205,7 @@ SOUTH_TESTS_MIGRATE = False
 
 # Guardian
 ANONYMOUS_USER_ID = -1
+SYSTEM_USER_ID = 0
 
 TL_COVER_URL = "/static/img/tl-default-small.gif"
 

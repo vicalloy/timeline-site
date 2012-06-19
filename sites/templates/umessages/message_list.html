@@ -1,5 +1,6 @@
 {% extends 'umessages/base_message.html' %}
 {% load i18n umessages_tags %}
+{% load djangohelper_tags %}
 
 {% block content_title %}
   {% get_unread_message_count_for user as unread_message_count %}
@@ -18,6 +19,7 @@
 {% endblock %}
 
 {% block content %}
+  {% get_setting "SYSTEM_USER_ID" 0 "SYSTEM_USER_ID" %}
   <div class="content">
     <ul id="messages" class="list-view">
       {% for message in message_list %}
@@ -25,14 +27,16 @@
           {% if message.from_user == user %}
             <a href="{% url userena_umessages_detail message.to_user.username %}">
               <img src="{{ message.to_user.profile.get_mugshot_url }}" class="avatar" />
-              <span class="uname">
+              <span class="uname" {% if message.to_user.pk == SYSTEM_USER_ID %}style="color:#DD4B39"{% endif %}>
                 {{ message.to_user }}
               </span>
               {% get_unread_message_count_between user and message.to_user as unread_between_count %}
           {% else %}
             <a href="{% url userena_umessages_detail message.from_user.username %}">
               <img src="{{ message.from_user.profile.get_mugshot_url }}" class="avatar" />
-              {{ message.from_user }}
+              <span {% if message.from_user.pk == SYSTEM_USER_ID %}style="color:#DD4B39"{% endif %}>
+                {{ message.from_user }}
+              </span>
 
               {% get_unread_message_count_between user and message.from_user as unread_between_count %}
             {% endif %}

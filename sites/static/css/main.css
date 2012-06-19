@@ -1,5 +1,8 @@
-.errorlist {
-  color: red;
+.errorlist{
+  color: #D14;
+}
+.sysuser{
+  color: #D14;
 }
 textarea {
   width: 450px;

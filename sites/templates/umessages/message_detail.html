@@ -4,7 +4,13 @@
 
 {% block content_title %}
   {% get_setting "SYSTEM_USER_ID" 0 "SYSTEM_USER_ID" %}
-  <h2>与 <span class="{% if recipient.pk == SYSTEM_USER_ID %}sysuser{% endif %} errorlist">{{ recipient }}</span> 的消息记录</h2>
+  <h2>
+    {% if recipient.pk == SYSTEM_USER_ID %}
+      <span class="sysuser"> 系统消息 </span>
+    {% else %}
+      与 {{ recipient }} 的消息记录
+    {% endif %}
+  </h2>
 {% endblock %}
 
 {% block sidebar %}

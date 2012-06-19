@@ -28,14 +28,22 @@
             <a href="{% url userena_umessages_detail message.to_user.username %}">
               <img src="{{ message.to_user.profile.get_mugshot_url }}" class="avatar" />
               <span class="uname {% if message.to_user.pk == SYSTEM_USER_ID %}sysuser{% endif %}">
-                {{ message.to_user }}
+                {% if message.to_user.pk == SYSTEM_USER_ID %}
+                  系统消息
+                {% else %}
+                  {{ message.to_user }}
+                {% endif %}
               </span>
               {% get_unread_message_count_between user and message.to_user as unread_between_count %}
           {% else %}
             <a href="{% url userena_umessages_detail message.from_user.username %}">
               <img src="{{ message.from_user.profile.get_mugshot_url }}" class="avatar" />
               <span {% if message.from_user.pk == SYSTEM_USER_ID %}style="color:#DD4B39"{% endif %}>
-                {{ message.from_user }}
+                {% if message.from_user.pk == SYSTEM_USER_ID %}
+                  系统消息
+                {% else %}
+                  {{ message.from_user }}
+                {% endif %}
               </span>
 
               {% get_unread_message_count_between user and message.from_user as unread_between_count %}

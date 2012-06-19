@@ -14,7 +14,7 @@
       {% if recipient.pk != SYSTEM_USER_ID %}
       <a href="{% url userena_umessages_compose_to recipient.username %}" class="btn">
         <i class="icon-share-alt"></i>
-        回复{{recipient.pk}} = {{SYSTEM_USER_ID}}
+        回复
       </a>
       {% endif %}
     </div>

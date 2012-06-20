@@ -34,6 +34,10 @@
       </script>
       {% endif %}
     {% endblock %}
+    {% get_setting "GOOGLE_ANALYTICS_CODE" "" "GOOGLE_ANALYTICS_CODE" %}
+    {% if not COMPRESS_ENABLED %}
+    <script src="{{STATIC_URL}}js/coffee-script.js"></script>
+    {% endif %}
   </head>
 
   <body>

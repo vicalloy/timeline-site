@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template.loader import render_to_string
 
+from guardian.shortcuts import get_users_with_perms
+
 from taggit.models import Tag
 
 from ajax_validation.views import validate_form
@@ -113,6 +115,15 @@ def edit(request, pk):
             return redirect('timeline_detail', timeline.pk)
     ctx['form'] = form
     ctx['tl'] = timeline
+    return render(request, template_name, ctx)
+
+@login_required
+def edit_collaboration(request, pk):
+    ctx = {}
+    template_name = 'timeline/collaboration.html'
+    timeline = get_object_or_404(Timeline, pk=pk)
+    ctx['tl'] = timeline
+    ctx['collaborators'] = get_users_with_perms(timeline)
     return render(request, template_name, ctx)
 
 def events_json_(request, pk):

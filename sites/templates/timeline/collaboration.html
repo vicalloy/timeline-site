@@ -1,0 +1,53 @@
+{% extends 'umessages/base_message.html' %}
+{% load i18n %}
+{% load compress %}
+
+{% block container_top %}
+  <h2>
+    管理协作者
+  </h2>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="sidebar">
+    <div style="padding-top: 20px;">
+      <form action="">
+        <input type="" style="margin: 0 20px 10px 0;width:208px" />
+        <a href="###" class="btn" style="float: right;margin-right: 20px">
+          <i class="icon-share-alt"></i>
+          添加
+        </a>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content" style="padding-top: 20px;">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th style="width: 340px">用户</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for o in collaborators %}
+          <tr id="u{{o.pk}}">
+            <td> 
+              <a href="{% url userena_profile_detail o.username %}"> {{o}} </a> 
+              (<a href="###">移除</a>)
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+{% block footer_ext %}
+  {{ block.super }}
+  {% compress js %}
+  <script type="text/coffeescript">
+  </script>
+  {% endcompress %}
+{% endblock %}

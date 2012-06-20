@@ -48,7 +48,7 @@
 
 {% block footer_ext %}
   {{ block.super }}
-  {% compress js %}
+  {% compress js inline %}
   <script type="text/coffeescript">
 $ -> 
   $('#add_collaborator_form').submit ->

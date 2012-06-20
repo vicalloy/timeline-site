@@ -48,11 +48,15 @@
 
 {% block footer_ext %}
   {{ block.super }}
+  <script type="text/javascript">
+    var url_timeline_add_collaborator_ = "{% url timeline_add_collaborator_ tl.pk %}";
+    var url_timeline_remove_collaborator_ = "{% url timeline_remove_collaborator_ tl.pk %}";
+  </script>
   {% compress js inline %}
   <script type="text/coffeescript">
 $ -> 
   $('#add_collaborator_form').submit ->
-    $.post("{% url timeline_add_collaborator_ tl.pk %}", 
+    $.post(url_timeline_add_collaborator_, 
       {username: $('#id_username').val()},
       (d)-> 
         if d.valid
@@ -72,7 +76,7 @@ $ ->
       if confirm('确定要移除该用户？')
         p = $(this).parent().parent();
         upk = p[0].id.split('_')[1]
-        $.post("{% url timeline_remove_collaborator_ tl.pk %}", 
+        $.post(url_timeline_remove_collaborator_, 
           {upk: upk}, 
           (d) -> 
             if d.valid

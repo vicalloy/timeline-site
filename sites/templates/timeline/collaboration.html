@@ -12,8 +12,10 @@
   <div class="sidebar">
     <div style="padding-top: 20px;">
       <form action="">
-        <input type="" style="margin: 0 20px 10px 0;width:208px" />
-        <a href="###" class="btn" style="float: right;margin-right: 20px">
+        <div id="add_form_info" class="alert alert-error" style="display: none">
+        </div>
+        <input type="" name="username" id="id_username" style="width:250px" />
+        <a href="###" id="btn_add_collaborator" class="btn" style="float: right">
           <i class="icon-share-alt"></i>
           添加
         </a>
@@ -24,7 +26,7 @@
 
 {% block content %}
   <div class="content" style="padding-top: 20px;">
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="collaborator_tb">
       <thead>
         <tr>
           <th style="width: 340px">用户</th>
@@ -32,10 +34,10 @@
       </thead>
       <tbody>
         {% for o in collaborators %}
-          <tr id="u{{o.pk}}">
+          <tr id="u_{{o.pk}}">
             <td> 
               <a href="{% url userena_profile_detail o.username %}"> {{o}} </a> 
-              (<a href="###">移除</a>)
+              (<a href="###" class="danger del">移除</a>)
             </td>
           </tr>
         {% endfor %}
@@ -48,6 +50,37 @@
   {{ block.super }}
   {% compress js %}
   <script type="text/coffeescript">
+$ -> 
+  $('#btn_add_collaborator').click ->
+    $.post("{% url timeline_add_collaborator_ tl.pk %}", 
+      {username: $('#id_username').val()},
+      (d)-> 
+        if d.valid
+          $('#add_form_info').hide()
+          $('#collaborator_tb tbody').append(d.html)
+          initActBtn()
+        else
+          $('#add_form_info').html(d.info)
+          $('#add_form_info').show()
+      ,
+      "json")
+  initActBtn = ->
+    del_btns = $("#collaborator_tb .del")
+    del_btns.unbind('click')
+    del_btns.click ->
+      if confirm('确定要移除该用户？')
+        p = $(this).parent().parent();
+        upk = p[0].id.split('_')[1]
+        $.post("{% url timeline_remove_collaborator_ tl.pk %}", 
+          {upk: upk}, 
+          (d) -> 
+            if d.valid
+              p.fadeOut('slow', -> p.remove())
+            else
+              alert('移除失败')
+          ,
+          "json")
+  initActBtn()
   </script>
   {% endcompress %}
 {% endblock %}

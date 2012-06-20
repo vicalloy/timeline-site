@@ -1,7 +1,4 @@
-.errorlist{
-  color: #C33;
-}
-.sysuser{
+.errorlist, .sysuser, .danger {
   color: #C33;
 }
 textarea {

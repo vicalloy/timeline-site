@@ -6,13 +6,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template.loader import render_to_string
+from django.contrib.auth.models import User
 
-from guardian.shortcuts import get_users_with_perms
+from guardian.shortcuts import assign, remove_perm, get_users_with_perms
 
 from taggit.models import Tag
 
 from ajax_validation.views import validate_form
 from ajax_validation.utils import render_json_response
+from ajax_validation.utils import render_string
 
 from attachments.views import _do_ajax_upload, ajax_delete, ajax_change_descn 
 from attachments.models import Attachment
@@ -47,7 +49,6 @@ def random(request, template_name="timeline/timelines.html"):
     ctx['pg'] = 'random'
     ctx['timelines'] = get_all_timlines().order_by('?')
     return render(request, template_name, ctx)
-
 
 def tag(request, tag_name, template_name="timeline/timelines.html"):
     ctx = {}
@@ -125,6 +126,44 @@ def edit_collaboration(request, pk):
     ctx['tl'] = timeline
     ctx['collaborators'] = get_users_with_perms(timeline)
     return render(request, template_name, ctx)
+
+COLLABORATOR_ROW_TMPL = """
+<tr id="u_{{o.pk}}">
+  <td> 
+    <a href="{% url userena_profile_detail o.username %}"> {{o}} </a> 
+    (<a href="###" class="danger del">移除</a>)
+  </td>
+</tr>
+"""
+
+def add_collaborator_(request, pk):
+    data = {'valid': False}
+    tl = Timeline.objects.get(pk=pk)
+    #TODO auth
+    if request.method == "POST":
+        username = request.POST.get('username', '')
+        try:
+            user = User.objects.get(username=username)
+            if user.has_perm('collaborator', tl):
+                data['info'] = u'用户 "%s" 已经添加过' % username
+                return render_json_response(data)
+        except:
+            data['info'] = u'用户 "%s" 不存在' % username
+            return render_json_response(data)
+        assign('collaborator', user, tl)
+        return render_json_response({'valid': True, 
+            'obj': {'pk': user.pk, 'username': user.username},
+            'html': render_string(COLLABORATOR_ROW_TMPL, {'o': user})
+            })
+    return render_json_response(data)
+
+def remove_collaborator_(request, pk):
+    #TODO auth
+    tl = Timeline.objects.get(pk=pk)
+    upk = request.POST.get('upk', '')
+    user = User.objects.get(pk=upk)
+    remove_perm('collaborator', user, tl)
+    return render_json_response({'valid': True})
 
 def events_json_(request, pk):
     tl = Timeline.objects.get(pk=pk)

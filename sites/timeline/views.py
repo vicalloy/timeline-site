@@ -123,6 +123,8 @@ def edit_collaboration(request, pk):
     ctx = {}
     template_name = 'timeline/collaboration.html'
     timeline = get_object_or_404(Timeline, pk=pk)
+    if timeline.created_by != request.user:
+        return HttpResponse(u'您没有权限执行该操作')
     ctx['tl'] = timeline
     ctx['collaborators'] = get_users_with_perms(timeline)
     return render(request, template_name, ctx)
@@ -139,7 +141,8 @@ COLLABORATOR_ROW_TMPL = """
 def add_collaborator_(request, pk):
     data = {'valid': False}
     tl = Timeline.objects.get(pk=pk)
-    #TODO auth
+    if tl.created_by != request.user:
+        return render_json_response(data)
     if request.method == "POST":
         username = request.POST.get('username', '')
         try:
@@ -158,8 +161,9 @@ def add_collaborator_(request, pk):
     return render_json_response(data)
 
 def remove_collaborator_(request, pk):
-    #TODO auth
     tl = Timeline.objects.get(pk=pk)
+    if tl.created_by != request.user:
+        return render_json_response({'valid': False})
     upk = request.POST.get('upk', '')
     user = User.objects.get(pk=upk)
     remove_perm('collaborator', user, tl)

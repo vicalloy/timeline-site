@@ -79,6 +79,10 @@ class Timeline(models.Model):
     def get_absolute_url(self):
         return ('timeline_detail', (self.pk, ))
 
+    def can_edit(user):
+        return user.has_perm('collaborator', self) or \
+                self.created_by == user
+
 def get_all_timlines():
     return Timeline.objects.filter(status='pub')
 

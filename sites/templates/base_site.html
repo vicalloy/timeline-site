@@ -12,8 +12,19 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="/">似水流年</a>
-          <form action="" class="navbar-search pull-left">
-            <input type="text" placeholder="Search">
+          <script type="text/javascript">
+            var dispatch = function() {
+              q = document.getElementById("q");
+              if (q.value != "") {
+                window.open('http://www.google.com/search?q=site:jstwind.com/t%20' + q.value, "_blank");
+                return false;
+              } else {
+                return false;
+              }
+            }
+          </script>
+          <form action="" onsubmit="return dispatch()" class="navbar-search pull-left">
+            <input name="q" id="q" type="text" placeholder="Search" style="width: 160px">
           </form>
           <ul class="nav">
             <li><a href="{% url timeline_recommend %}">推荐</a></li>

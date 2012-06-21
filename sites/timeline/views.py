@@ -199,7 +199,7 @@ def events_sjson_(request, pk):
 
 def addevent_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
-    if timeline.created_by != request.user:
+    if not timeline.can_edit(request.user):
         return render_json_response({'valid': False})
     form, validate = validate_form(request, form_class=TlEventForm)
     if validate['valid']:
@@ -212,7 +212,7 @@ def addevent_(request, pk):
 def events(request, pk):
     ctx = {}
     tl = get_object_or_404(Timeline, pk=pk)
-    if request.user != tl.created_by:#view only
+    if not tl.can_edit(request.user):
         return _tbevents(request, tl)
     ctx['tl'] = tl
     ctx['events'] = tl.tlevent_set.order_by('startdate')
@@ -303,4 +303,3 @@ def attachs(request, pk):
 
 #TODO 申请成为协作者(AJAX)
 #TODO 批准
-#TODO 成员管理

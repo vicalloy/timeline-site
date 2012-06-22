@@ -10,7 +10,7 @@ from .helper import event_to_sdict
 def delete_(request):
     pk = request.GET.get('pk', '')
     event = get_object_or_404(TlEvent, pk=pk)
-    if event.timeline.created_by != request.user:
+    if not event.timeline.can_edit(request.user):
         return render_json_response({'valid': False})
     event.delete()
     timeline = event.timeline
@@ -28,7 +28,7 @@ def json_(request):
 def edit_(request):
     pk = request.GET.get('pk', '')
     event = TlEvent.objects.get(pk=pk)
-    if event.timeline.created_by != request.user:
+    if not event.timeline.can_edit(request.user):
         return render_json_response({'valid': False})
     form, validate = validate_form(request, form_class=TlEventForm, instance=event)
     if validate['valid']:

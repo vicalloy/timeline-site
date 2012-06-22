@@ -73,6 +73,7 @@ def detail(request, pk, template_name="timeline/detail.html"):
     timeline.num_views += 1
     timeline.save()
     ctx['tl'] = timeline
+    ctx['auth_can_edit'] = timeline.can_edit(request.user)
     ctx['comments'] = timeline.comment_set.order_by('created_on')
     ctx['form'] = CommentForm()
     return render(request, template_name, ctx)
@@ -104,7 +105,7 @@ def edit(request, pk):
     ctx = {}
     template_name = 'timeline/form.html'
     timeline = get_object_or_404(Timeline, pk=pk)
-    if timeline.created_by != request.user:
+    if not timeline.can_edit(request.user):
         return HttpResponse(u'您没有权限执行该操作')
     ctx['tl'] = timeline
     form = TimelineForm(instance=timeline)
@@ -129,7 +130,7 @@ def edit_collaboration(request, pk):
     ctx['collaborators'] = get_users_with_perms(timeline)
     return render(request, template_name, ctx)
 
-COLLABORATOR_ROW_TMPL = """
+COLLABORATOR_ROW_TMPL = u"""
 <tr id="u_{{o.pk}}">
   <td> 
     <a href="{% url userena_profile_detail o.username %}"> {{o}} </a> 
@@ -198,7 +199,7 @@ def events_sjson_(request, pk):
 
 def addevent_(request, pk):
     timeline = get_object_or_404(Timeline, pk=pk)
-    if timeline.created_by != request.user:
+    if not timeline.can_edit(request.user):
         return render_json_response({'valid': False})
     form, validate = validate_form(request, form_class=TlEventForm)
     if validate['valid']:
@@ -211,7 +212,7 @@ def addevent_(request, pk):
 def events(request, pk):
     ctx = {}
     tl = get_object_or_404(Timeline, pk=pk)
-    if request.user != tl.created_by:#view only
+    if not tl.can_edit(request.user):
         return _tbevents(request, tl)
     ctx['tl'] = tl
     ctx['events'] = tl.tlevent_set.order_by('startdate')
@@ -302,4 +303,3 @@ def attachs(request, pk):
 
 #TODO 申请成为协作者(AJAX)
 #TODO 批准
-#TODO 成员管理

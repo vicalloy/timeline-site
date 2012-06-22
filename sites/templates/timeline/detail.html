@@ -58,15 +58,17 @@
     </div>
   </div>
 
-  {% if user == tl.created_by %}
+  {% if auth_can_edit %}
     <div class="well">
       <h4>管理</h4>
       <ul>
         <li><a href="{% url timeline_edit tl.pk %}">编辑基础信息</a></li>
         <li><a href="{% url timeline_events tl.pk %}">编辑事件</a></li>
+        {% if user == tl.created_by %}
         <li><a href="{% url timeline_edit_collaboration tl.pk %}">管理协作者</a></li>
         <li><a href="{% url timeline_delete tl.pk %}" 
               onclick="return confirm('您确定需要删除该时间线？删除后将无法恢复')">删除事件</a></li>
+        {% endif %}
       </ul>
     </div>
   {% endif %}
@@ -76,7 +78,7 @@
 {% block container_top %}
 <div id="container_top" style="padding-bottom: 20px;">
   <div class="sw">
-    {% if user == tl.created_by %}
+    {% if auth_can_edit %}
       <a href="{% url timeline_edit tl.pk %}">编辑基础信息</a>
       <span>|</span>
       <a href="{% url timeline_events tl.pk %}">编辑事件</a>

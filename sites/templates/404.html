@@ -1,9 +1,18 @@
-{% extends "base.html" %}
-{% load i18n %}
+{% extends "base_site.html" %}
 
-{% block content_title %}<h2>{% trans "Page not found" %}</h2>{% endblock %}
+{% block title %} 页面无法找到 {% endblock %}
+
+{% block sidebar %} {% endblock %}
+
+{% block container_top %}
+<div id="container_top">
+  <h1>页面无法找到</h1>
+  <hr />
+</div>
+{% endblock %}
 
 {% block content %}
-<p>{% trans "Page could not be found."%}</p>
-<p>{% trans "If you think this is a bug in userena, please create an issue at Github." %}</p>
+  <div>
+    页面无法找到，先去其他地方看看吧。
+  </div>
 {% endblock %}

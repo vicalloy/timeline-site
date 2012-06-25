@@ -91,7 +91,21 @@
   {% block footer %}
     <footer>
       <div class="container">
-        <p>&copy; Company 2012</p>
+        <p class="adicons"> 
+          <a href="http://www.djangoproject.com/" target="_blank">
+            <img src="https://www.djangoproject.com/m/img/badges/djangosite80x15_grey.gif" border="0" alt="A Django site." title="A Django site." />
+          </a>
+        </p>
+        <p class="lks">
+          <a href="{% url timeline_about %}">关于</a>
+          <span>|</span>
+          <a href="{% url timeline_faq %}">FAQ</a>
+          <span>|</span>
+          <a href="http://haoluobo.com" target="_blank">博客</a>
+        </p>
+        <p>
+          &copy; 2012 jstwind.com, all rights reserved 
+        </p>
       </div>
     </footer>
   {% endblock %}

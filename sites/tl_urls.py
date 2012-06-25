@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import TemplateView
 
 from userena.contrib.umessages import views as messages_views
 from profiles.forms import BsComposeForm
@@ -34,6 +35,10 @@ urlpatterns = patterns('',
        'profiles.views.profile_detail',
        name='userena_profile_detail'),
     #url(r'^attachments/', include('attachments.urls')),
+    url(r'^about/$', TemplateView.as_view(template_name="about.html"), 
+      name="timeline_about"),
+    url(r'^faq/$', TemplateView.as_view(template_name="faq.html"),
+      name="timeline_faq"),
     url(r'^', include('timeline.urls')),
 )
 

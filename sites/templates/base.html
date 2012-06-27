@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 {% endblock %}
 {% load compress %}
+{% load djangohelper_tags %}
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title> {% block title %} 似水流年，岁月留痕 - 用时间线来展现历史 {% endblock %} </title>
@@ -26,7 +27,6 @@
     {% endcompress %}
     {% block extra_header %} {% endblock %}
     {% block google_analytics %}
-      {% load djangohelper_tags %}
       {% get_setting "GOOGLE_ANALYTICS_CODE" "" "GOOGLE_ANALYTICS_CODE" %}
       {% if GOOGLE_ANALYTICS_CODE %}
       <script type="text/javascript">

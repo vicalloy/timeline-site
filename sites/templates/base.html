@@ -8,6 +8,7 @@
     <title> {% block title %} 似水流年，岁月留痕 - 用时间线来展现历史 {% endblock %} </title>
     <meta name="description" content="{% block page_description %} {% endblock %}"/>
     <meta name="author" content=""/>
+    {% get_setting "COMPRESS_ENABLED" "" "COMPRESS_ENABLED" %}
     {% if not COMPRESS_ENABLED %}
     <script src="{{STATIC_URL}}js/coffee-script.js"></script>
     <script src="{{STATIC_URL}}js/less-1.3.0.min.js"></script>
@@ -20,7 +21,9 @@
 
     <!-- Le styles -->
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    {% compress css %}
 	<link rel="stylesheet/less" type="text/css" href="{{STATIC_URL}}css/main.less">
+    {% endcompress %}
     {% block extra_header %} {% endblock %}
     {% block google_analytics %}
       {% load djangohelper_tags %}
@@ -38,7 +41,6 @@
       </script>
       {% endif %}
     {% endblock %}
-    {% get_setting "COMPRESS_ENABLED" "" "COMPRESS_ENABLED" %}
   </head>
 
   <body>

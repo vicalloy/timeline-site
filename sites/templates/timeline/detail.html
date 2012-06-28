@@ -43,6 +43,15 @@
 
 {% block sidebar %}
 <div class="sidebar">
+  {% if tl.tags.all %}
+    <div class="sidelables">
+      {% for o in tl.tags.all %}
+        <a href="{% url timeline_tag o.name %}"> 
+          {{ o }} 
+        </a> 
+      {% endfor %}
+    </div>
+  {% endif %}
   <div class="well" id="sb_tl_creater">
     <div class="user avatar thumbnail">
       <a href="{% url userena_profile_detail tl.created_by.username %}">
@@ -56,6 +65,18 @@
         <li>更新于： {{ tl.updated_on|date:"Y-m-d H:i"}}</li>
       </ul>
     </div>
+  </div>
+  <div class="well">
+    <h4>协作者</h4>
+    <ul>
+      <li><a href="{% url timeline_edit tl.pk %}">编辑基础信息</a></li>
+      <li><a href="{% url timeline_events tl.pk %}">编辑事件</a></li>
+      {% if user == tl.created_by %}
+        <li><a href="{% url timeline_edit_collaboration tl.pk %}">管理协作者</a></li>
+        <li><a href="{% url timeline_delete tl.pk %}" 
+              onclick="return confirm('您确定需要删除该时间线？删除后将无法恢复')">删除事件</a></li>
+      {% endif %}
+    </ul>
   </div>
 
   {% if auth_can_edit %}

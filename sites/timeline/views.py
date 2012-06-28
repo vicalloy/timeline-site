@@ -73,6 +73,7 @@ def detail(request, pk, template_name="timeline/detail.html"):
     timeline.num_views += 1
     timeline.save()
     ctx['tl'] = timeline
+    ctx['collaborators'] = get_users_with_perms(timeline)
     ctx['auth_can_edit'] = timeline.can_edit(request.user)
     ctx['comments'] = timeline.comment_set.order_by('created_on')
     ctx['form'] = CommentForm()

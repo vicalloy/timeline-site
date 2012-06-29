@@ -76,8 +76,8 @@
       {% endfor %}
     </div>
     <div>
-      {% if not auth_can_edit %}
-        <a class="btn" href="{% url userena_umessages_compose_to tl.created_by %}">申请加入</a>
+      {% if not auth_can_edit and user.is_authenticated %}
+        <a class="btn" href="{% url userena_umessages_compose_to tl.created_by.username %}">申请加入</a>
       {% endif %}
     </div>
   </div>

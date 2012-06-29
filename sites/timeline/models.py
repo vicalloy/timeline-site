@@ -122,5 +122,6 @@ class Apply(models.Model):
             ('approved', u'批准'))
     timeline = models.ForeignKey(Timeline)
     applicant = models.ForeignKey(User)
+    reply_on = models.DateTimeField(u'批复时间', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.CharField(u"状态", max_length=16, default='draft', choices=STATUS_CHOICES)

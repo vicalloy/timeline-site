@@ -9,6 +9,7 @@ django-pagination
 django_compressor
 Markdown
 BeautifulSoup
+raven
 git+git://github.com/vicalloy/django-helper.git
 git+git://github.com/bread-and-pepper/django-userena.git
 git+git://github.com/earle/django-bootstrap.git#egg=bootstrap

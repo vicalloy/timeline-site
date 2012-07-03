@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'attachments',
     'compressor',
     'djangohelper',
+    'raven.contrib.django',
 
     'profiles',
     'timeline',
@@ -187,6 +188,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
 )
 
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/less', 'lessc {infile} {outfile}'),
+    ('text/x-sass', 'sass {infile} {outfile}'),
+    ('text/x-scss', 'sass --scss {infile} {outfile}'),
+)
 
 # Userena settings
 LOGIN_REDIRECT_URL = '/p/%(username)s/'
@@ -220,10 +227,4 @@ LANGUAGES = (
     ('zh-cn', 'Simplified Chinese'),
 )
 GOOGLE_ANALYTICS_CODE = ''
-
-COMPRESS_PRECOMPILERS = (
-    ('text/coffeescript', 'coffee --compile --stdio'),
-    ('text/less', 'lessc {infile} {outfile}'),
-    ('text/x-sass', 'sass {infile} {outfile}'),
-    ('text/x-scss', 'sass --scss {infile} {outfile}'),
-)
+SENTRY_DSN = ''

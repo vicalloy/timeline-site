@@ -116,6 +116,7 @@ class Comment(models.Model):
     def __unicode__(self):
         return "%s-%s" % (self.timeline.title, self.content[:20])
 
+"""
 class Apply(models.Model):
     STATUS_CHOICES = (('todo', u'待批复'), 
             ('rejected', u'驳回'),
@@ -124,3 +125,4 @@ class Apply(models.Model):
     applicant = models.ForeignKey(User)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.CharField(u"状态", max_length=16, default='draft', choices=STATUS_CHOICES)
+"""

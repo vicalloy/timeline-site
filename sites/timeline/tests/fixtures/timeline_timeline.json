@@ -1,0 +1,69 @@
+[
+  {
+    "pk": 1,
+    "model": "timeline.timeline",
+    "fields": {
+      "status": "pub",
+      "attachments": [],
+      "num_replies": 0,
+      "title": "timeline",
+      "focus_date": null,
+      "num_views": 0,
+      "cover": "",
+      "num_events": 2,
+      "created_on": "2012-07-04 17:01:52",
+      "intro": "timeline descn",
+      "created_by": 1,
+      "updated_on": "2012-07-04 17:04:21",
+      "rec": false,
+      "rec_on": null
+    }
+  },
+  {
+    "pk": 1,
+    "model": "timeline.tlevent",
+    "fields": {
+      "startdate": "2011-12-20",
+      "enddate": "2012-1-23",
+      "media_caption": "",
+      "title": "event",
+      "text": "some for event.",
+      "cover": false,
+      "media": "",
+      "timeline": 1,
+      "media_credit": null
+    }
+  },
+  {
+    "pk": 2,
+    "model": "timeline.tlevent",
+    "fields": {
+      "startdate": "2012-12-20",
+      "enddate": "",
+      "media_caption": "",
+      "title": "sec event",
+      "text": "some..",
+      "cover": false,
+      "media": "media\r\ntext media.",
+      "timeline": 1,
+      "media_credit": null
+    }
+  },
+  {
+    "pk": 1,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "test",
+      "slug": "test"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "taggit.taggeditem",
+    "fields": {
+      "tag": 1,
+      "content_type": 23,
+      "object_id": 1
+    }
+  }
+]

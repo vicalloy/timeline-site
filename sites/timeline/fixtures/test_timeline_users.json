@@ -80,5 +80,25 @@
       "birth_date": null,
       "user": 2
     }
+  },
+  {
+    "pk": 1,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "test",
+      "slug": "test"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "taggit.taggeditem",
+    "fields": {
+      "tag": 1,
+      "content_type": [
+        "timeline",
+        "timeline"
+      ],
+      "object_id": 1
+    }
   }
 ]

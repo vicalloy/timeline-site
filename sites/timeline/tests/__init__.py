@@ -2,16 +2,10 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from timeline.models import Timeline
-
 class ViewsBaseCase(TestCase):
 
     fixtures = ['test_timeline_users.json', 
             'test_timeline_timelines.json']
-
-    def setUp(self):
-        timeline = Timeline.objects.get(pk=1)
-        timeline.tags.add('test', 'tag')
 
 class ViewsSimpleTest(ViewsBaseCase):
 

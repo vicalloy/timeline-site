@@ -7,8 +7,8 @@ from timeline.models import Timeline
 
 class ViewsBaseCase(TestCase):
 
-    fixtures = ['timeline_users.json', 
-            'timeline_timeline.json']
+    fixtures = ['test_timeline_users.json', 
+            'test_timeline_timelines.json']
 
 class ViewsTest(ViewsBaseCase):
 

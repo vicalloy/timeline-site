@@ -1,8 +1,11 @@
 *.pyc
 *.swp
 *.sqlite
+fabsettings.py
 env/
 ref/
+sites/settings/pre.py
+sites/settings/local.py
 sites/media/
 sites/taggit_templatetags/
 sites/collectedstatic/

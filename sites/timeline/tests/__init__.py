@@ -7,8 +7,8 @@ from timeline.models import Timeline
 
 class ViewsBaseCase(TestCase):
 
-    fixtures = ['timeline/tests/fixtures/timeline_users.json', 
-            'timeline/tests/fixtures/timeline_timeline.json']
+    fixtures = ['timeline_users.json', 
+            'timeline_timeline.json']
 
 class ViewsTest(ViewsBaseCase):
 
@@ -41,8 +41,6 @@ class ViewsTest(ViewsBaseCase):
         self.assertEquals(resp.status_code, 200)
 
     def test_tag(self):
-        print "==========", User.objects.all()
-        print "==========", Timeline.objects.all()
         timeline = Timeline.objects.get(pk=1)
         timeline.tags.add('test', 'tag')
         resp = self.client.get(reverse('timeline_tag', args=('test', )))

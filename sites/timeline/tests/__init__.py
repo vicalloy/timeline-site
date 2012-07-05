@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 from django.test import TestCase
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from timeline.models import Timeline
@@ -10,11 +9,15 @@ class ViewsBaseCase(TestCase):
     fixtures = ['test_timeline_users.json', 
             'test_timeline_timelines.json']
 
-class ViewsTest(ViewsBaseCase):
+    def setUp(self):
+        timeline = Timeline.objects.get(pk=1)
+        timeline.tags.add('test', 'tag')
+
+class BaseViewsTest(ViewsBaseCase):
 
     def setUp(self):
-        super(ViewsTest, self).setUp()
-        assert self.client.login(username='user', password='user')
+        super(BaseViewsTest, self).setUp()
+        #assert self.client.login(username='user', password='user')
 
     def test_idx(self):
         resp = self.client.get(reverse('timeline_idx'))
@@ -40,8 +43,10 @@ class ViewsTest(ViewsBaseCase):
         resp = self.client.get(reverse('timeline_tags'))
         self.assertEquals(resp.status_code, 200)
 
-    def test_tag(self):
-        timeline = Timeline.objects.get(pk=1)
-        timeline.tags.add('test', 'tag')
-        resp = self.client.get(reverse('timeline_tag', args=('test', )))
+    def test_full_screen(self):
+        resp = self.client.get(reverse('timeline_full_screen', args=(1, )))
+        self.assertEquals(resp.status_code, 200)
+
+    def test_detail(self):
+        resp = self.client.get(reverse('timeline_detail', args=(1, )))
         self.assertEquals(resp.status_code, 200)

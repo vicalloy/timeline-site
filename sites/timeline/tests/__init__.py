@@ -10,13 +10,6 @@ class ViewsBaseCase(TestCase):
     fixtures = ['timeline/tests/fixtures/timeline_users.json', 
             'timeline/tests/fixtures/timeline_timeline.json']
 
-    def setUp(self):
-        self.admin = User.objects.create_superuser(
-            username='admin', email='admin@example.com', password='admin')
-        self.user = User(username="user", email="user@localhost", is_staff=False, is_superuser=False)
-        self.user.set_password('user')
-        self.user.save()
-
 class ViewsTest(ViewsBaseCase):
 
     def setUp(self):
@@ -48,8 +41,8 @@ class ViewsTest(ViewsBaseCase):
         self.assertEquals(resp.status_code, 200)
 
     def test_tag(self):
-        print "==========", User.objects.count()
-        print "==========", Timeline.objects.count()
+        print "==========", User.objects.all()
+        print "==========", Timeline.objects.all()
         timeline = Timeline.objects.get(pk=1)
         timeline.tags.add('test', 'tag')
         resp = self.client.get(reverse('timeline_tag', args=('test', )))

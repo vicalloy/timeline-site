@@ -13,10 +13,10 @@ class ViewsBaseCase(TestCase):
         timeline = Timeline.objects.get(pk=1)
         timeline.tags.add('test', 'tag')
 
-class BaseViewsTest(ViewsBaseCase):
+class ViewsSimpleTest(ViewsBaseCase):
 
     def setUp(self):
-        super(BaseViewsTest, self).setUp()
+        super(ViewsSimpleTest, self).setUp()
         #assert self.client.login(username='user', password='user')
 
     def test_idx(self):

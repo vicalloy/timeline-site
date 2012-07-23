@@ -9,12 +9,13 @@ def _html(s):
     return Template("{{s|linebreaksbr}}").render(Context({"s": s}))
 
 def tl_markdown(md, no_p=False):
-    ret = markdown.markdown(md, 
-        ['nl2br'], safe_mode='escape')
+    ret = markdown.markdown(force_unicode(md), 
+        ['nl2br', 'fenced_code'], safe_mode='escape')
     if no_p and len(md) == len(ret) - 7:
-        return md
+        ret = _html(md)
     else:
         return ret
+    return mark_safe(ret)
 
 def fmt_date(d):
     #before bc, start with -

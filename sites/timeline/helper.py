@@ -8,10 +8,13 @@ import markdown
 def _html(s):
     return Template("{{s|linebreaksbr}}").render(Context({"s": s}))
 
-def tl_markdown(md):
-    return mark_safe(markdown.markdown(force_unicode(md), 
-        ['nl2br'], safe_mode='escape'))
-
+def tl_markdown(md, no_p=False):
+    ret = markdown.markdown(md, 
+        ['nl2br'], safe_mode='escape')
+    if no_p and len(md) == len(ret) - 7:
+        return md
+    else:
+        return ret
 
 def fmt_date(d):
     #before bc, start with -
@@ -24,7 +27,7 @@ def event_to_dict(e):
             'text': tl_markdown(e.text),
             'pk': e.pk,
             "asset": {
-                "media": _html(e.media),
+                "media": tl_markdown(e.media, True),
                 "credit": '',#_html(e.media_credit),
                 "caption": _html(e.media_caption) }
             }

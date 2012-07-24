@@ -13,8 +13,6 @@ def tl_markdown(md, no_p=False):
         ['nl2br', 'fenced_code'], safe_mode='escape')
     if no_p and len(md) == len(ret) - 7:
         ret = _html(md)
-    else:
-        return ret
     return mark_safe(ret)
 
 def fmt_date(d):

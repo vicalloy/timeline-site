@@ -207,7 +207,7 @@
     source: '{% url timeline_events_json_ tl.pk %}',
     lang: 'zh-ch'
   }
-  var embed_url = "http://{{ site.domain }}{% url timeline_full_screen tl.pk %}";
+  var embed_url = "http://{{ site.domain }}{% url timeline_embed tl.pk %}";
 </script>
 <script src="{{STATIC_URL}}Timeline/js/timeline-embed.js"></script>
 <script type="text/javascript">

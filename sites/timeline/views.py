@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 
 from guardian.shortcuts import assign, remove_perm, get_users_with_perms
 
@@ -67,6 +68,13 @@ def full_screen(request, pk, template_name="timeline/t.html"):
     ctx['tl'] = get_object_or_404(Timeline, pk=pk)
     return render(request, template_name, ctx)
 
+def embed(request, pk, template_name="timeline/embed.html"):
+    ctx = {}
+    ctx['tl'] = get_object_or_404(Timeline, pk=pk)
+    ctx['width'] = request.GET.get('width', '')
+    ctx['height'] = request.GET.get('height', '')
+    return render(request, template_name, ctx)
+
 def detail(request, pk, template_name="timeline/detail.html"):
     ctx = {}
     timeline = get_object_or_404(Timeline, pk=pk)
@@ -77,6 +85,7 @@ def detail(request, pk, template_name="timeline/detail.html"):
     ctx['auth_can_edit'] = timeline.can_edit(request.user)
     ctx['comments'] = timeline.comment_set.order_by('created_on')
     ctx['form'] = CommentForm()
+    ctx['site'] = Site.objects.get_current()
     return render(request, template_name, ctx)
 
 @login_required

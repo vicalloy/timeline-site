@@ -67,6 +67,9 @@
     </div>
   </div>
   <div class="well">
+      <a class="btn" data-toggle="modal" href="#embedCodeModal">将时间线嵌入你的网站</a>
+  </div>
+  <div class="well">
     <h4>协作者</h4>
     <div class="sidelables">
       {% for o in collaborators %}
@@ -171,6 +174,22 @@
       </h3>
     {% endif %}
   </div>
+
+  <div class="modal hide" id="embedCodeModal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">x</button>
+      <h3>获取嵌入代码</h3>
+    </div>
+    <div class="modal-body">
+      <div class="input-prepend" style="margin-bottom: 8px">
+        <strong style="margin-right: 20px">大小</strong>
+        <span class="add-on">Width</span><input type="text" placeholder="900" value="900" id="embed-width" class="input-mini">
+        <span class="add-on">Height</span><input type="text" placeholder="650" value="650" id="embed-height" class="input-mini">
+      </div>
+      <textarea style="width:520px; height:160px;" readonly="readonly" id="embed_code">
+      </textarea>
+    </div>
+  </div>
 {% endblock %}
 
 {% block footer_ext %}
@@ -188,6 +207,7 @@
     source: '{% url timeline_events_json_ tl.pk %}',
     lang: 'zh-ch'
   }
+  var embed_url = "http://{{ site.domain }}{% url timeline_full_screen tl.pk %}";
 </script>
 <script src="{{STATIC_URL}}Timeline/js/timeline-embed.js"></script>
 <script type="text/javascript">
@@ -199,5 +219,25 @@
         }
       }
   });
+  function genEmbedCode() {
+    var w = $("#embed-width").val();
+    var h = $("#embed-height").val();
+    var url = embed_url + "?width=" + w +"&height=" + h;
+    return "<iframe src='" + url + "' width='" + w + "' height='" + h +"' frameborder='0'></iframe>";
+  }
+  $("#embed_code").focus(function() {
+    var $this = $(this);
+    $this.select();
+    $this.mouseup(function() {
+      $this.unbind("mouseup");
+      return false;
+    });
+  });
+  $("#embed-width,#embed-height").change(function(){
+    $('#embed_code').val(genEmbedCode());
+  });
+  $('#embedCodeModal').on('show', function () {
+    $('#embed_code').val(genEmbedCode());
+  })
 </script>
 {% endblock %}

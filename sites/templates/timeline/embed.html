@@ -13,6 +13,21 @@
   </head>
   <body>
     <div id='timeline-embed'></div>
+    <div style="margin: 5px 0 0 5px;
+        padding: 5px;
+        background-color: #BBBBBB;
+        z-index:99999;
+        position:fixed;
+        top:10px;
+        left:10px;
+        opacity: 0.2;
+        filter:alpha(Opacity=40);"> 
+      <span style="padding: 5px;font-size: 12px;"> 
+        <a href="{% url timeline_detail tl.pk %}" style="text-decoration: none;color:#000000">
+          &#60; 似水流年
+        </a>
+      </span>
+    </div> 
     <script type="text/javascript">
       var timeline_config = {
         width: "{{width}}",

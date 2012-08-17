@@ -71,8 +71,10 @@ def full_screen(request, pk, template_name="timeline/t.html"):
 def embed(request, pk, template_name="timeline/embed.html"):
     ctx = {}
     ctx['tl'] = get_object_or_404(Timeline, pk=pk)
-    ctx['width'] = request.GET.get('width', '')
-    ctx['height'] = request.GET.get('height', '')
+    w = request.GET.get('width', '')
+    h = request.GET.get('height', '')
+    ctx['width'] = w if w else 900
+    ctx['height'] = h if h else 650
     return render(request, template_name, ctx)
 
 def detail(request, pk, template_name="timeline/detail.html"):

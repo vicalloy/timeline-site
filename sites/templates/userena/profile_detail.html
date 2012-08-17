@@ -1,4 +1,5 @@
 {% extends 'userena/base_userena.html' %}
+{% load timeline_widget_tags %}
 {% load i18n %}
 
 {% block title %}
@@ -36,7 +37,7 @@
         <p><strong>最近登录</strong> {{ profile.user.last_login|date:"Y-m-d H:i" }} </p>
         <p><strong>{% trans "Website" %}</strong> <a href="{{ profile.website }}">{{ profile.website }}</a></p>
         <p><strong>{% trans "Location" %}</strong> {{ profile.location }}</p>
-        <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me|linebreaksbr }}</p>
+        <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me|md }}</p>
       </div>
     </div>
 
